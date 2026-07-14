@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+
 # Astro Starter Kit: Minimal
 
 ```sh
@@ -40,4 +42,8 @@ All commands are run from the root of the project, from a terminal:
 
 ## 👀 Want to learn more?
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+# Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+# agape-frontend
+
+> > > > > > > f1588a1edc656dfbaa60f1d117c690f0920a0137
