@@ -1,0 +1,109 @@
+---
+import Logo from "@assets/agapelogo.svg";
+import Button from "@ui/Button.astro";
+import MobileNav from "./MobileNav.astro";
+---
+
+<header class="site-header">
+    <div class="container">
+        <div class="site-header_inner">
+            <a href="/" class="logo-box">
+                <Logo class="logo" />
+                <div>
+                    <p class="agape">Agape Christian</p>
+                    <p class="bar">Bar Prep & Training</p>
+                </div>
+            </a>
+
+            <MobileNav />
+            <nav class="primary-navigation">
+                <ul>
+                    <li><a class="nav-link" href="/about">About</a></li>
+                    <li><a class="nav-link" href="">Services</a></li>
+                    <li><a class="nav-link" href="">Contact</a></li>
+                    <li><a class="nav-link" href="">How it works</a></li>
+                    <li><a class="nav-link" href="">FAQ</a></li>
+                    <li>
+                        <a class="phone" href="tel:9042342853">904-234-2853</a>
+                    </li>
+                    <li>
+                        <Button as="a" variant="primary" href="/apply"
+                            >Apply Now</Button
+                        >
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<style>
+    .site-header {
+        position: relative;
+        padding-block: 1rem;
+    }
+    .site-header_inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .primary-navigation {
+        ul {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            align-items: center;
+            padding: 0;
+        }
+
+        .nav-link {
+            unset: all;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 1.76px;
+
+            &:hover {
+                color: var(--clr-red-500);
+            }
+        }
+
+        .phone {
+            color: var(--clr-red-500);
+        }
+
+        @media (width < 881px) {
+            display: none;
+        }
+    }
+
+    .logo-box {
+        all: unset;
+        cursor: pointer;
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: var(--spacing-xs);
+        text-decoration: none;
+
+        .logo {
+            height: 55px;
+        }
+
+        .agape {
+            font-family: var(--ff-heading);
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+        }
+
+        .bar {
+            font-size: var(--font-size-sm);
+            text-transform: uppercase;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+    }
+</style>

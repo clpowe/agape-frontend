@@ -1,0 +1,58 @@
+---
+import type { Polymorphic } from "astro/types";
+
+type Props<Tag extends "a" | "button" = "a"> = Polymorphic<{ as: Tag }> & {
+    variant?: "primary" | "secondary" | "outline" | "ghost" | "icon";
+    popovertarget?: string;
+    popovertargetaction?: "toggle" | "show" | "hide";
+};
+
+const { as: Tag = "a", variant = "primary", ...rest } = Astro.props;
+---
+
+<Tag data-custom="btn" class:list={["btn", variant]} {...rest}>
+    <slot />
+</Tag>
+
+<style>
+    .btn {
+        --_btn-bg: var(--clr-gray-950);
+        --_btn-text-clr: var(--clr-white);
+        unset: all;
+        text-decoration: none;
+
+        display: flex;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        justify-content: center;
+        align-items: center;
+        line-height: 1;
+        gap: 6.5px;
+        border: none;
+        border-radius: 33px;
+        max-width: fit-content;
+        cursor: pointer;
+        white-space: nowrap;
+        font-size: var(--font-size-sm);
+        background: var(--_btn-bg);
+        color: var(--_btn-text-clr);
+
+        transition: background 200ms ease-in-out;
+    }
+
+    .primary {
+        --_btn-bg: var(--clr-gray-950);
+        --_btn-text-clr: var(--clr-white);
+
+        &:hover {
+            --_btn-bg: var(--clr-gray-500);
+        }
+    }
+    .secondary {
+        --_btn-bg: var(--clr-red-500);
+        --_btn-text-clr: var(--clr-white);
+    }
+
+    .icon {
+        padding: var(--spacing-2xs) var(--spacing-2xs);
+    }
+</style>
