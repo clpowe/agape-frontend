@@ -19,6 +19,7 @@
   "devDependencies": {
     "@iconify-json/lucide": "^1.2.118",
     "@iconify-json/mdi": "^1.2.3",
+    "@iconify/json": "^2.2.504",
     "unplugin-icons": "^23.0.1",
     "vite-plus": "catalog:"
   },

@@ -156,8 +156,11 @@
   }
 
   :root {
-    --text-main: var(--clr-gray-950);
+    --text-strong: var(--clr-gray-950);
     --text-muted: var(--clr-gray-500);
+
+    --text-inverted-strong: var(--clr-white);
+    --text-inverted-muted: var(--clr-gray-400);
 
     --background-main: var(--clr-white);
 
@@ -174,6 +177,9 @@
 
     --border-bold: var(--clr-gray-300);
     --border-muted: var(--clr-gray-100);
+
+    --border-inverted-bold: var(--clr-gray-600);
+    --border-inverted-muted: var(--clr-gray-800);
   }
 }
 
@@ -201,6 +207,17 @@
   h3,
   h4 {
     font-family: var(--ff-heading);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 }
 

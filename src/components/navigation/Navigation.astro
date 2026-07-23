@@ -2,6 +2,16 @@
 import Logo from "@assets/agapelogo.svg";
 import Button from "@ui/Button.astro";
 import MobileNav from "./MobileNav.astro";
+
+const navigationItems = [
+    { label: "About", href: "/about", kind: "link" },
+    { label: "Services", href: "", kind: "link" },
+    { label: "Contact", href: "", kind: "link" },
+    { label: "How it works", href: "", kind: "link" },
+    { label: "FAQ", href: "", kind: "link" },
+    { label: "904-234-2853", href: "tel:9042342853", kind: "phone" },
+    { label: "Apply Now", href: "/apply", kind: "button" },
+] as const;
 ---
 
 <header class="site-header">
@@ -18,19 +28,32 @@ import MobileNav from "./MobileNav.astro";
             <MobileNav />
             <nav class="primary-navigation">
                 <ul>
-                    <li><a class="nav-link" href="/about">About</a></li>
-                    <li><a class="nav-link" href="">Services</a></li>
-                    <li><a class="nav-link" href="">Contact</a></li>
-                    <li><a class="nav-link" href="">How it works</a></li>
-                    <li><a class="nav-link" href="">FAQ</a></li>
-                    <li>
-                        <a class="phone" href="tel:9042342853">904-234-2853</a>
-                    </li>
-                    <li>
-                        <Button as="a" variant="primary" href="/apply"
-                            >Apply Now</Button
-                        >
-                    </li>
+                    {
+                        navigationItems.map(({ label, href, kind }) => (
+                            <li>
+                                {kind === "button" ? (
+                                    <Button
+                                        as="a"
+                                        variant="primary"
+                                        href={href}
+                                    >
+                                        {label}
+                                    </Button>
+                                ) : (
+                                    <a
+                                        class={
+                                            kind === "phone"
+                                                ? "phone"
+                                                : "nav-link"
+                                        }
+                                        href={href}
+                                    >
+                                        {label}
+                                    </a>
+                                )}
+                            </li>
+                        ))
+                    }
                 </ul>
             </nav>
         </div>
@@ -90,6 +113,7 @@ import MobileNav from "./MobileNav.astro";
         text-decoration: none;
 
         .logo {
+            unset: all;
             height: 55px;
         }
 
