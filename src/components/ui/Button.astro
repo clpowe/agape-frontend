@@ -52,6 +52,20 @@ const { as: Tag = "a", variant = "primary", ...rest } = Astro.props;
         --_btn-text-clr: var(--clr-white);
     }
 
+    .outline {
+        --_btn-bg: transparent;
+        --_btn-text-clr: var(--clr-gray-950);
+        border: 1px solid var(--clr-gray-950);
+
+        &:hover {
+            --_btn-bg: var(--clr-gray-100);
+        }
+
+        &:active {
+            --_btn-bg: var(--clr-gray-200);
+        }
+    }
+
     .icon {
         padding: var(--spacing-2xs) var(--spacing-2xs);
     }

@@ -1,7 +1,36 @@
 ---
+import Button from "../components/ui/Button.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroBanner from "@components/HeroBanner.astro";
+
+import myImage from "@assets/HomeHero.png";
 ---
 
-<BaseLayout title="home">
-    <h1>Home</h1>
+<BaseLayout title="Agape Christian Bar Prep">
+    <HeroBanner
+        eyebrow="Christian Bar Exam Prep"
+        title="Christian Bar Exam Prep Built Around You"
+        body="One-on-one tutoring and a holistic study plan — spiritually,
+    mentally, and academically — for first-time takers, repeat
+    takers, and the MBE."
+        image={myImage}
+    >
+        <Fragment slot="actions" }>
+            <Button>Apply Now</Button>
+            <Button variant="outline">Free Consultation</Button>
+        </Fragment>
+        <p class="trust">
+            Trusted by graduates from Florida Coastal, Florida A&M, Barry, and
+            Ave Maria · Jacksonville, FL
+        </p>
+    </HeroBanner>
 </BaseLayout>
+
+<style>
+    .trust {
+        font-size: var(--font-size-sm);
+        max-width: 60ch;
+        text-wrap: balance;
+        color: var(--text-muted);
+    }
+</style>
