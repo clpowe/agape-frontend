@@ -63,7 +63,8 @@ const navigationItems = [
 <style>
     .site-header {
         position: relative;
-        padding-block: 1rem;
+        padding-block: var(--spacing-sm);
+        border-bottom: 1px solid var(--border-bold);
     }
     .site-header_inner {
         display: flex;
@@ -75,7 +76,7 @@ const navigationItems = [
         ul {
             display: flex;
             list-style: none;
-            gap: 1rem;
+            gap: var(--spacing-md);
             align-items: center;
             padding: 0;
         }

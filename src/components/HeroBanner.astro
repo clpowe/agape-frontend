@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import Typography from "./ui/Typography.astro";
 
 interface Props {
     eyebrow: string;
@@ -15,12 +16,12 @@ const { eyebrow, title, body, image } = Astro.props;
     <div class="hero-left">
         <div class="content flow">
             <div class="heading-wrapper flow">
-                <p class="eyebrow">{eyebrow}</p>
+                <Typography variant="eyebrow">{eyebrow}</Typography>
                 <h2 class="title">{title}</h2>
             </div>
-            <p class="body">
+            <Typography variant="body">
                 {body}
-            </p>
+            </Typography>
             <div class="actions">
                 <slot name="actions" />
             </div>
@@ -30,6 +31,11 @@ const { eyebrow, title, body, image } = Astro.props;
         </div>
     </div>
     <div class="hero-right">
+        <div class="badge">
+            <Typography variant="eyebrow"> Now Enrolling </Typography>
+            <p>Free consultation for July bar takers</p>
+            <p>Schedule Now</p>
+        </div>
         <Image
             class="main-image"
             src={image}
@@ -49,7 +55,7 @@ const { eyebrow, title, body, image } = Astro.props;
             max-width: calc(550px + calc(2 * var(--spacing-md)));
             place-self: start;
             padding: var(--spacing-md);
-            padding-block: var(--spacing-3xl);
+            padding-block: var(--spacing-4xl);
         }
 
         .hero-right {
@@ -75,13 +81,6 @@ const { eyebrow, title, body, image } = Astro.props;
         }
     }
 
-    .eyebrow {
-        text-transform: uppercase;
-        font-size: var(--font-size-sm);
-        letter-spacing: 6%;
-        color: var(--clr-red-500);
-    }
-
     .title {
         font-size: var(--font-size-4xl);
         font-weight: 400;
@@ -89,12 +88,6 @@ const { eyebrow, title, body, image } = Astro.props;
         @media (width > 800px) {
             font-size: var(--font-size-6xl);
         }
-    }
-
-    .body {
-        color: var(--text-muted);
-        max-width: 60ch;
-        text-wrap: balance;
     }
 
     .actions {
@@ -106,5 +99,13 @@ const { eyebrow, title, body, image } = Astro.props;
         height: 100%;
         width: 100%;
         object-fit: cover;
+    }
+
+    .badge {
+        background: var(--clr-yellow-500);
+        position: absolute;
+        bottom: var(--spacing-md);
+        padding: var(--spacing-md);
+        z-index: 1;
     }
 </style>

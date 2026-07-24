@@ -1,0 +1,32 @@
+---
+interface Props {
+    sectionId?: string;
+}
+
+const { sectionId } = Astro.props;
+
+const headingId = `${sectionId}-heading`;
+---
+
+<section id={sectionId} aria-labelledby={headingId}>
+    <div class="container section-a">
+        <slot />
+    </div>
+</section>
+
+<style>
+    section {
+        padding-inline: var(--spacing-md);
+        padding-block: var(--spacing-4xl);
+
+        @media (width > 800px) {
+            padding-inline: var(--spacing-md);
+            padding-block: var(--spacing-6xl);
+        }
+    }
+    .section-a {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xl);
+    }
+</style>

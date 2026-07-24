@@ -1,0 +1,24 @@
+---
+import Typography from "@ui/Typography.astro";
+
+interface Props {
+    value: string;
+    description: string;
+}
+
+const { value, description } = Astro.props;
+---
+
+<div class="card flow">
+    <h3>{value}</h3>
+    <Typography variant="body">
+        {description}
+    </Typography>
+</div>
+
+<style>
+    h3 {
+        font-size: var(--font-size-4xl);
+        font-weight: 300;
+    }
+</style>

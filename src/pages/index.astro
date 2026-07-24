@@ -2,8 +2,29 @@
 import Button from "../components/ui/Button.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HeroBanner from "@components/HeroBanner.astro";
+import CardA from "@components/Card-A.astro";
 
 import myImage from "@assets/HomeHero.png";
+import SectionB from "../components/structure/SectionB.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
+
+const stats = [
+    {
+        value: "1-on-1",
+        description:
+            "Every student gets a dedicated tutor and a study plan built around their specific gaps — not a generic course.",
+    },
+    {
+        value: "5",
+        description:
+            "Distinct programs — from first-time takers to the MBE to early bar prep before graduation.",
+    },
+    {
+        value: "4×",
+        description:
+            "Law school partners across Florida. Agape's reach spans Jacksonville and beyond, all delivered remotely.",
+    },
+];
 ---
 
 <BaseLayout title="Agape Christian Bar Prep">
@@ -24,6 +45,21 @@ import myImage from "@assets/HomeHero.png";
             Ave Maria · Jacksonville, FL
         </p>
     </HeroBanner>
+    <SectionB sectionId="equipping-attorneys">
+        <SectionHeading
+            eyebrow="Equipping Attorneys"
+            sectionId="equipping-attorneys"
+            heading="Equipping attorneys to
+        pass — and to grow."
+        />
+        <div class="triplex">
+            {
+                stats.map((stat) => (
+                    <CardA value={stat.value} description={stat.description} />
+                ))
+            }
+        </div>
+    </SectionB>
 </BaseLayout>
 
 <style>
