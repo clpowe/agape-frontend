@@ -1,0 +1,91 @@
+---
+import StarIcon from "~icons/material-symbols-light/star-rounded";
+
+interface Props {
+  quote: string;
+  name: string;
+  credential: string;
+  rating?: number;
+}
+
+const { quote, name, credential, rating = 5 } = Astro.props;
+const stars = Array.from({ length: rating });
+---
+
+<figure class="card-c">
+  <div class="stars" role="img" aria-label={`${rating} out of 5 stars`}>
+    {stars.map(() => <StarIcon aria-hidden="true" />)}
+  </div>
+
+  <hr class="divider" />
+
+  <blockquote class="quote">{quote}</blockquote>
+
+  <figcaption class="attribution">
+    <span class="name">{name}</span>
+    <span class="credential">{credential}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .card-c {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: var(--spacing-2xs);
+    margin: 0;
+    padding-inline: var(--spacing-md);
+    border-radius: 2px;
+  }
+
+  .stars {
+    display: flex;
+    color: var(--clr-white);
+
+    & svg {
+      inline-size: 1.5rem;
+      block-size: 1.5rem;
+    }
+  }
+
+  .divider {
+    inline-size: 100%;
+    block-size: 1px;
+    margin: 0;
+    border: 0;
+    background: color-mix(in srgb, var(--clr-white) 30%, transparent);
+  }
+
+  .quote {
+    margin: 0;
+    padding-block-start: var(--spacing-xs);
+    font-size: var(--font-size-md);
+    font-style: italic;
+    line-height: 1.2;
+    color: color-mix(in srgb, var(--clr-white) 90%, transparent);
+    overflow-wrap: break-word;
+  }
+
+  .attribution {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding-block: var(--spacing-sm);
+    overflow-wrap: break-word;
+  }
+
+  .name {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--clr-white);
+  }
+
+  .credential {
+    font-size: var(--font-size-sm);
+    font-weight: 300;
+    line-height: 1.2;
+    color: color-mix(in srgb, var(--clr-white) 60%, transparent);
+  }
+</style>

@@ -159,6 +159,7 @@
   :root {
     --text-strong: var(--clr-gray-950);
     --text-muted: var(--clr-gray-500);
+    --text-accent: var(--clr-red-500);
 
     --text-inverted-strong: var(--clr-white);
     --text-inverted-muted: var(--clr-gray-400);
@@ -181,6 +182,21 @@
 
     --border-inverted-bold: var(--clr-gray-600);
     --border-inverted-muted: var(--clr-gray-800);
+  }
+
+  .dark {
+    --text-strong: var(--clr-white);
+    --text-muted: var(--clr-gray-400);
+    --text-accent: var(--clr-yellow-500);
+
+    --text-inverted-strong: var(--clr-gray-700);
+    --text-inverted-muted: var(--clr-gray-500);
+
+    --border-bold: var(--clr-gray-600);
+    --border-muted: var(--clr-gray-800);
+
+    --border-inverted-bold: var(--clr-gray-300);
+    --border-inverted-muted: var(--clr-gray-100);
   }
 }
 
@@ -261,11 +277,11 @@
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
 
-    @media (width > 400px) {
+    @media (width > 600px) {
       grid-template-columns: repeat(2, 1fr);
     }
 
-    @media (width > 800px) {
+    @media (width > 900px) {
       grid-template-columns: repeat(4, 1fr);
     }
   }

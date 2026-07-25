@@ -1,0 +1,39 @@
+---
+import Typography from "@ui/Typography.astro";
+
+interface Props {
+  number: string;
+  title: string;
+  description: string;
+}
+
+const { number, title, description } = Astro.props;
+---
+
+<li>
+  <div class="item">
+    <p class="number">{number}</p>
+    <div class="content flow">
+      <h3>{title}</h3>
+      <Typography variant="body">{description}</Typography>
+    </div>
+  </div>
+</li>
+
+<style>
+  .item {
+    display: grid;
+    grid-template-columns: 4ch auto;
+  }
+  .number {
+    text-align: center;
+    color: var(--text-accent);
+  }
+  h3 {
+    font-family: var(--ff-heading);
+    font-size: var(--spacing-lg);
+  }
+  .content {
+    --flow-space: var(--spacing-2xs);
+  }
+</style>

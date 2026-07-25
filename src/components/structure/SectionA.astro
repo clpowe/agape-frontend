@@ -1,38 +1,55 @@
 ---
 interface Props {
-    sectionId?: string;
-    heading?: string;
+  sectionId?: string;
+  heading?: string;
+  background?: "white" | "off-white";
+  dark?: boolean;
 }
 
-const { sectionId, heading } = Astro.props;
+const { sectionId, heading, background = "white", dark = false } = Astro.props;
 
 const headingId = `${sectionId}-heading`;
 ---
 
-<section id={sectionId} aria-labelledby={headingId}>
-    <div class="container section-a">
-        <slot />
-    </div>
+<section
+  id={sectionId}
+  aria-labelledby={headingId}
+  data-background={background}
+  class:list={{ dark }}
+>
+  <div class="container section-a">
+    <slot />
+  </div>
 </section>
 
 <style>
-    section {
-        padding-inline: var(--spacing-md);
-        padding-block: var(--spacing-4xl);
+  section {
+    background-color: var(--clr-white);
+    color: var(--text-strong);
+    padding-inline: var(--spacing-md);
+    padding-block: var(--spacing-4xl);
 
-        @media (width > 800px) {
-            padding-inline: var(--spacing-md);
-            padding-block: var(--spacing-6xl);
-        }
+    &[data-background="off-white"] {
+      background-color: var(--clr-off-white);
     }
-    .section-a {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: var(--spacing-xl)
 
-        @media (width > 800px) {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-        }
+    &.dark {
+      background-color: var(--clr-gray-950);
     }
+
+    @media (width > 800px) {
+      padding-inline: var(--spacing-md);
+      padding-block: var(--spacing-6xl);
+    }
+  }
+  .section-a {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+
+    @media (width > 800px) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+  }
 </style>

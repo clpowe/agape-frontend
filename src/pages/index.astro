@@ -3,70 +3,223 @@ import Button from "../components/ui/Button.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HeroBanner from "@components/HeroBanner.astro";
 import CardA from "@components/Card-A.astro";
+import CardB from "@components/Card-B.astro";
 
 import myImage from "@assets/HomeHero.png";
 import SectionB from "../components/structure/SectionB.astro";
+import SectionA from "../components/structure/SectionA.astro";
 import SectionHeading from "../components/ui/SectionHeading.astro";
 
 const stats = [
-    {
-        value: "1-on-1",
-        description:
-            "Every student gets a dedicated tutor and a study plan built around their specific gaps — not a generic course.",
-    },
-    {
-        value: "5",
-        description:
-            "Distinct programs — from first-time takers to the MBE to early bar prep before graduation.",
-    },
-    {
-        value: "4×",
-        description:
-            "Law school partners across Florida. Agape's reach spans Jacksonville and beyond, all delivered remotely.",
-    },
+  {
+    value: "1-on-1",
+    description:
+      "Every student gets a dedicated tutor and a study plan built around their specific gaps — not a generic course.",
+  },
+  {
+    value: "5",
+    description:
+      "Distinct programs — from first-time takers to the MBE to early bar prep before graduation.",
+  },
+  {
+    value: "4×",
+    description:
+      "Law school partners across Florida. Agape's reach spans Jacksonville and beyond, all delivered remotely.",
+  },
+];
+
+import ArrowRightIcon from "~icons/lucide/arrow-right";
+import IconPencil from "~icons/lucide/pencil";
+import IconRotateCw from "~icons/lucide/rotate-cw";
+import IconGlobe from "~icons/lucide/globe";
+import IconBook from "~icons/lucide/book";
+import ListItemA from "@components/ListItemA.astro";
+
+export const services = [
+  {
+    icon: IconPencil,
+    title: "First-Time Bar Takers",
+    description:
+      "Pass the first time with a study plan built around your strengths and gaps — not a generic video course.",
+    href: "/services/first-time-bar-takers",
+  },
+  {
+    icon: IconRotateCw,
+    title: "Repeat Bar Takers",
+    description:
+      "A focused, diagnostic approach for graduates returning after a setback — find what failed and fix it.",
+    href: "/services/repeat-bar-takers",
+  },
+  {
+    icon: IconGlobe,
+    title: "MBE Prep",
+    description:
+      "Targeted Multistate Bar Exam tutoring across all seven subjects for any jurisdiction.",
+    href: "/services/mbe-prep",
+  },
+  {
+    icon: IconBook,
+    title: "Law School & Early Bar Prep",
+    description:
+      "Build analytical skills during school and start bar prep before you graduate — through our Bar Prep Academy.",
+    href: "/services/law-school-early-bar-prep",
+  },
+] as const;
+
+const features = [
+  {
+    title: "Personalized 1-on-1 Tutoring",
+    description:
+      "We diagnose your gaps and rebuild your foundation subject by subject — no cookie-cutter curriculum.",
+  },
+  {
+    title: "A Holistic Approach",
+    description:
+      "Spiritual, mental, emotional, and academic support — because every part of you shows up on exam day.",
+  },
+  {
+    title: "Faith-Centered Community",
+    description:
+      "Weekly team prayer, mentorship, and a family that walks with you from first session to exam day.",
+  },
+  {
+    title: "Tutors Who've Been There",
+    description:
+      "Practicing attorneys who passed the bar and now coach others through it from the inside out.",
+  },
 ];
 ---
 
 <BaseLayout title="Agape Christian Bar Prep">
-    <HeroBanner
-        eyebrow="Christian Bar Exam Prep"
-        title="Christian Bar Exam Prep Built Around You"
-        body="One-on-one tutoring and a holistic study plan — spiritually,
+  <HeroBanner
+    eyebrow="Christian Bar Exam Prep"
+    title="Christian Bar Exam Prep Built Around You"
+    body="One-on-one tutoring and a holistic study plan — spiritually,
     mentally, and academically — for first-time takers, repeat
     takers, and the MBE."
-        image={myImage}
-    >
-        <Fragment slot="actions" }>
-            <Button>Apply Now</Button>
-            <Button variant="outline">Free Consultation</Button>
-        </Fragment>
-        <p class="trust">
-            Trusted by graduates from Florida Coastal, Florida A&M, Barry, and
-            Ave Maria · Jacksonville, FL
-        </p>
-    </HeroBanner>
-    <SectionB sectionId="equipping-attorneys">
-        <SectionHeading
-            eyebrow="Equipping Attorneys"
-            sectionId="equipping-attorneys"
-            heading="Equipping attorneys to
+    image={myImage}
+    badge={{
+      eyebrow: "Now Enrolling",
+      text: "Free consultation for July bar takers",
+      linkText: "Schedule Now",
+      href: "/consultation",
+    }}
+  >
+    <Fragment slot="actions" }>
+      <Button>Apply Now</Button>
+      <Button variant="outline">Free Consultation</Button>
+    </Fragment>
+    <p class="trust">
+      Trusted by graduates from Florida Coastal, Florida A&M, Barry, and Ave
+      Maria · Jacksonville, FL
+    </p>
+  </HeroBanner>
+  <SectionB sectionId="equipping-attorneys">
+    <SectionHeading
+      eyebrow="Equipping Attorneys"
+      sectionId="equipping-attorneys"
+      heading="Equipping attorneys to
         pass — and to grow."
-        />
-        <div class="triplex">
-            {
-                stats.map((stat) => (
-                    <CardA value={stat.value} description={stat.description} />
-                ))
-            }
-        </div>
-    </SectionB>
+    />
+    <div class="triplex">
+      {
+        stats.map((stat) => (
+          <CardA value={stat.value} description={stat.description} />
+        ))
+      }
+    </div>
+  </SectionB>
+  <SectionB sectionId="Services" background="off-white">
+    <SectionHeading
+      eyebrow="Services"
+      sectionId="Services"
+      heading="How We Help"
+      body="Whether you're sitting for the bar for the first time, returning after a setback, or still in law school, Agape meets you where you are."
+    />
+    <div class="quad">
+      {
+        services.map((service) => {
+          const Icon = service.icon;
+          return (
+            <CardB
+              title={service.title}
+              description={service.description}
+              href={service.href}
+            >
+              <Icon slot="icon" />
+            </CardB>
+          );
+        })
+      }
+    </div>
+  </SectionB>
+  <SectionA sectionId="theAgapeWay" dark>
+    <div class="flow" style="--flow-space: var(--spacing-lg);">
+      <SectionHeading
+        eyebrow="Our Approach"
+        sectionId="theAgapeWay"
+        heading="The Agape Way"
+        body="Bar prep tests more than legal knowledge — it tests your
+stamina, confidence, and resolve. Our four-part approach
+addresses the whole person."
+      />
+      <div>
+        <ul class="flow" style="--flow-space: var(--spacing-md);">
+          {
+            features.map((feature, i) => (
+              <ListItemA
+                number={String(i + 1).padStart(2, "0")}
+                title={feature.title}
+                description={feature.description}
+              />
+            ))
+          }
+        </ul>
+      </div>
+      <Button variant="accent">
+        Learn more <span class="visually-hidden">about our approach</span>
+        <ArrowRightIcon />
+      </Button>
+    </div>
+
+    <div class="flow">
+      <CardA
+        value="100%"
+        description="Custom study plans — every student receives a unique plan built around their exam date and specific weak areas.
+"
+      />
+
+      <CardA
+        value="4-part"
+        description="Holistic support model — spiritual, mental, emotional, and academic. No other bar prep does this."
+      />
+    </div>
+  </SectionA>
+  <SectionB sectionId="testimonials">
+    <SectionHeading
+      eyebrow="Student Stories"
+      sectionId="testimonials"
+      heading="Hear from Agape graduates"
+    />
+  </SectionB>
 </BaseLayout>
 
 <style>
-    .trust {
-        font-size: var(--font-size-sm);
-        max-width: 60ch;
-        text-wrap: balance;
-        color: var(--text-muted);
+  .trust {
+    font-size: var(--font-size-sm);
+    max-width: 60ch;
+    text-wrap: balance;
+    color: var(--text-muted);
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li:not(:last-child) {
+      padding-bottom: var(--spacing-md);
+      border-bottom: 1px solid var(--border-muted);
     }
+  }
 </style>

@@ -1,0 +1,123 @@
+---
+import ArrowRightIcon from "~icons/lucide/arrow-right";
+import Typography from "@ui/Typography.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  cta?: string;
+}
+
+const { title, description, href, cta = "Learn More" } = Astro.props;
+---
+
+<a class="card-b" href={href}>
+  <span class="icon" aria-hidden="true">
+    <slot name="icon" />
+  </span>
+
+  <div class="body">
+    <h3 class="title">{title}</h3>
+    <hr class="divider" />
+    <Typography variant="body">{description}</Typography>
+  </div>
+
+  <span class="cta" aria-hidden="true">
+    {cta}
+    <ArrowRightIcon />
+  </span>
+</a>
+
+<style>
+  .card-b {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--spacing-lg);
+    min-block-size: 13.375rem;
+    padding: var(--spacing-2xl);
+    color: var(--text-strong);
+    text-decoration: none;
+
+    transition:
+      transform 150ms ease,
+      box-shadow 150ms ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--clr-red-500);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+
+      &:hover {
+        transform: none;
+      }
+    }
+  }
+
+  .icon {
+    display: inline-flex;
+
+    & svg {
+      inline-size: 2.5rem;
+      block-size: 2.5rem;
+    }
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .title {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+  }
+
+  .divider {
+    inline-size: 100%;
+    block-size: 0;
+    margin: 0;
+    border: 0;
+    border-block-start: 1px solid var(--border-bold);
+  }
+
+  .description {
+    font-style: italic;
+    font-size: var(--font-size-md);
+    color: var(--text-muted);
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2xs);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+
+    & svg {
+      inline-size: 0.875rem;
+      block-size: 0.875rem;
+    }
+  }
+
+  .card-b:hover .cta svg {
+    transform: translateX(2px);
+    transition: transform 150ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card-b:hover .cta svg {
+      transform: none;
+    }
+  }
+</style>

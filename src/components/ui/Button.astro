@@ -2,7 +2,7 @@
 import type { Polymorphic } from "astro/types";
 
 type Props<Tag extends "a" | "button" = "a"> = Polymorphic<{ as: Tag }> & {
-    variant?: "primary" | "secondary" | "outline" | "ghost" | "icon";
+    variant?: "primary" | "accent" | "outline" | "ghost" | "icon";
     popovertarget?: string;
     popovertargetaction?: "toggle" | "show" | "hide";
 };
@@ -47,9 +47,17 @@ const { as: Tag = "a", variant = "primary", ...rest } = Astro.props;
             --_btn-bg: var(--clr-gray-500);
         }
     }
-    .secondary {
+    .accent {
         --_btn-bg: var(--clr-red-500);
         --_btn-text-clr: var(--clr-white);
+
+        &:hover {
+            --_btn-bg: var(--clr-red-600);
+        }
+
+        &:active {
+            --_btn-bg: var(--clr-red-400);
+        }
     }
 
     .outline {

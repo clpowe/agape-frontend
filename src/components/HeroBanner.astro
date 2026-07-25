@@ -1,15 +1,24 @@
 ---
 import { Image } from "astro:assets";
 import Typography from "./ui/Typography.astro";
+import ArrowRightIcon from "~icons/lucide/arrow-right";
+
+interface Badge {
+    eyebrow?: string;
+    text: string;
+    linkText?: string;
+    href: string;
+}
 
 interface Props {
     eyebrow: string;
     title: string;
     body: string;
     image: ImageMetadata;
+    badge?: Badge;
 }
 
-const { eyebrow, title, body, image } = Astro.props;
+const { eyebrow, title, body, image, badge } = Astro.props;
 ---
 
 <section>
@@ -31,11 +40,19 @@ const { eyebrow, title, body, image } = Astro.props;
         </div>
     </div>
     <div class="hero-right">
-        <div class="badge">
-            <Typography variant="eyebrow"> Now Enrolling </Typography>
-            <p>Free consultation for July bar takers</p>
-            <p>Schedule Now</p>
-        </div>
+        {
+            badge && (
+                <a class="badge flow" href={badge.href}>
+                    {badge.eyebrow && (
+                        <Typography variant="eyebrow">{badge.eyebrow}</Typography>
+                    )}
+                    <p class="main">{badge.text}</p>
+                    <p class="cta">
+                        {badge.linkText ?? "Schedule Now"} <ArrowRightIcon />
+                    </p>
+                </a>
+            )
+        }
         <Image
             class="main-image"
             src={image}
@@ -102,10 +119,26 @@ const { eyebrow, title, body, image } = Astro.props;
     }
 
     .badge {
+        all: unset;
+        --flow-space: var(--spacing-xs);
+
+        max-width: 240px;
         background: var(--clr-yellow-500);
         position: absolute;
-        bottom: var(--spacing-md);
-        padding: var(--spacing-md);
+        bottom: var(--spacing-xl);
+        padding: var(--spacing-xl);
         z-index: 1;
+
+        .main {
+            font-family: var(--ff-heading);
+            font-size: var(--font-size-xl);
+            line-height: 1.1;
+        }
+
+      .cta{
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-2xs)
+      }
     }
 </style>

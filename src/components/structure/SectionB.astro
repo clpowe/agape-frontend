@@ -1,14 +1,21 @@
 ---
 interface Props {
     sectionId?: string;
+    background?: "white" | "off-white";
+    dark?: boolean;
 }
 
-const { sectionId } = Astro.props;
+const { sectionId, background = "white", dark = false } = Astro.props;
 
 const headingId = `${sectionId}-heading`;
 ---
 
-<section id={sectionId} aria-labelledby={headingId}>
+<section
+    id={sectionId}
+    aria-labelledby={headingId}
+    data-background={background}
+    class:list={{ dark }}
+>
     <div class="container section-a">
         <slot />
     </div>
@@ -16,8 +23,18 @@ const headingId = `${sectionId}-heading`;
 
 <style>
     section {
+        background-color: var(--clr-white);
+        color: var(--text-strong);
         padding-inline: var(--spacing-md);
         padding-block: var(--spacing-4xl);
+
+        &[data-background="off-white"] {
+            background-color: var(--clr-off-white);
+        }
+
+        &.dark {
+            background-color: var(--clr-gray-950);
+        }
 
         @media (width > 800px) {
             padding-inline: var(--spacing-md);
