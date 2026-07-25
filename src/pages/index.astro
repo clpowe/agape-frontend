@@ -4,11 +4,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import HeroBanner from "@components/HeroBanner.astro";
 import CardA from "@components/Card-A.astro";
 import CardB from "@components/Card-B.astro";
+import CardC from "@components/Card-C.astro";
 
 import myImage from "@assets/HomeHero.png";
 import SectionB from "../components/structure/SectionB.astro";
 import SectionA from "../components/structure/SectionA.astro";
 import SectionHeading from "../components/ui/SectionHeading.astro";
+import Typography from "@ui/Typography.astro";
 
 const stats = [
   {
@@ -34,6 +36,7 @@ import IconRotateCw from "~icons/lucide/rotate-cw";
 import IconGlobe from "~icons/lucide/globe";
 import IconBook from "~icons/lucide/book";
 import ListItemA from "@components/ListItemA.astro";
+import Scroller from "@components/ui/Scroller.astro";
 
 export const services = [
   {
@@ -86,6 +89,48 @@ const features = [
     title: "Tutors Who've Been There",
     description:
       "Practicing attorneys who passed the bar and now coach others through it from the inside out.",
+  },
+];
+
+const steps = [
+  {
+    title: "Apply or Schedule a Consultation",
+    description:
+      "Tell us about your goals and exam timeline. No pressure — it's a conversation about how we can help.",
+  },
+  {
+    title: "Get Matched and Get Your Plan",
+    description:
+      "We diagnose your gaps and build a study plan around your specific weaknesses, learning style, and exam date.",
+  },
+  {
+    title: "Begin Tutoring and Weekly Check-ins",
+    description:
+      "1-on-1 sessions, practice essays, MBE drills, and team prayer — every week, all the way to exam day.",
+  },
+];
+
+const testimonials = [
+  {
+    quote:
+      "Agape didn't just prepare me for the bar exam they prepared me for the journey. The one-on-one attention and the prayer support made all the difference when the pressure was highest.",
+    name: "Justin Bell",
+    credential: "Passed February 2022, first attempt",
+    rating: 5,
+  },
+  {
+    quote:
+      "After failing twice on my own, I found Agape. My tutor identified exactly where I was losing points and built a plan around those gaps. I passed the July administration and I am so grateful.",
+    name: "Ashley Palmer",
+    credential: "Repeat taker — passed July 2023",
+    rating: 5,
+  },
+  {
+    quote:
+      "The holistic approach is real. I wasn't just getting MBE drills — I was getting accountability, encouragement, and a community that believed in me. That's what got me across the finish line.",
+    name: "Tiffany Young",
+    credential: "Passed February 2023, Florida Bar",
+    rating: 5,
   },
 ];
 ---
@@ -201,7 +246,65 @@ addresses the whole person."
       sectionId="testimonials"
       heading="Hear from Agape graduates"
     />
+    <Scroller client:load>
+      {
+        testimonials.map((t) => (
+          <li>
+            <CardC
+              name={t.name}
+              credential={t.credential}
+              quote={t.quote}
+              rating={t.rating}
+            />
+          </li>
+        ))
+      }
+    </Scroller>
   </SectionB>
+  <SectionA sectionId="getting-started" background="off-white">
+    <div class="flow" style="--flow-space: var(--spacing-lg);">
+      <SectionHeading
+        eyebrow="Getting Started"
+        sectionId="getting-started"
+        heading="How to Get Started"
+        body="Most people don't apply because they don't know what happens next. Here's the path from first contact to exam day."
+      />
+      <Button variant="accent">Apply Now</Button>
+    </div>
+
+    <ul class="flow" style="--flow-space: var(--spacing-md);">
+      {
+        steps.map((step, i) => (
+          <ListItemA
+            number={String(i + 1).padStart(2, "0")}
+            title={step.title}
+            description={step.description}
+          />
+        ))
+      }
+    </ul>
+  </SectionA>
+
+  <SectionA sectionId="about">
+    <div class="flow" style="--flow-space: var(--spacing-lg);">
+      <SectionHeading
+        eyebrow="About"
+        sectionId="about"
+        heading="About Agape"
+        body="Agape Christian Bar Prep was founded in Jacksonville, Florida with one mission: to equip law graduates to pass the bar exam — and to grow through the process. Our founder is a practicing attorney who experienced firsthand how much the bar exam tests more than legal knowledge."
+      />
+      <Typography variant="body">
+        We believe that with the right one-on-one support, a personalized plan,
+        and a community rooted in faith and encouragement, every qualified law
+        graduate can pass. We've helped graduates from Florida Coastal, Florida
+        A&M, Barry, Ave Maria, and beyond.
+      </Typography>
+      <Button href="/about">Meet the Team</Button>
+    </div>
+
+    {/* Placeholder — swap for <Image /> once the real asset lands */}
+    <div class="about-image" aria-hidden="true"></div>
+  </SectionA>
 </BaseLayout>
 
 <style>
@@ -216,10 +319,16 @@ addresses the whole person."
     list-style: none;
     padding: 0;
     margin: 0;
+  }
 
-    li:not(:last-child) {
-      padding-bottom: var(--spacing-md);
-      border-bottom: 1px solid var(--border-muted);
-    }
+  .about-image {
+    aspect-ratio: 1 / 1;
+    inline-size: 100%;
+    background: var(--clr-gray-400);
+  }
+
+  ul:not(.steps) li:not(:last-child) {
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-muted);
   }
 </style>

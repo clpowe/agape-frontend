@@ -1,0 +1,77 @@
+<div class="scroller">
+  <ul data-scroll="normal" class="tag-list scroller__inner">
+    <slot />
+  </ul>
+</div>
+
+<script>
+  const scrollers = document.querySelectorAll(".scroller");
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    addAnimation();
+  }
+
+  function addAnimation() {
+    scrollers.forEach((scroller) => {
+      scroller.setAttribute("data-animated", "true");
+
+      const scrollerInner = scroller.querySelector(".scroller__inner");
+      if (!scrollerInner?.children) return;
+      const scrollerContent = Array.from(scrollerInner.children);
+
+      scrollerContent.forEach((item) => {
+        const duplicatedItem = item.cloneNode(true) as HTMLElement;
+        duplicatedItem.setAttribute("aria-hidden", "true");
+        scrollerInner.appendChild(duplicatedItem);
+      });
+    });
+  }
+</script>
+
+<style>
+  .scroller {
+    &[data-animated="true"] {
+      overflow: hidden;
+    }
+  }
+  .scroller .scroller__inner {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    gap: var(--spacing-md);
+  }
+
+  [data-animated="true"] .scroller__inner {
+    width: max-content;
+    flex-wrap: nowrap;
+
+    &[data-scroll="normal"] {
+      animation: scroll 80s linear infinite;
+    }
+
+    &[data-scroll="reverse"] {
+      animation: scroll-reverse 80s linear infinite;
+    }
+  }
+
+  [data-animated="true"] .scroller__inner:has(li:hover) {
+    animation-play-state: paused;
+  }
+
+  .tag-list {
+    margin: 0;
+    padding-inline: 0;
+    list-style: none;
+    white-space: nowrap;
+  }
+
+  @keyframes scroll {
+    to {
+      transform: translate(calc(-50% - 0.5rem));
+    }
+  }
+  @keyframes scroll-reverse {
+    to {
+      transform: translate(calc(50% - 0.5rem));
+    }
+  }
+</style>

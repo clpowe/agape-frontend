@@ -4,141 +4,137 @@ import Typography from "./ui/Typography.astro";
 import ArrowRightIcon from "~icons/lucide/arrow-right";
 
 interface Badge {
-    eyebrow?: string;
-    text: string;
-    linkText?: string;
-    href: string;
+  eyebrow?: string;
+  text: string;
+  linkText?: string;
+  href: string;
 }
 
 interface Props {
-    eyebrow: string;
-    title: string;
-    body: string;
-    image: ImageMetadata;
-    badge?: Badge;
+  eyebrow: string;
+  title: string;
+  body: string;
+  image: ImageMetadata;
+  badge?: Badge;
 }
 
 const { eyebrow, title, body, image, badge } = Astro.props;
 ---
 
 <section>
-    <div class="hero-left">
-        <div class="content flow">
-            <div class="heading-wrapper flow">
-                <Typography variant="eyebrow">{eyebrow}</Typography>
-                <h2 class="title">{title}</h2>
-            </div>
-            <Typography variant="body">
-                {body}
-            </Typography>
-            <div class="actions">
-                <slot name="actions" />
-            </div>
-            <div>
-                <slot />
-            </div>
-        </div>
+  <div class="hero-left">
+    <div class="content flow">
+      <div class="heading-wrapper flow">
+        <Typography variant="eyebrow">{eyebrow}</Typography>
+        <h2 class="title">{title}</h2>
+      </div>
+      <Typography variant="body">
+        {body}
+      </Typography>
+      <div class="actions">
+        <slot name="actions" />
+      </div>
+      <div>
+        <slot />
+      </div>
     </div>
-    <div class="hero-right">
-        {
-            badge && (
-                <a class="badge flow" href={badge.href}>
-                    {badge.eyebrow && (
-                        <Typography variant="eyebrow">{badge.eyebrow}</Typography>
-                    )}
-                    <p class="main">{badge.text}</p>
-                    <p class="cta">
-                        {badge.linkText ?? "Schedule Now"} <ArrowRightIcon />
-                    </p>
-                </a>
-            )
-        }
-        <Image
-            class="main-image"
-            src={image}
-            alt="A description of my image."
-        />
-    </div>
+  </div>
+  <div class="hero-right">
+    {
+      badge && (
+        <a class="badge flow" href={badge.href}>
+          {badge.eyebrow && (
+            <Typography variant="eyebrow">{badge.eyebrow}</Typography>
+          )}
+          <p class="main">{badge.text}</p>
+          <p class="cta">
+            {badge.linkText ?? "Schedule Now"} <ArrowRightIcon />
+          </p>
+        </a>
+      )
+    }
+    <Image class="main-image" src={image} alt="A description of my image." />
+  </div>
 </section>
 
 <style>
-    section {
-        display: grid;
-        grid-template-columns: 1fr;
-        background-color: var(--clr-off-white);
+  section {
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: var(--clr-off-white);
 
-        .hero-left {
-            display: flex;
-            max-width: calc(550px + calc(2 * var(--spacing-md)));
-            place-self: start;
-            padding: var(--spacing-md);
-            padding-block: var(--spacing-4xl);
-        }
-
-        .hero-right {
-            position: relative;
-            height: 100%;
-            min-height: 600px;
-        }
-
-        @media (width > 800px) {
-            grid-template-columns: 1fr 1fr;
-
-            .hero-left {
-                align-self: center;
-                justify-self: end;
-                padding: var(--spacing-md);
-            }
-        }
+    .hero-left {
+      display: flex;
+      max-width: calc(550px + calc(2 * var(--spacing-md)));
+      place-self: start;
+      padding: var(--spacing-md);
+      padding-block: var(--spacing-4xl);
     }
 
-    .content {
-        .heading-wrapper {
-            --flow-space: var(--spacing-2xs);
-        }
+    .hero-right {
+      position: relative;
+      height: 100%;
+      min-height: 600px;
     }
 
-    .title {
-        font-size: var(--font-size-4xl);
-        font-weight: 400;
+    @media (width > 800px) {
+      grid-template-columns: 1fr 1fr;
 
-        @media (width > 800px) {
-            font-size: var(--font-size-6xl);
-        }
-    }
-
-    .actions {
-        display: flex;
-        gap: var(--spacing-md);
-    }
-
-    .main-image {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-    }
-
-    .badge {
-        all: unset;
-        --flow-space: var(--spacing-xs);
-
-        max-width: 240px;
-        background: var(--clr-yellow-500);
-        position: absolute;
-        bottom: var(--spacing-xl);
-        padding: var(--spacing-xl);
-        z-index: 1;
-
-        .main {
-            font-family: var(--ff-heading);
-            font-size: var(--font-size-xl);
-            line-height: 1.1;
-        }
-
-      .cta{
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-2xs)
+      .hero-left {
+        align-self: center;
+        justify-self: end;
+        padding: var(--spacing-md);
       }
     }
+  }
+
+  .content {
+    .heading-wrapper {
+      --flow-space: var(--spacing-2xs);
+    }
+  }
+
+  .title {
+    font-size: var(--font-size-4xl);
+    font-weight: 400;
+
+    @media (width > 800px) {
+      font-size: var(--font-size-6xl);
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: var(--spacing-md);
+  }
+
+  .main-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .badge {
+    all: unset;
+    --flow-space: var(--spacing-xs);
+
+    max-width: 240px;
+    background: var(--clr-yellow-500);
+    position: absolute;
+    bottom: var(--spacing-xl);
+    padding: var(--spacing-xl);
+    z-index: 1;
+
+    .main {
+      font-family: var(--ff-heading);
+      font-size: var(--font-size-xl);
+      line-height: 1.1;
+    }
+
+    .cta {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2xs);
+    }
+  }
 </style>

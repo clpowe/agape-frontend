@@ -19,7 +19,9 @@ const stars = Array.from({ length: rating });
 
   <hr class="divider" />
 
-  <blockquote class="quote">{quote}</blockquote>
+  <blockquote class="quote">
+    {quote}
+  </blockquote>
 
   <figcaption class="attribution">
     <span class="name">{name}</span>
@@ -36,11 +38,13 @@ const stars = Array.from({ length: rating });
     margin: 0;
     padding-inline: var(--spacing-md);
     border-radius: 2px;
+    width: 100%;
+    max-width: 300px;
   }
 
   .stars {
     display: flex;
-    color: var(--clr-white);
+    color: var(--text-accent);
 
     & svg {
       inline-size: 1.5rem;
@@ -53,7 +57,7 @@ const stars = Array.from({ length: rating });
     block-size: 1px;
     margin: 0;
     border: 0;
-    background: color-mix(in srgb, var(--clr-white) 30%, transparent);
+    background: var(--border-bold);
   }
 
   .quote {
@@ -62,8 +66,8 @@ const stars = Array.from({ length: rating });
     font-size: var(--font-size-md);
     font-style: italic;
     line-height: 1.2;
-    color: color-mix(in srgb, var(--clr-white) 90%, transparent);
-    overflow-wrap: break-word;
+    color: var(--text-muted);
+    text-wrap: wrap;
   }
 
   .attribution {
@@ -76,16 +80,17 @@ const stars = Array.from({ length: rating });
 
   .name {
     font-family: var(--ff-heading);
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-2xs);
     font-weight: 600;
     line-height: 1.2;
-    color: var(--clr-white);
+    color: var(--text-bold);
   }
 
   .credential {
     font-size: var(--font-size-sm);
     font-weight: 300;
     line-height: 1.2;
-    color: color-mix(in srgb, var(--clr-white) 60%, transparent);
+    color: var(--text-muted);
   }
 </style>
