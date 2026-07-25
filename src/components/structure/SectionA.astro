@@ -4,9 +4,21 @@ interface Props {
   heading?: string;
   background?: "white" | "off-white";
   dark?: boolean;
+  padding?: "compact" | "default" | "generous" | "spacious";
+  /** Column ratio of the two-up grid. `even` is 1:1, the others are 7:5 / 5:7. */
+  split?: "even" | "wide-start" | "wide-end";
+  class?: string;
 }
 
-const { sectionId, heading, background = "white", dark = false } = Astro.props;
+const {
+  sectionId,
+  heading,
+  background = "white",
+  dark = false,
+  padding = "default",
+  split = "even",
+  class: className,
+} = Astro.props;
 
 const headingId = `${sectionId}-heading`;
 ---
@@ -15,7 +27,9 @@ const headingId = `${sectionId}-heading`;
   id={sectionId}
   aria-labelledby={headingId}
   data-background={background}
-  class:list={{ dark }}
+  data-padding={padding}
+  data-split={split}
+  class:list={[{ dark }, className]}
 >
   <div class="container section-a">
     <slot />
@@ -27,7 +41,6 @@ const headingId = `${sectionId}-heading`;
     background-color: var(--clr-white);
     color: var(--text-strong);
     padding-inline: var(--spacing-md);
-    padding-block: var(--spacing-4xl);
 
     &[data-background="off-white"] {
       background-color: var(--clr-off-white);
@@ -37,19 +50,55 @@ const headingId = `${sectionId}-heading`;
       background-color: var(--clr-gray-950);
     }
 
-    @media (width > 800px) {
-      padding-inline: var(--spacing-md);
+    &[data-padding="compact"] {
+      padding-block: var(--spacing-2xl);
+      @media (width > 800px) {
+        padding-block: var(--spacing-4xl);
+      }
+    }
+
+    &[data-padding="default"] {
+      padding-block: var(--spacing-4xl);
+      @media (width > 800px) {
+        padding-block: var(--spacing-6xl);
+      }
+    }
+
+    &[data-padding="generous"] {
+      padding-block: var(--spacing-5xl);
+      @media (width > 800px) {
+        padding-block: var(--spacing-7xl);
+      }
+    }
+
+    &[data-padding="spacious"] {
       padding-block: var(--spacing-6xl);
+      @media (width > 800px) {
+        padding-block: var(--spacing-8xl);
+      }
     }
   }
+
   .section-a {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--spacing-xl);
 
     @media (width > 800px) {
-      display: grid;
       grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-2xl);
+    }
+  }
+
+  @media (width > 800px) {
+    section[data-split="wide-start"] .section-a {
+      grid-template-columns: 7fr 5fr;
+      gap: var(--spacing-4xl);
+    }
+
+    section[data-split="wide-end"] .section-a {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--spacing-4xl);
     }
   }
 </style>

@@ -1,14 +1,16 @@
 ---
 interface Props {
+  tag?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p";
   variant: "eyebrow" | "body";
 }
 
-const { variant, ...rest } = Astro.props;
+const { tag = "p", variant, ...rest } = Astro.props;
+const CustomTag = tag;
 ---
 
-<p class={variant} {...rest}>
+<CustomTag class={variant} {...rest}>
   <slot />
-</p>
+</CustomTag>
 
 <style>
   .eyebrow {

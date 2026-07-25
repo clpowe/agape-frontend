@@ -1,7 +1,18 @@
 ---
+import HeroBanner from "@components/HeroBanner.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+// assets
+import myImage from "@assets/About.jpg";
 ---
 
 <BaseLayout title="About">
-    <h1>About</h1>
+  <HeroBanner
+    eyebrow="About Agape Christian"
+    title="More than bar prep — a calling to build success stories."
+    body="Agape Christian Bar Prep is a faith-centered tutoring practice
+equipping law students globally on their journey to esquire and
+beyond."
+    image={myImage}
+  />
 </BaseLayout>

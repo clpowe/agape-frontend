@@ -2,7 +2,14 @@
 import type { Polymorphic } from "astro/types";
 
 type Props<Tag extends "a" | "button" = "a"> = Polymorphic<{ as: Tag }> & {
-    variant?: "primary" | "accent" | "outline" | "ghost" | "icon";
+    variant?:
+        | "primary"
+        | "accent"
+        | "outline"
+        | "inverted"
+        | "outline-inverted"
+        | "ghost"
+        | "icon";
     popovertarget?: string;
     popovertargetaction?: "toggle" | "show" | "hide";
 };
@@ -18,6 +25,7 @@ const { as: Tag = "a", variant = "primary", ...rest } = Astro.props;
     .btn {
         --_btn-bg: var(--clr-gray-950);
         --_btn-text-clr: var(--clr-white);
+        --_btn-ring: var(--clr-gray-950);
         unset: all;
         text-decoration: none;
 
@@ -37,6 +45,25 @@ const { as: Tag = "a", variant = "primary", ...rest } = Astro.props;
         color: var(--_btn-text-clr);
 
         transition: background 200ms ease-in-out;
+
+        /* ring must appear instantly — never transitioned */
+        &:focus-visible {
+            outline: 2px solid var(--_btn-ring);
+            outline-offset: 3px;
+        }
+
+        &:disabled,
+        &[aria-disabled="true"] {
+            opacity: 0.55;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .btn {
+            transition-duration: 0ms;
+        }
     }
 
     .primary {
@@ -71,6 +98,37 @@ const { as: Tag = "a", variant = "primary", ...rest } = Astro.props;
 
         &:active {
             --_btn-bg: var(--clr-gray-200);
+        }
+    }
+
+    /* For use on --clr-red-500 / --clr-gray-950 backgrounds */
+    .inverted {
+        --_btn-bg: var(--clr-white);
+        --_btn-text-clr: var(--clr-red-500);
+        --_btn-ring: var(--clr-white);
+
+        &:hover {
+            --_btn-bg: var(--clr-off-white);
+        }
+
+        &:active {
+            --_btn-bg: var(--clr-gray-200);
+        }
+    }
+
+    .outline-inverted {
+        --_btn-bg: transparent;
+        --_btn-text-clr: var(--clr-white);
+        --_btn-ring: var(--clr-white);
+        border: 1px solid color-mix(in oklab, var(--clr-white) 45%, transparent);
+
+        &:hover {
+            --_btn-bg: color-mix(in oklab, var(--clr-white) 12%, transparent);
+            border-color: var(--clr-white);
+        }
+
+        &:active {
+            --_btn-bg: color-mix(in oklab, var(--clr-white) 22%, transparent);
         }
     }
 

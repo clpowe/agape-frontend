@@ -1,49 +1,98 @@
 ---
 interface Props {
-    sectionId?: string;
-    background?: "white" | "off-white";
-    dark?: boolean;
+  sectionId?: string;
+  background?: "white" | "off-white" | "accent";
+  dark?: boolean;
+  padding?: "compact" | "default" | "generous" | "spacious";
+  /** Text column width. `narrow` pulls the measure in for quiet, centered sections. */
+  measure?: "default" | "narrow";
+  class?: string;
 }
 
-const { sectionId, background = "white", dark = false } = Astro.props;
+const {
+  sectionId,
+  background = "white",
+  dark = false,
+  padding = "default",
+  measure = "default",
+  class: className,
+} = Astro.props;
 
 const headingId = `${sectionId}-heading`;
 ---
 
 <section
-    id={sectionId}
-    aria-labelledby={headingId}
-    data-background={background}
-    class:list={{ dark }}
+  id={sectionId}
+  aria-labelledby={headingId}
+  data-background={background}
+  data-padding={padding}
+  data-measure={measure}
+  class:list={[{ dark }, className]}
 >
-    <div class="container section-a">
-        <slot />
-    </div>
+  <div class="container section-a">
+    <slot />
+  </div>
 </section>
 
 <style>
-    section {
-        background-color: var(--clr-white);
-        color: var(--text-strong);
-        padding-inline: var(--spacing-md);
+  section {
+    background-color: var(--clr-white);
+    color: var(--text-strong);
+    padding-inline: var(--spacing-md);
+
+    &[data-background="off-white"] {
+      background-color: var(--clr-off-white);
+    }
+
+    &[data-background="accent"] {
+      background-color: var(--clr-red-500);
+      color: var(--text-inverted-strong);
+    }
+
+    &.dark {
+      background-color: var(--clr-gray-950);
+    }
+
+    &[data-padding="compact"] {
+      padding-block: var(--spacing-2xl);
+      @media (width > 800px) {
         padding-block: var(--spacing-4xl);
-
-        &[data-background="off-white"] {
-            background-color: var(--clr-off-white);
-        }
-
-        &.dark {
-            background-color: var(--clr-gray-950);
-        }
-
-        @media (width > 800px) {
-            padding-inline: var(--spacing-md);
-            padding-block: var(--spacing-6xl);
-        }
+      }
     }
-    .section-a {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: var(--spacing-xl);
+
+    &[data-padding="default"] {
+      padding-block: var(--spacing-4xl);
+      @media (width > 800px) {
+        padding-block: var(--spacing-6xl);
+      }
     }
+
+    &[data-padding="generous"] {
+      padding-block: var(--spacing-5xl);
+      @media (width > 800px) {
+        padding-block: var(--spacing-7xl);
+      }
+    }
+
+    &[data-padding="spacious"] {
+      padding-block: var(--spacing-6xl);
+      @media (width > 800px) {
+        padding-block: var(--spacing-8xl);
+      }
+    }
+  }
+
+  section[data-measure="narrow"] .section-a {
+    --container-max-width: 60ch;
+  }
+
+  .section-a {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+
+    @media (width > 800px) {
+      gap: var(--spacing-2xl);
+    }
+  }
 </style>

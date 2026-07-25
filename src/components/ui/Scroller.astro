@@ -1,11 +1,32 @@
+---
+import IconPause from "~icons/lucide/pause";
+import IconPlay from "~icons/lucide/play";
+---
+
 <div class="scroller">
+  <div class="scroller__controls">
+    <button
+      type="button"
+      class="scroller__toggle"
+      aria-label="Pause marquee"
+      aria-pressed="false"
+    >
+      <span class="scroller__toggle-icon scroller__toggle-icon--pause" aria-hidden="true">
+        <IconPause />
+      </span>
+      <span class="scroller__toggle-icon scroller__toggle-icon--play" aria-hidden="true">
+        <IconPlay />
+      </span>
+      <span class="scroller__toggle-text">Pause</span>
+    </button>
+  </div>
   <ul data-scroll="normal" class="tag-list scroller__inner">
     <slot />
   </ul>
 </div>
 
 <script>
-  const scrollers = document.querySelectorAll(".scroller");
+  const scrollers = document.querySelectorAll<HTMLElement>(".scroller");
   if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     addAnimation();
   }
@@ -21,18 +42,90 @@
       scrollerContent.forEach((item) => {
         const duplicatedItem = item.cloneNode(true) as HTMLElement;
         duplicatedItem.setAttribute("aria-hidden", "true");
+        duplicatedItem.querySelectorAll("a, button, input, select, textarea, [tabindex]").forEach((el) => {
+          el.setAttribute("tabindex", "-1");
+        });
         scrollerInner.appendChild(duplicatedItem);
       });
+
+      const toggleBtn = scroller.querySelector<HTMLButtonElement>(".scroller__toggle");
+      if (toggleBtn) {
+        const toggleText = toggleBtn.querySelector(".scroller__toggle-text");
+        toggleBtn.addEventListener("click", () => {
+          const isPaused = scroller.getAttribute("data-paused") === "true";
+          const nextState = !isPaused;
+          scroller.setAttribute("data-paused", String(nextState));
+          toggleBtn.setAttribute("aria-pressed", String(nextState));
+          toggleBtn.setAttribute("aria-label", nextState ? "Play marquee" : "Pause marquee");
+          if (toggleText) {
+            toggleText.textContent = nextState ? "Play" : "Pause";
+          }
+        });
+      }
     });
   }
 </script>
 
 <style>
   .scroller {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+
     &[data-animated="true"] {
       overflow: hidden;
     }
   }
+
+  .scroller__controls {
+    display: none;
+    justify-content: flex-end;
+  }
+
+  .scroller[data-animated="true"] .scroller__controls {
+    display: flex;
+  }
+
+  .scroller__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    font-size: var(--font-size-xs, 0.85rem);
+    font-weight: 500;
+    color: var(--clr-gray-950);
+    background: var(--clr-white);
+    border: 1px solid var(--clr-gray-300, #d1d5db);
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background 150ms ease-in-out, border-color 150ms ease-in-out;
+
+    &:hover {
+      background: var(--clr-gray-100, #f3f4f6);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--clr-gray-950);
+      outline-offset: 2px;
+    }
+  }
+
+  .scroller__toggle-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .scroller__toggle[aria-pressed="true"] .scroller__toggle-icon--pause,
+  .scroller__toggle[aria-pressed="false"] .scroller__toggle-icon--play {
+    display: none;
+  }
+
+  .scroller__toggle[aria-pressed="true"] .scroller__toggle-icon--play,
+  .scroller__toggle[aria-pressed="false"] .scroller__toggle-icon--pause {
+    display: inline-flex;
+  }
+
   .scroller .scroller__inner {
     display: flex;
     align-items: center;
@@ -53,7 +146,9 @@
     }
   }
 
-  [data-animated="true"] .scroller__inner:has(li:hover) {
+  [data-animated="true"] .scroller__inner:has(li:hover),
+  [data-animated="true"] .scroller__inner:has(li:focus-within),
+  [data-animated="true"][data-paused="true"] .scroller__inner {
     animation-play-state: paused;
   }
 

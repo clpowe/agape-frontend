@@ -1,0 +1,137 @@
+---
+import SectionB from "@components/structure/SectionB.astro";
+import Button from "@ui/Button.astro";
+import Typography from "@ui/Typography.astro";
+
+interface Action {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  sectionId?: string;
+  heading?: string;
+  body?: string;
+  primary?: Action;
+  secondary?: Action;
+  phone?: string;
+  email?: string;
+  address?: string;
+}
+
+const {
+  sectionId = "cta",
+  heading = "Ready to be equipped to succeed?",
+  body = "Apply now, or call us to talk through your bar prep plan.",
+  primary = { label: "Apply Now", href: "/apply" },
+  secondary = { label: "Schedule a Free Consultation", href: "/consultation" },
+  phone = "1-904-234-2853",
+  email = "agapechristianbarprep@gmail.com",
+  address = "P.O. Box 26586, Jacksonville, FL 32226",
+} = Astro.props;
+
+const headingId = `${sectionId}-heading`;
+const telHref = `tel:+${phone.replace(/\D/g, "")}`;
+---
+
+<SectionB sectionId={sectionId} background="accent">
+  <div class="cta">
+    <h2 id={headingId} class="cta-heading">{heading}</h2>
+    <Typography variant="body">{body}</Typography>
+
+    <div class="cta-actions">
+      <Button href={primary.href} variant="primary">{primary.label}</Button>
+      <Button href={secondary.href} variant="outline-inverted">
+        {secondary.label}
+      </Button>
+    </div>
+
+    <address class="cta-contact">
+      <a class="cta-link" href={telHref}>Call {phone}</a>
+      <a class="cta-link" href={`mailto:${email}`}>{email}</a>
+      <span class="cta-address">{address}</span>
+    </address>
+  </div>
+</SectionB>
+
+<style>
+  /* Hallmark · component: cta-section · genre: editorial · theme: project (Agape red)
+   * states: default · hover · focus · active · disabled (loading/error/success N/A — navigational links)
+   * contrast: pass — all text >= 4.5:1 on --clr-red-500
+   */
+
+  .cta {
+    /* Re-point the semantic tokens for this dark-red band so every child
+       component (Typography, Button) inherits correct-contrast colours. */
+    --text-strong: var(--clr-white);
+    --text-muted: color-mix(in oklab, var(--clr-white) 80%, transparent);
+
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: var(--spacing-sm);
+    color: var(--text-strong);
+  }
+
+  .cta-heading {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-4xl);
+    font-weight: 400;
+    max-width: 20ch;
+    min-width: 0;
+    overflow-wrap: anywhere;
+
+    @media (width > 800px) {
+      font-size: var(--font-size-4xl);
+    }
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    margin-block-start: var(--spacing-lg);
+  }
+
+  .cta-contact {
+    all: unset;
+    display: grid;
+    justify-items: center;
+    gap: var(--spacing-3xs);
+    margin-block-start: var(--spacing-lg);
+    font-size: var(--font-size-md);
+  }
+
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 200ms ease-in-out;
+
+    &:hover {
+      color: var(--text-strong);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--clr-white);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+  }
+
+  .cta-address {
+    font-size: var(--font-size-sm);
+    color: color-mix(in oklab, var(--clr-white) 72%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-link {
+      transition-duration: 0ms;
+    }
+  }
+</style>

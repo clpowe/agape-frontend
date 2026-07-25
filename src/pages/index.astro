@@ -15,6 +15,7 @@ import Button from "@ui/Button.astro";
 import Scroller from "@ui/Scroller.astro";
 import SectionHeading from "@ui/SectionHeading.astro";
 import Typography from "@ui/Typography.astro";
+import CTA from "@components/CTA.astro";
 
 // icons
 import ArrowRightIcon from "~icons/lucide/arrow-right";
@@ -202,9 +203,8 @@ const faq = [
       Maria · Jacksonville, FL
     </p>
   </HeroBanner>
-  <SectionB sectionId="equipping-attorneys">
+  <SectionB sectionId="equipping-attorneys" padding="compact">
     <SectionHeading
-      eyebrow="Equipping Attorneys"
       sectionId="equipping-attorneys"
       heading="Equipping attorneys to
         pass — and to grow."
@@ -217,9 +217,8 @@ const faq = [
       }
     </div>
   </SectionB>
-  <SectionB sectionId="Services" background="off-white">
+  <SectionB sectionId="Services" background="off-white" padding="default">
     <SectionHeading
-      eyebrow="Services"
       sectionId="Services"
       heading="How We Help"
       body="Whether you're sitting for the bar for the first time, returning after a setback, or still in law school, Agape meets you where you are."
@@ -241,12 +240,13 @@ const faq = [
       }
     </div>
   </SectionB>
-  <SectionA sectionId="theAgapeWay" dark>
+  <SectionA sectionId="theAgapeWay" dark padding="generous" split="wide-start">
     <div class="flow" style="--flow-space: var(--spacing-lg);">
       <SectionHeading
         eyebrow="Our Approach"
         sectionId="theAgapeWay"
         heading="The Agape Way"
+        size="md"
         body="Bar prep tests more than legal knowledge — it tests your
 stamina, confidence, and resolve. Our four-part approach
 addresses the whole person."
@@ -283,13 +283,13 @@ addresses the whole person."
       />
     </div>
   </SectionA>
-  <SectionB sectionId="testimonials" background="off-white">
+  <SectionB sectionId="testimonials" background="off-white" padding="default">
     <SectionHeading
-      eyebrow="Student Stories"
+      eyebrow="testimonials"
       sectionId="testimonials"
       heading="Hear from Agape graduates"
     />
-    <Scroller client:load>
+    <Scroller>
       {
         testimonials.map((t) => (
           <li>
@@ -304,7 +304,7 @@ addresses the whole person."
       }
     </Scroller>
   </SectionB>
-  <SectionA sectionId="getting-started">
+  <SectionA sectionId="getting-started" padding="compact">
     <div class="flow" style="--flow-space: var(--spacing-lg);">
       <SectionHeading
         eyebrow="Getting Started"
@@ -327,21 +327,23 @@ addresses the whole person."
       }
     </ul>
   </SectionA>
-  <SectionA sectionId="common-questions" background="off-white">
-    <div class="flow">
-      <SectionHeading
-        eyebrow="common questions"
-        sectionId="common-questions"
-        heading="Fequently Asked Questions"
-      />
-    </div>
+  <SectionB
+    sectionId="frequently-asked-questions"
+    background="off-white"
+    padding="spacious"
+    measure="narrow"
+  >
+    <SectionHeading
+      sectionId="frequently-asked-questions"
+      heading="Frequently Asked Questions"
+      align="center"
+    />
     <Accordian name="faq" items={faq} />
-  </SectionA>
-  <SectionA sectionId="about">
+  </SectionB>
+  <SectionA sectionId="about-agape" padding="generous" split="wide-end">
     <div class="flow" style="--flow-space: var(--spacing-lg);">
       <SectionHeading
-        eyebrow="About"
-        sectionId="about"
+        sectionId="about-agape"
         heading="About Agape"
         body="Agape Christian Bar Prep was founded in Jacksonville, Florida with one mission: to equip law graduates to pass the bar exam — and to grow through the process. Our founder is a practicing attorney who experienced firsthand how much the bar exam tests more than legal knowledge."
       />
@@ -357,6 +359,7 @@ addresses the whole person."
     {/* Placeholder — swap for <Image /> once the real asset lands */}
     <div class="about-image" aria-hidden="true"></div>
   </SectionA>
+  <CTA />
 </BaseLayout>
 
 <style>

@@ -11,9 +11,9 @@ interface Badge {
 }
 
 interface Props {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
-  body: string;
+  body?: string;
   image: ImageMetadata;
   badge?: Badge;
 }
@@ -25,7 +25,7 @@ const { eyebrow, title, body, image, badge } = Astro.props;
   <div class="hero-left">
     <div class="content flow">
       <div class="heading-wrapper flow">
-        <Typography variant="eyebrow">{eyebrow}</Typography>
+        <Typography tag="h1" variant="eyebrow">{eyebrow}</Typography>
         <h2 class="title">{title}</h2>
       </div>
       <Typography variant="body">

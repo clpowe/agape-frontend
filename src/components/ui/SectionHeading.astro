@@ -2,30 +2,70 @@
 import Typography from "@ui/Typography.astro";
 
 interface Props {
-    eyebrow?: string;
-    heading: string;
-    body?: string;
-    sectionId: string;
+  eyebrow?: string;
+  heading: string;
+  body?: string;
+  sectionId: string;
+  /** Heading scale. `lg` is for the page's anchor sections. */
+  size?: "md" | "lg";
+  align?: "start" | "center";
+  /** Draws a short accent rule above the eyebrow. */
+  rule?: boolean;
 }
 
-const { eyebrow, heading, body, sectionId } = Astro.props;
+const {
+  eyebrow,
+  heading,
+  body,
+  sectionId,
+  size = "md",
+  align = "start",
+  rule = false,
+} = Astro.props;
 
 const sectionIdHeading = `${sectionId}-heading`;
 ---
 
-<div class="flow">
-    <Typography variant="eyebrow">{eyebrow}</Typography>
-    <h2 id={sectionIdHeading} class="heading">{heading}</h2>
-    <Typography variant="body">{body}</Typography>
+<div class="flow heading-wrapper" data-size={size} data-align={align}>
+  {rule && <span class="rule" aria-hidden="true" />}
+  <Typography variant="eyebrow">{eyebrow}</Typography>
+  <h2 id={sectionIdHeading} class="heading">{heading}</h2>
+  <Typography variant="body">{body}</Typography>
 </div>
 
 <style>
-    .heading-wrapper {
-        --flow-space: var(--spacing-sm);
-    }
-    .heading {
-        font-size: var(--font-size-4xl);
-        max-width: 30ch;
-        font-weight: 400;
-    }
+  .heading-wrapper {
+    --flow-space: var(--spacing-sm);
+  }
+
+  .heading {
+    font-size: var(--font-size-4xl);
+    max-width: 30ch;
+    font-weight: 400;
+  }
+
+  [data-size="lg"] .heading {
+    font-size: var(--font-size-5xl);
+    max-width: 20ch;
+  }
+
+  [data-align="center"] {
+    text-align: center;
+  }
+
+  [data-align="center"] .heading,
+  [data-align="center"] :global(.body) {
+    margin-inline: auto;
+  }
+
+  .rule {
+    display: block;
+    inline-size: var(--spacing-3xl);
+    block-size: 2px;
+    background-color: var(--text-accent);
+  }
+
+  [data-align="center"] .rule {
+    margin-inline: auto;
+  }
 </style>
