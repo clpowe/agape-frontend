@@ -1,17 +1,32 @@
 ---
-import Button from "../components/ui/Button.astro";
+// layout
 import BaseLayout from "../layouts/BaseLayout.astro";
-import HeroBanner from "@components/HeroBanner.astro";
+
+// components
 import CardA from "@components/Card-A.astro";
 import CardB from "@components/Card-B.astro";
 import CardC from "@components/Card-C.astro";
-
-import myImage from "@assets/HomeHero.png";
-import SectionB from "../components/structure/SectionB.astro";
-import SectionA from "../components/structure/SectionA.astro";
-import SectionHeading from "../components/ui/SectionHeading.astro";
+import HeroBanner from "@components/HeroBanner.astro";
+import ListItemA from "@components/ListItemA.astro";
+import SectionA from "@components/structure/SectionA.astro";
+import SectionB from "@components/structure/SectionB.astro";
+import Accordian from "@ui/accordian/index.astro";
+import Button from "@ui/Button.astro";
+import Scroller from "@ui/Scroller.astro";
+import SectionHeading from "@ui/SectionHeading.astro";
 import Typography from "@ui/Typography.astro";
 
+// icons
+import ArrowRightIcon from "~icons/lucide/arrow-right";
+import IconBook from "~icons/lucide/book";
+import IconGlobe from "~icons/lucide/globe";
+import IconPencil from "~icons/lucide/pencil";
+import IconRotateCw from "~icons/lucide/rotate-cw";
+
+// assets
+import myImage from "@assets/HomeHero.png";
+
+// data arrays
 const stats = [
   {
     value: "1-on-1",
@@ -29,16 +44,7 @@ const stats = [
       "Law school partners across Florida. Agape's reach spans Jacksonville and beyond, all delivered remotely.",
   },
 ];
-
-import ArrowRightIcon from "~icons/lucide/arrow-right";
-import IconPencil from "~icons/lucide/pencil";
-import IconRotateCw from "~icons/lucide/rotate-cw";
-import IconGlobe from "~icons/lucide/globe";
-import IconBook from "~icons/lucide/book";
-import ListItemA from "@components/ListItemA.astro";
-import Scroller from "@components/ui/Scroller.astro";
-
-export const services = [
+const services = [
   {
     icon: IconPencil,
     title: "First-Time Bar Takers",
@@ -68,7 +74,6 @@ export const services = [
     href: "/services/law-school-early-bar-prep",
   },
 ] as const;
-
 const features = [
   {
     title: "Personalized 1-on-1 Tutoring",
@@ -91,7 +96,6 @@ const features = [
       "Practicing attorneys who passed the bar and now coach others through it from the inside out.",
   },
 ];
-
 const steps = [
   {
     title: "Apply or Schedule a Consultation",
@@ -109,7 +113,6 @@ const steps = [
       "1-on-1 sessions, practice essays, MBE drills, and team prayer — every week, all the way to exam day.",
   },
 ];
-
 const testimonials = [
   {
     quote:
@@ -131,6 +134,46 @@ const testimonials = [
     name: "Tiffany Young",
     credential: "Passed February 2023, Florida Bar",
     rating: 5,
+  },
+];
+
+const faq = [
+  {
+    summary: "Who is Agape Christian Bar Prep for?",
+    details:
+      "Agape serves first-time bar takers, repeat takers returning after a setback, law students preparing early, and anyone who needs focused MBE support. If you want personalized, one-on-one coaching that treats you as a whole person, Agape is for you.",
+  },
+
+  {
+    summary: "Do I have to be Christian to enroll?",
+    details:
+      "Not at all. Students of every background are warmly welcome here. Our faith-centered approach means we bring prayer, encouragement, and community to the process — but participation in devotional elements is always optional. What matters is your commitment to passing.",
+  },
+
+  {
+    summary: "Which bar exams do you prepare students for?",
+    details:
+      "We prepare students for the Florida Bar Exam, the Uniform Bar Exam (UBE) in any jurisdiction, and the Multistate Bar Examination (MBE) as a standalone focus. We also offer law school exam prep and early bar preparation through the Bar Prep Academy.",
+  },
+  {
+    summary: "How is Agape different from Barbri or Themis?",
+    details:
+      "Barbri and Themis are self-paced video courses built for the masses — useful, but impersonal. Agape is one-on-one: a real practicing attorney as your tutor, a custom study plan built around your specific gaps, and holistic support that no algorithm can provide.",
+  },
+  {
+    summary: "What does tutoring cost?",
+    details:
+      "Programs are custom-priced based on your exam timeline, the scope of support you need, and your schedule. Schedule a free consultation and we'll walk you through your options and provide a personalized quote — no obligation.",
+  },
+  {
+    summary: "How much time should I commit per week?",
+    details:
+      "Most students commit 8–12 hours per week to tutoring sessions, practice essays, and MBE drills. During the final weeks before the exam, that often increases. Your tutor will build a schedule that fits your life.",
+  },
+  {
+    summary: "Do you offer remote tutoring?",
+    details:
+      "Yes. All Agape tutoring is available remotely via video call, so we can support students across Florida and any UBE jurisdiction nationwide. Location is no barrier.",
   },
 ];
 ---
@@ -240,7 +283,7 @@ addresses the whole person."
       />
     </div>
   </SectionA>
-  <SectionB sectionId="testimonials">
+  <SectionB sectionId="testimonials" background="off-white">
     <SectionHeading
       eyebrow="Student Stories"
       sectionId="testimonials"
@@ -261,7 +304,7 @@ addresses the whole person."
       }
     </Scroller>
   </SectionB>
-  <SectionA sectionId="getting-started" background="off-white">
+  <SectionA sectionId="getting-started">
     <div class="flow" style="--flow-space: var(--spacing-lg);">
       <SectionHeading
         eyebrow="Getting Started"
@@ -284,7 +327,16 @@ addresses the whole person."
       }
     </ul>
   </SectionA>
-
+  <SectionA sectionId="common-questions" background="off-white">
+    <div class="flow">
+      <SectionHeading
+        eyebrow="common questions"
+        sectionId="common-questions"
+        heading="Fequently Asked Questions"
+      />
+    </div>
+    <Accordian name="faq" items={faq} />
+  </SectionA>
   <SectionA sectionId="about">
     <div class="flow" style="--flow-space: var(--spacing-lg);">
       <SectionHeading

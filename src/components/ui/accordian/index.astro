@@ -1,0 +1,30 @@
+---
+import AccordianItem from "./AccordianItem.astro";
+
+interface Item {
+  summary: string;
+  details: string;
+}
+
+interface Props {
+  name: string;
+  items: Item[];
+}
+
+const { name, items } = Astro.props;
+---
+
+<div class="accordian">
+  <div class="details-container">
+    {
+      items.map((item, index) => (
+        <AccordianItem
+          name={name}
+          summary={item.summary}
+          details={item.details}
+          open={index === 0}
+        />
+      ))
+    }
+  </div>
+</div>

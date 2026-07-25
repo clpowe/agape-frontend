@@ -1,0 +1,97 @@
+---
+import Typography from "../Typography.astro";
+import PlusIcon from "~icons/lucide/plus";
+import MinusIcon from "~icons/lucide/minus";
+
+interface Props {
+  name: string;
+  summary: string;
+  details: string;
+  open?: boolean;
+}
+
+const { name, summary, details, open = false } = Astro.props;
+---
+
+<details name={name} open={open}>
+  <summary>
+    {summary}
+    <span class="icon">
+      <span class="plus"><PlusIcon /></span>
+      <span class="minus"><MinusIcon /></span>
+    </span>
+  </summary>
+  <Typography variant="body">{details}</Typography>
+</details>
+
+<style>
+  summary {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-xl);
+    padding-bottom: var(--spacing-2xs);
+    border-bottom: 1px solid var(--border-bold);
+  }
+
+  details summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .icon {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    color: var(--text-accent);
+  }
+
+  .icon > * {
+    grid-area: 1 / 1;
+    display: flex;
+    line-height: 0;
+    transform-origin: center;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+  }
+
+  .icon .minus {
+    transform: rotate(-90deg);
+    opacity: 0;
+  }
+
+  details[open] .icon .plus {
+    transform: rotate(90deg);
+    opacity: 0;
+  }
+
+  details[open] .icon .minus {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .icon > * {
+      transition: none;
+    }
+  }
+
+  details::details-content {
+    overflow: hidden;
+    height: 0;
+    padding-block: var(--spacing-xs);
+    transition:
+      height 0.3s,
+      content-visibility 0.3s;
+    transition-behavior: allow-discrete;
+  }
+
+  details[open]::details-content {
+    height: auto;
+  }
+</style>
