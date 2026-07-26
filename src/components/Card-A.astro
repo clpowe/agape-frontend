@@ -3,14 +3,17 @@ import Typography from "@ui/Typography.astro";
 
 interface Props {
   value: string;
+  title?: string;
   description: string;
+  background?: "white" | "off-white";
 }
 
-const { value, description } = Astro.props;
+const { value, title, description, background = "off-white" } = Astro.props;
 ---
 
-<div class="card flow">
-  <h3>{value}</h3>
+<div class="card flow" data-background={background}>
+  <p class="big-number">{value}</p>
+  {title && <h3>{title}</h3>}
   <Typography variant="body">
     {description}
   </Typography>
@@ -20,10 +23,18 @@ const { value, description } = Astro.props;
   .card {
     padding: var(--spacing-2xl);
     background: var(--clr-off-white);
+
+    &[data-background="white"] {
+      background: var(--clr-white);
+    }
   }
-  h3 {
+  .big-number {
     font-size: var(--font-size-6xl);
     font-weight: 300;
+    line-height: 1.1;
     color: var(--clr-red-500);
+  }
+  h3 {
+    font-size: var(--font-size-xl);
   }
 </style>

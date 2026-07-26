@@ -9,6 +9,10 @@ import SectionHeading from "@components/ui/SectionHeading.astro";
 import Typography from "../components/ui/Typography.astro";
 import SectionB from "../components/structure/SectionB.astro";
 import ListItemA from "../components/ListItemA.astro";
+import CardA from "@components/Card-A.astro";
+import CardD from "@components/Card-D.astro";
+import Button from "@components/ui/Button.astro";
+import CTA from "@/components/CTA.astro";
 
 // data
 const promises = [
@@ -27,6 +31,81 @@ const promises = [
   {
     title: "Restoration",
     description: "of confidence, hope, and the vision of attorney.",
+  },
+];
+
+const steps = [
+  {
+    value: "01",
+    title: "Apply & Assessment",
+    description:
+      "Students interested in enrolling complete an application and a 90-minute assessment. Our team reviews both and creates a personalized success plan tailored to each student.",
+  },
+  {
+    value: "02",
+    title: "Orientation",
+    description:
+      "Accepted students attend a week-long orientation designed to prepare them mentally and emotionally for the rigors of bar prep. We teach proven learning and study strategies, and students sign a commitment agreement.",
+  },
+  {
+    value: "03",
+    title: "Tutoring & Writing Clinics",
+    description:
+      "Students interested in enrolling complete an application and a 90-minute assessment. Our team reviews both and creates a personalized success plan tailored to each student.",
+  },
+];
+
+const team = [
+  {
+    name: "Tishia Dunham",
+    href: "#team",
+    expertise: [
+      "Civil Procedure",
+      "Constitutional Law",
+      "Evidence",
+      "Torts",
+      "Legal Writing",
+    ],
+  },
+  {
+    name: "Marcus Ellery",
+    href: "#team",
+    expertise: [
+      "Contracts",
+      "Criminal Law",
+      "Criminal Procedure",
+      "Real Property",
+      "Essay Strategy",
+    ],
+  },
+  {
+    name: "Naomi Prescott",
+    href: "#team",
+    expertise: [
+      "Business Associations",
+      "Family Law",
+      "Wills & Trusts",
+      "Performance Test",
+      "MBE Drills",
+    ],
+  },
+];
+
+const tutorStats = [
+  {
+    value: "5",
+    description:
+      "Practicing attorneys on the Agape tutoring team — each one with subject-matter mastery.",
+  },
+  {
+    value: "1st",
+    description:
+      "Generation college and law school graduates make up many of our tutors.",
+  },
+  {
+    value: "1:1",
+    description:
+      "Direct access — students work with tutors, not video courses or assistants.",
   },
 ];
 ---
@@ -77,14 +156,13 @@ beyond."
     </div>
   </SectionA>
   <SectionB background="off-white" sectionId="our-story">
+    <SectionHeading
+      sectionId="our-story"
+      eyebrow="Our Story"
+      heading="The History of Agape Christian Bar Prep"
+    />
     <div class="duplex">
       <div class="flow">
-        <SectionHeading
-          sectionId="our-story"
-          eyebrow="Our Story"
-          heading="The History of Agape Christian Bar Prep"
-        />
-
         <Typography tag="p" variant="body">
           Agape Christian Bar Prep was founded in 2015 after our founder
           received a divine calling from God to "help His people." Since then,
@@ -103,7 +181,8 @@ beyond."
           lives.
         </Typography>
       </div>
-      <div class="flow">
+      <div class="list flow">
+        <h3>His Promises For Your Life</h3>
         <ul class="flow" style="--flow-space: var(--spacing-md);">
           {
             promises.map((step, i) => (
@@ -118,4 +197,97 @@ beyond."
       </div>
     </div>
   </SectionB>
+  <SectionB sectionId="the-process">
+    <div class="duplex">
+      <SectionHeading
+        sectionId="the-process"
+        eyebrow="The Process"
+        heading="The Agape Path to Esquire"
+        body="Every Agape student follows the same proven three-step path — from application to enrollment to the bar exam itself."
+      />
+      <div class="cta">
+        <Button variant="outline" href="#apply">Start Your Application</Button>
+      </div>
+    </div>
+    <div class="triplex">
+      {
+        steps.map((step) => (
+          <CardA
+            value={step.value}
+            title={step.title}
+            description={step.description}
+            background="white"
+          />
+        ))
+      }
+    </div>
+  </SectionB>
+  <SectionA sectionId="our-tutors" background="off-white">
+    <div class="flow">
+      <SectionHeading
+        sectionId="our-tutors"
+        eyebrow="Our Tutors"
+        heading="About Our Teachers"
+        body="Agape Christian Bar Prep's tutors are compassionate, patient, kind, and wholeheartedly committed to helping students exceed their personal and professional goals."
+      />
+      <Typography tag="p" variant="body">
+        Many of our tutors are first-generation college and law school graduates
+        who have experience in the areas they teach. As an advantage, our
+        students have direct access to tutors who readily identify with the
+        challenges of overcoming barriers and exclusion issues associated with
+        acceptance to the bar — uniquely positioned to mentor students new to
+        the dynamics of legal academia and the legal profession.
+      </Typography>
+    </div>
+    <div class="flow">
+      {
+        tutorStats.map((stat) => (
+          <CardA
+            value={stat.value}
+            description={stat.description}
+            background="white"
+          />
+        ))
+      }
+    </div>
+  </SectionA>
+  <SectionB sectionId="meet-the-team">
+    <SectionHeading
+      sectionId="meet-the-team"
+      eyebrow="Meet the Team"
+      heading="Tutors who've walked the path you're on."
+    />
+    <div class="triplex">
+      {
+        team.map((member) => (
+          <CardD
+            name={member.name}
+            expertise={member.expertise}
+            href={member.href}
+          />
+        ))
+      }
+    </div>
+  </SectionB>
+  <CTA />
 </BaseLayout>
+
+<style>
+  h3 {
+    font-size: var(--spacing-xl);
+    font-weight: 400;
+  }
+  .list {
+    background-color: var(--clr-white);
+    padding: var(--spacing-xl);
+  }
+  .cta {
+    display: flex;
+    align-items: end;
+    justify-content: start;
+
+    @media (width > 800px) {
+      justify-content: end;
+    }
+  }
+</style>

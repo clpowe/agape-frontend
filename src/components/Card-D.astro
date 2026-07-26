@@ -1,0 +1,162 @@
+---
+import { Image } from "astro:assets";
+import ArrowRightIcon from "~icons/lucide/arrow-right";
+
+interface Props {
+  name: string;
+  expertise: string[];
+  href: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  label?: string;
+  cta?: string;
+}
+
+const {
+  name,
+  expertise,
+  href,
+  image,
+  imageAlt = `Portrait of ${name}`,
+  label = "Expertise",
+  cta = "Learn More",
+} = Astro.props;
+---
+
+<a class="card-d" href={href}>
+  <div class="media">
+    {
+      image ? (
+        <Image class="photo" src={image} alt={imageAlt} />
+      ) : (
+        <span class="placeholder" aria-hidden="true" />
+      )
+    }
+  </div>
+
+  <div class="body">
+    <h3 class="name">{name}</h3>
+
+    <p class="label">{label}</p>
+
+    <ul class="expertise">
+      {expertise.map((item) => <li>{item}</li>)}
+    </ul>
+
+    <span class="cta" aria-hidden="true">
+      {cta}
+      <ArrowRightIcon />
+    </span>
+  </div>
+</a>
+
+<style>
+  .card-d {
+    display: flex;
+    flex-direction: column;
+    background: var(--clr-off-white);
+    border: 1px solid var(--border-bold);
+    border-radius: 2px;
+    color: var(--text-strong);
+    text-decoration: none;
+
+    transition:
+      transform 150ms ease,
+      box-shadow 150ms ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--clr-red-500);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+
+      &:hover {
+        transform: none;
+      }
+    }
+  }
+
+  .media {
+    aspect-ratio: 296 / 286;
+    overflow: hidden;
+  }
+
+  .photo,
+  .placeholder {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  .placeholder {
+    background: var(--clr-gray-200);
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-lg);
+  }
+
+  .name {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    line-height: 1.2;
+    margin-block-end: var(--spacing-md);
+  }
+
+  .label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    letter-spacing: 1.76px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding-block-end: var(--spacing-xs);
+    border-block-end: 1px solid var(--border-bold);
+    margin-block-end: var(--spacing-sm);
+  }
+
+  .expertise {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: var(--font-size-sm);
+
+    & li {
+      padding-block: var(--spacing-2xs);
+    }
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2xs);
+    margin-block-start: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+
+    & svg {
+      inline-size: 0.875rem;
+      block-size: 0.875rem;
+    }
+  }
+
+  .card-d:hover .cta svg {
+    transform: translateX(2px);
+    transition: transform 150ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card-d:hover .cta svg {
+      transform: none;
+    }
+  }
+</style>
