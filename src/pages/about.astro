@@ -4,6 +4,31 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 // assets
 import myImage from "@assets/About.jpg";
+import SectionA from "@components/structure/SectionA.astro";
+import SectionHeading from "@components/ui/SectionHeading.astro";
+import Typography from "../components/ui/Typography.astro";
+import SectionB from "../components/structure/SectionB.astro";
+import ListItemA from "../components/ListItemA.astro";
+
+// data
+const promises = [
+  {
+    title: "Health",
+    description: "For a sound mind and body in the rigors of bar prep.",
+  },
+  {
+    title: "Peace",
+    description: "through the storms of doubt, fear, and exhaustion.",
+  },
+  {
+    title: "Victory",
+    description: "over every setback that ever told you to quit.",
+  },
+  {
+    title: "Restoration",
+    description: "of confidence, hope, and the vision of attorney.",
+  },
+];
 ---
 
 <BaseLayout title="About">
@@ -15,4 +40,82 @@ equipping law students globally on their journey to esquire and
 beyond."
     image={myImage}
   />
+  <SectionA sectionId="our-mission">
+    <SectionHeading
+      sectionId="our-mission"
+      eyebrow="Our Mission"
+      heading="To inspire, foster, and empower — through Christ."
+    />
+    <div class="flow">
+      <Typography tag="p" variant="body">
+        Our mission at Agape Christian Bar Prep is to inspire and foster the
+        learning of law students globally and empower them along their journey
+        to esquire and beyond, while sharing the love, comfort, and compassion
+        of Jesus Christ.
+      </Typography>
+
+      <Typography tag="p" variant="body">
+        To this end, we offer tutoring and bar exam preparation services to help
+        students prepare for success in law school and on the bar exam. We
+        specialize in helping students overcome psychological, environmental,
+        and programmatic barriers to learning so they can fully develop their
+        intellectual potential.
+      </Typography>
+
+      <Typography tag="blockquote" variant="body">
+        A supportive, personalized learning environment — built so that students
+        don't just prepare for the bar, but thrive and excel.
+      </Typography>
+
+      <Typography tag="p" variant="body">
+        Integrated into every program is an accountability system to help
+        students set goals, measure their individual progress, and improve where
+        necessary. Our students receive customized learning plans designed to
+        develop the independent learning, time management, and prioritization
+        skills needed to adequately prepare for the bar exam.
+      </Typography>
+    </div>
+  </SectionA>
+  <SectionB background="off-white" sectionId="our-story">
+    <div class="duplex">
+      <div class="flow">
+        <SectionHeading
+          sectionId="our-story"
+          eyebrow="Our Story"
+          heading="The History of Agape Christian Bar Prep"
+        />
+
+        <Typography tag="p" variant="body">
+          Agape Christian Bar Prep was founded in 2015 after our founder
+          received a divine calling from God to "help His people." Since then,
+          God has used Agape to build and restore the confidence, hope, and
+          vision of students whose dreams of becoming attorneys were once
+          shattered by challenging law school experiences or multiple
+          unsuccessful attempts at passing the bar.
+        </Typography>
+
+        <Typography tag="p" variant="body">
+          At Agape Christian Bar Prep, we do more than provide bar exam
+          preparation and tutoring services — we build success stories and
+          transform lives. Our unique curriculum not only promotes academic
+          growth, but offers students a profound opportunity to deepen their
+          relationship with Jesus and be reminded of His promises for their
+          lives.
+        </Typography>
+      </div>
+      <div class="flow">
+        <ul class="flow" style="--flow-space: var(--spacing-md);">
+          {
+            promises.map((step, i) => (
+              <ListItemA
+                number={String(i + 1).padStart(2, "0")}
+                title={step.title}
+                description={step.description}
+              />
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </SectionB>
 </BaseLayout>
