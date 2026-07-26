@@ -6,6 +6,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import CardA from "@components/Card-A.astro";
 import CardB from "@components/Card-B.astro";
 import CardC from "@components/Card-C.astro";
+import CardE from "@components/Card-E.astro";
 import HeroBanner from "@components/HeroBanner.astro";
 import ListItemA from "@components/ListItemA.astro";
 import SectionA from "@components/structure/SectionA.astro";
@@ -26,6 +27,10 @@ import IconRotateCw from "~icons/lucide/rotate-cw";
 
 // assets
 import myImage from "@assets/HomeHero.png";
+import aboutImage from "@assets/About.jpg";
+import holisticImage from "@assets/Holistic.jpg";
+import youngmanImage from "@assets/youngman.JPG";
+import communityImage from "@assets/community.jpg";
 
 // data arrays
 const stats = [
@@ -80,21 +85,25 @@ const features = [
     title: "Personalized 1-on-1 Tutoring",
     description:
       "We diagnose your gaps and rebuild your foundation subject by subject — no cookie-cutter curriculum.",
+    image: holisticImage,
   },
   {
     title: "A Holistic Approach",
     description:
       "Spiritual, mental, emotional, and academic support — because every part of you shows up on exam day.",
+    image: youngmanImage,
   },
   {
     title: "Faith-Centered Community",
     description:
       "Weekly team prayer, mentorship, and a family that walks with you from first session to exam day.",
+    image: communityImage,
   },
   {
     title: "Tutors Who've Been There",
     description:
       "Practicing attorneys who passed the bar and now coach others through it from the inside out.",
+    image: myImage,
   },
 ];
 const steps = [
@@ -203,22 +212,9 @@ const faq = [
       Maria · Jacksonville, FL
     </p>
   </HeroBanner>
-  <SectionB sectionId="equipping-attorneys" padding="compact">
+  <SectionB sectionId="Services" width="wide">
     <SectionHeading
-      sectionId="equipping-attorneys"
-      heading="Equipping attorneys to
-        pass — and to grow."
-    />
-    <div class="triplex">
-      {
-        stats.map((stat) => (
-          <CardA value={stat.value} description={stat.description} />
-        ))
-      }
-    </div>
-  </SectionB>
-  <SectionB sectionId="Services" background="off-white" padding="default">
-    <SectionHeading
+      eyebrow="Services"
       sectionId="Services"
       heading="How We Help"
       body="Whether you're sitting for the bar for the first time, returning after a setback, or still in law school, Agape meets you where you are."
@@ -240,8 +236,22 @@ const faq = [
       }
     </div>
   </SectionB>
-  <SectionA sectionId="theAgapeWay" dark padding="generous" split="wide-start">
-    <div class="flow" style="--flow-space: var(--spacing-lg);">
+  <SectionB sectionId="equipping-attorneys" background="off-white">
+    <SectionHeading
+      sectionId="equipping-attorneys"
+      heading="Equipping attorneys to
+        pass — and to grow."
+    />
+    <div class="triplex">
+      {
+        stats.map((stat) => (
+          <CardA value={stat.value} description={stat.description} />
+        ))
+      }
+    </div>
+  </SectionB>
+  <SectionB sectionId="theAgapeWay" width="wide">
+    <div class="duplex">
       <SectionHeading
         eyebrow="Our Approach"
         sectionId="theAgapeWay"
@@ -251,39 +261,27 @@ const faq = [
 stamina, confidence, and resolve. Our four-part approach
 addresses the whole person."
       />
-      <div>
-        <ul class="flow" style="--flow-space: var(--spacing-md);">
-          {
-            features.map((feature, i) => (
-              <ListItemA
-                number={String(i + 1).padStart(2, "0")}
-                title={feature.title}
-                description={feature.description}
-              />
-            ))
-          }
-        </ul>
+      <div class="cta">
+        <Button variant="outline">
+          Learn more <span class="visually-hidden">about our approach</span>
+          <ArrowRightIcon />
+        </Button>
       </div>
-      <Button variant="accent">
-        Learn more <span class="visually-hidden">about our approach</span>
-        <ArrowRightIcon />
-      </Button>
     </div>
 
-    <div class="flow">
-      <CardA
-        value="100%"
-        description="Custom study plans — every student receives a unique plan built around their exam date and specific weak areas.
-"
-      />
-
-      <CardA
-        value="4-part"
-        description="Holistic support model — spiritual, mental, emotional, and academic. No other bar prep does this."
-      />
+    <div class="quad">
+      {
+        features.map((feature) => (
+          <CardE
+            title={feature.title}
+            description={feature.description}
+            image={feature.image}
+          />
+        ))
+      }
     </div>
-  </SectionA>
-  <SectionB sectionId="testimonials" background="off-white" padding="default">
+  </SectionB>
+  <SectionB sectionId="testimonials" background="off-white" width="wide">
     <SectionHeading
       eyebrow="testimonials"
       sectionId="testimonials"
@@ -304,7 +302,7 @@ addresses the whole person."
       }
     </Scroller>
   </SectionB>
-  <SectionA sectionId="getting-started" padding="compact">
+  <SectionA sectionId="getting-started" width="narrow">
     <div class="flow" style="--flow-space: var(--spacing-lg);">
       <SectionHeading
         eyebrow="Getting Started"
@@ -327,11 +325,10 @@ addresses the whole person."
       }
     </ul>
   </SectionA>
-  <SectionB
+  <SectionA
     sectionId="frequently-asked-questions"
     background="off-white"
-    padding="spacious"
-    measure="narrow"
+    width="wide"
   >
     <SectionHeading
       sectionId="frequently-asked-questions"
@@ -339,8 +336,8 @@ addresses the whole person."
       align="center"
     />
     <Accordian name="faq" items={faq} />
-  </SectionB>
-  <SectionA sectionId="about-agape" padding="generous" split="wide-end">
+  </SectionA>
+  <SectionA sectionId="about-agape" width="narrow">
     <div class="flow" style="--flow-space: var(--spacing-lg);">
       <SectionHeading
         sectionId="about-agape"
@@ -374,6 +371,16 @@ addresses the whole person."
     aspect-ratio: 1 / 1;
     inline-size: 100%;
     background: var(--clr-gray-400);
+  }
+
+  .cta {
+    display: flex;
+    align-items: end;
+    justify-content: start;
+
+    @media (width > 800px) {
+      justify-content: end;
+    }
   }
 
   ul:not(.steps) li:not(:last-child) {

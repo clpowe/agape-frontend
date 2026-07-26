@@ -4,131 +4,123 @@ import Button from "@ui/Button.astro";
 import MobileNav from "./MobileNav.astro";
 
 const navigationItems = [
-    { label: "About", href: "/about", kind: "link" },
-    { label: "Services", href: "", kind: "link" },
-    { label: "Contact", href: "", kind: "link" },
-    { label: "How it works", href: "", kind: "link" },
-    { label: "FAQ", href: "", kind: "link" },
-    { label: "904-234-2853", href: "tel:9042342853", kind: "phone" },
-    { label: "Apply Now", href: "/apply", kind: "button" },
+  { label: "About", href: "/about", kind: "link" },
+  { label: "Services", href: "", kind: "link" },
+  { label: "Contact", href: "", kind: "link" },
+  { label: "How it works", href: "", kind: "link" },
+  { label: "FAQ", href: "", kind: "link" },
+  { label: "904-234-2853", href: "tel:9042342853", kind: "phone" },
+  { label: "Apply Now", href: "/apply", kind: "button" },
 ] as const;
 ---
 
 <header class="site-header">
-    <div class="container">
-        <div class="site-header_inner">
-            <a href="/" class="logo-box">
-                <Logo class="logo" />
-                <div>
-                    <p class="agape">Agape Christian</p>
-                    <p class="bar">Bar Prep & Training</p>
-                </div>
-            </a>
-
-            <MobileNav />
-            <nav class="primary-navigation">
-                <ul>
-                    {
-                        navigationItems.map(({ label, href, kind }) => (
-                            <li>
-                                {kind === "button" ? (
-                                    <Button
-                                        as="a"
-                                        variant="primary"
-                                        href={href}
-                                    >
-                                        {label}
-                                    </Button>
-                                ) : (
-                                    <a
-                                        class={
-                                            kind === "phone"
-                                                ? "phone"
-                                                : "nav-link"
-                                        }
-                                        href={href}
-                                    >
-                                        {label}
-                                    </a>
-                                )}
-                            </li>
-                        ))
-                    }
-                </ul>
-            </nav>
+  <div class="container" data-width="wide">
+    <div class="site-header_inner">
+      <a href="/" class="logo-box">
+        <Logo class="logo" />
+        <div>
+          <p class="agape">Agape Christian</p>
+          <p class="bar">Bar Prep & Training</p>
         </div>
+      </a>
+
+      <MobileNav />
+      <nav class="primary-navigation">
+        <ul>
+          {
+            navigationItems.map(({ label, href, kind }) => (
+              <li>
+                {kind === "button" ? (
+                  <Button as="a" variant="primary" href={href}>
+                    {label}
+                  </Button>
+                ) : (
+                  <a
+                    class={kind === "phone" ? "phone" : "nav-link"}
+                    href={href}
+                  >
+                    {label}
+                  </a>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
     </div>
+  </div>
 </header>
 
 <style>
-    .site-header {
-        position: relative;
-        padding-block: var(--spacing-sm);
-        border-bottom: 1px solid var(--border-bold);
-    }
-    .site-header_inner {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+  .site-header {
+    position: relative;
+    padding-block: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-bold);
+  }
+  .site-header_inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-    .primary-navigation {
-        ul {
-            display: flex;
-            list-style: none;
-            gap: var(--spacing-md);
-            align-items: center;
-            padding: 0;
-        }
-
-        .nav-link {
-            unset: all;
-            text-decoration: none;
-            cursor: pointer;
-            font-size: var(--font-size-sm);
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-weight: 500;
-            letter-spacing: 1.76px;
-
-            &:hover {
-                color: var(--clr-red-500);
-            }
-        }
-
-        .phone {
-            color: var(--clr-red-500);
-        }
-
-        @media (width < 881px) {
-            display: none;
-        }
+  .primary-navigation {
+    ul {
+      display: flex;
+      list-style: none;
+      gap: var(--spacing-md);
+      align-items: center;
+      padding: 0;
     }
 
-    .logo-box {
-        all: unset;
-        cursor: pointer;
-        display: grid;
-        grid-template-columns: auto auto;
-        gap: var(--spacing-xs);
-        text-decoration: none;
+    .nav-link {
+      unset: all;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: var(--font-size-sm);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 500;
+      letter-spacing: 1.76px;
 
-        .logo {
-            unset: all;
-            height: 55px;
-        }
-
-        .agape {
-            font-family: var(--ff-heading);
-            font-size: var(--font-size-lg);
-            font-weight: 600;
-        }
-
-        .bar {
-            font-size: var(--font-size-sm);
-            text-transform: uppercase;
-            font-weight: 400;
-            color: var(--text-muted);
-        }
+      &:hover {
+        color: var(--clr-red-500);
+      }
     }
+
+    .phone {
+      color: var(--clr-red-500);
+    }
+
+    @media (width < 881px) {
+      display: none;
+    }
+  }
+
+  .logo-box {
+    all: unset;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: var(--spacing-xs);
+    text-decoration: none;
+
+    .logo {
+      unset: all;
+      height: 55px;
+    }
+
+    .agape {
+      font-family: var(--ff-heading);
+      font-size: var(--font-size-lg);
+      font-weight: 600;
+    }
+
+    .bar {
+      font-size: var(--font-size-sm);
+      text-transform: uppercase;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+  }
 </style>

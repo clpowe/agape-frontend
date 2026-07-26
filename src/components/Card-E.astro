@@ -1,0 +1,84 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  title: string;
+  description: string;
+  image: ImageMetadata;
+  imageAlt?: string;
+}
+
+const { title, description, image, imageAlt = "" } = Astro.props;
+---
+
+<article class="card-e">
+  <Image class="media" src={image} alt={imageAlt} />
+
+  <div class="body">
+    <h3 class="title">{title}</h3>
+    <hr class="divider" />
+    <p class="description">{description}</p>
+  </div>
+</article>
+
+<style>
+  .card-e {
+    position: relative;
+    display: flex;
+    align-items: end;
+    overflow: hidden;
+    min-block-size: 32rem;
+    color: var(--clr-white);
+    isolation: isolate;
+  }
+
+  .media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  .card-e::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      to top,
+      var(--clr-gray-950) 0%,
+      color-mix(in oklab, var(--clr-gray-950) 55%, transparent) 45%,
+      transparent 100%
+    );
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xl);
+  }
+
+  .title {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-xl);
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .divider {
+    inline-size: 100%;
+    block-size: 0;
+    margin: 0;
+    border: 0;
+    border-block-start: 1px solid
+      color-mix(in oklab, var(--clr-white) 45%, transparent);
+  }
+
+  .description {
+    font-size: var(--font-size-sm);
+    text-wrap: pretty;
+  }
+</style>
