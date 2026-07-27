@@ -2,8 +2,8 @@
 import Typography from "@ui/Typography.astro";
 
 interface Props {
-  number: string;
-  title: string;
+  number?: string;
+  title?: string;
   description: string;
 }
 
@@ -12,9 +12,9 @@ const { number, title, description } = Astro.props;
 
 <li>
   <div class="item">
-    <p class="number">{number}</p>
+    {number ? <p class="number">{number}</p> : <div class="dot" />}
     <div class="content flow">
-      <h3>{title}</h3>
+      {title && <h3>{title}</h3>}
       <Typography variant="body">{description}</Typography>
     </div>
   </div>
@@ -23,7 +23,7 @@ const { number, title, description } = Astro.props;
 <style>
   .item {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: min-content auto;
     gap: var(--spacing-xl);
   }
   .number {
@@ -33,6 +33,13 @@ const { number, title, description } = Astro.props;
     font-family: var(--ff-heading);
     font-weight: 600;
     font-size: var(--font-size-6xl);
+  }
+  .dot {
+    height: 0.75rem;
+    width: 0.75rem;
+    border-radius: 999999rem;
+    background-color: var(--clr-red-500);
+    margin-top: var(--spacing-2xs);
   }
   h3 {
     font-family: var(--ff-heading);

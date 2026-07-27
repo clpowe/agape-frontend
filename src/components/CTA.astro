@@ -35,7 +35,7 @@ const telHref = `tel:+${phone.replace(/\D/g, "")}`;
 ---
 
 <SectionB sectionId={sectionId} background="accent">
-  <div class="cta">
+  <div class="cta container">
     <h2 id={headingId} class="cta-heading">{heading}</h2>
     <Typography variant="body">{body}</Typography>
 
@@ -77,7 +77,6 @@ const telHref = `tel:+${phone.replace(/\D/g, "")}`;
     font-family: var(--ff-heading);
     font-size: var(--font-size-4xl);
     font-weight: 400;
-    max-width: 20ch;
     min-width: 0;
     overflow-wrap: anywhere;
 
@@ -91,7 +90,6 @@ const telHref = `tel:+${phone.replace(/\D/g, "")}`;
     flex-wrap: wrap;
     justify-content: center;
     gap: var(--spacing-sm);
-    margin-block-start: var(--spacing-lg);
   }
 
   .cta-contact {
@@ -99,7 +97,6 @@ const telHref = `tel:+${phone.replace(/\D/g, "")}`;
     display: grid;
     justify-items: center;
     gap: var(--spacing-3xs);
-    margin-block-start: var(--spacing-lg);
     font-size: var(--font-size-md);
   }
 

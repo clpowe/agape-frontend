@@ -107,7 +107,7 @@
     interpolate-size: allow-keywords;
 
     --clr-white: hsl(0, 0%, 100%);
-    --clr-off-white: hsl(38, 33%, 95%);
+    --clr-off-white: hsl(38, 33%, 96.5%);
 
     --clr-gray-50: oklch(98.51% 0 0);
     --clr-gray-100: oklch(97.02% 0 0);

@@ -39,10 +39,6 @@ const {
 
     <p class="label">{label}</p>
 
-    <ul class="expertise">
-      {expertise.map((item) => <li>{item}</li>)}
-    </ul>
-
     <span class="cta" aria-hidden="true">
       {cta}
       <ArrowRightIcon />
@@ -122,17 +118,6 @@ const {
     padding-block-end: var(--spacing-xs);
     border-block-end: 1px solid var(--border-bold);
     margin-block-end: var(--spacing-sm);
-  }
-
-  .expertise {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: var(--font-size-sm);
-
-    & li {
-      padding-block: var(--spacing-2xs);
-    }
   }
 
   .cta {

@@ -13,6 +13,7 @@ import CardA from "@components/Card-A.astro";
 import CardD from "@components/Card-D.astro";
 import Button from "@components/ui/Button.astro";
 import CTA from "@/components/CTA.astro";
+import ListA from "@/components/ui/ListA.astro";
 
 // data
 const promises = [
@@ -22,15 +23,15 @@ const promises = [
   },
   {
     title: "Peace",
-    description: "through the storms of doubt, fear, and exhaustion.",
+    description: "Peace through the storms of doubt, fear, and exhaustion.",
   },
   {
     title: "Victory",
-    description: "over every setback that ever told you to quit.",
+    description: "Victory over every setback that ever told you to quit.",
   },
   {
     title: "Restoration",
-    description: "of confidence, hope, and the vision of attorney.",
+    description: "Restoration of confidence, hope, and the vision of attorney.",
   },
 ];
 
@@ -156,13 +157,16 @@ beyond."
     </div>
   </SectionA>
   <SectionB background="off-white" sectionId="our-story">
-    <SectionHeading
-      sectionId="our-story"
-      eyebrow="Our Story"
-      heading="The History of Agape Christian Bar Prep"
-    />
+    <div>
+      <p class="mini-head"><span>2015</span> founded on faith</p>
+    </div>
     <div class="duplex">
       <div class="flow">
+        <SectionHeading
+          sectionId="our-story"
+          eyebrow="Our Story"
+          heading="The History of Agape Christian Bar Prep"
+        />
         <Typography tag="p" variant="body">
           Agape Christian Bar Prep was founded in 2015 after our founder
           received a divine calling from God to "help His people." Since then,
@@ -183,17 +187,9 @@ beyond."
       </div>
       <div class="list flow">
         <h3>His Promises For Your Life</h3>
-        <ul class="flow" style="--flow-space: var(--spacing-md);">
-          {
-            promises.map((step, i) => (
-              <ListItemA
-                number={String(i + 1).padStart(2, "0")}
-                title={step.title}
-                description={step.description}
-              />
-            ))
-          }
-        </ul>
+        <ListA border>
+          {promises.map((step) => <ListItemA description={step.description} />)}
+        </ListA>
       </div>
     </div>
   </SectionB>
@@ -289,5 +285,15 @@ beyond."
     @media (width > 800px) {
       justify-content: end;
     }
+  }
+
+  .mini-head {
+    span {
+      font-family: var(--ff-heading);
+      color: var(--text-accent);
+      font-size: var(--font-size-6xl);
+    }
+    color: var(--text-muted);
+    text-transform: uppercase;
   }
 </style>
