@@ -1,6 +1,9 @@
 ---
+import { Image } from "astro:assets";
+
 // layout
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ListA from "@ui/ListA.astro";
 
 // components
 import CardA from "@components/Card-A.astro";
@@ -26,11 +29,11 @@ import IconPencil from "~icons/lucide/pencil";
 import IconRotateCw from "~icons/lucide/rotate-cw";
 
 // assets
-import myImage from "@assets/HomeHero.png";
-import aboutImage from "@assets/About.jpg";
+import myImage from "@assets/homeImage.jpg";
 import holisticImage from "@assets/Holistic.jpg";
 import youngmanImage from "@assets/youngman.JPG";
 import communityImage from "@assets/community.jpg";
+import TishaImage from "@assets/Tishia_Dunham.jpeg";
 
 // data arrays
 const stats = [
@@ -236,7 +239,8 @@ const faq = [
       }
     </div>
   </SectionB>
-  <SectionB sectionId="equipping-attorneys" background="off-white">
+  {
+    /*  <SectionB sectionId="equipping-attorneys" background="off-white">
     <SectionHeading
       sectionId="equipping-attorneys"
       heading="Equipping attorneys to
@@ -249,8 +253,9 @@ const faq = [
         ))
       }
     </div>
-  </SectionB>
-  <SectionB sectionId="theAgapeWay" width="wide">
+  </SectionB>*/
+  }
+  <SectionB sectionId="theAgapeWay" background="off-white" width="wide">
     <div class="duplex">
       <SectionHeading
         eyebrow="Our Approach"
@@ -281,7 +286,7 @@ addresses the whole person."
       }
     </div>
   </SectionB>
-  <SectionB sectionId="testimonials" background="off-white" width="wide">
+  <SectionB sectionId="testimonials" width="wide">
     <SectionHeading
       eyebrow="testimonials"
       sectionId="testimonials"
@@ -302,43 +307,17 @@ addresses the whole person."
       }
     </Scroller>
   </SectionB>
-  <SectionA sectionId="getting-started" width="narrow">
-    <div class="flow" style="--flow-space: var(--spacing-lg);">
-      <SectionHeading
-        eyebrow="Getting Started"
-        sectionId="getting-started"
-        heading="How to Get Started"
-        body="Most people don't apply because they don't know what happens next. Here's the path from first contact to exam day."
-      />
-      <Button variant="accent">Apply Now</Button>
-    </div>
 
-    <ul class="flow" style="--flow-space: var(--spacing-md);">
-      {
-        steps.map((step, i) => (
-          <ListItemA
-            number={String(i + 1).padStart(2, "0")}
-            title={step.title}
-            description={step.description}
-          />
-        ))
-      }
-    </ul>
-  </SectionA>
-  <SectionA
-    sectionId="frequently-asked-questions"
-    background="off-white"
-    width="wide"
-  >
-    <SectionHeading
-      sectionId="frequently-asked-questions"
-      heading="Frequently Asked Questions"
-      align="center"
+  <SectionA sectionId="about-agape" background="off-white" width="narrow">
+    <Image
+      alt="A picture of Agape Christian founder Tishia Dunham"
+      class="about-image"
+      src={TishaImage}
     />
-    <Accordian name="faq" items={faq} />
-  </SectionA>
-  <SectionA sectionId="about-agape" width="narrow">
-    <div class="flow" style="--flow-space: var(--spacing-lg);">
+    <div
+      class="flow"
+      style="--flow-space: var(--spacing-lg); align-self:center;"
+    >
       <SectionHeading
         sectionId="about-agape"
         heading="About Agape"
@@ -352,9 +331,40 @@ addresses the whole person."
       </Typography>
       <Button href="/about">Meet the Team</Button>
     </div>
-
-    {/* Placeholder — swap for <Image /> once the real asset lands */}
-    <div class="about-image" aria-hidden="true"></div>
+  </SectionA>
+  <SectionA sectionId="getting-started" width="narrow">
+    <div class="flow" style="--flow-space: var(--spacing-lg);">
+      <SectionHeading
+        eyebrow="Getting Started"
+        sectionId="getting-started"
+        heading="How to Get Started"
+        body="Most people don't apply because they don't know what happens next. Here's the path from first contact to exam day."
+      />
+      <Button variant="accent">Apply Now</Button>
+    </div>
+    <ListA border={true} space="wide">
+      {
+        steps.map((step, i) => (
+          <ListItemA
+            number={String(i + 1).padStart(2, "0")}
+            title={step.title}
+            description={step.description}
+          />
+        ))
+      }
+    </ListA>
+  </SectionA>
+  <SectionA
+    sectionId="frequently-asked-questions"
+    background="off-white"
+    width="wide"
+  >
+    <SectionHeading
+      sectionId="frequently-asked-questions"
+      heading="Frequently Asked Questions"
+      align="center"
+    />
+    <Accordian name="faq" items={faq} />
   </SectionA>
   <CTA />
 </BaseLayout>
@@ -369,8 +379,11 @@ addresses the whole person."
 
   .about-image {
     aspect-ratio: 1 / 1;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: top;
     inline-size: 100%;
-    background: var(--clr-gray-400);
   }
 
   .cta {
@@ -381,10 +394,5 @@ addresses the whole person."
     @media (width > 800px) {
       justify-content: end;
     }
-  }
-
-  ul:not(.steps) li:not(:last-child) {
-    padding-bottom: var(--spacing-md);
-    border-bottom: 1px solid var(--border-muted);
   }
 </style>

@@ -1,0 +1,33 @@
+---
+interface Props {
+  space?: "default" | "tight" | "wide";
+  border?: boolean;
+}
+
+const { space = "default", border = false } = Astro.props;
+---
+
+<ul class="flow" data-space={space} data-border={border}>
+  <slot />
+</ul>
+
+<style>
+  ul {
+    --flow-space: var(--spacing-xl);
+
+    &[data-border="true"] {
+      li:not(:last-of-type) {
+        padding-bottom: var(--flow-space);
+        border-bottom: 1px solid var(--border-muted);
+      }
+    }
+
+    &[data-space="tight"] {
+      --flow-space: var(--spacing-lg);
+    }
+
+    &[data-space="wide"] {
+      --flow-space: var(--spacing-2xl);
+    }
+  }
+</style>

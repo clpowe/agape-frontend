@@ -114,7 +114,7 @@
     --clr-gray-200: oklch(92.19% 0 0);
     --clr-gray-300: oklch(86.99% 0 0);
     --clr-gray-400: oklch(70.9% 0 0);
-    --clr-gray-500: oklch(55.55% 0 0);
+    --clr-gray-500: oklch(60.55% 0 0);
     --clr-gray-600: oklch(43.86% 0 0);
     --clr-gray-700: oklch(37.15% 0 0);
     --clr-gray-800: oklch(26.86% 0 0);
@@ -185,7 +185,7 @@
     --font-size-6xl: var(--fs-950);
 
     --border-bold: var(--clr-gray-300);
-    --border-muted: var(--clr-gray-100);
+    --border-muted: var(--clr-gray-200);
 
     --border-inverted-bold: var(--clr-gray-600);
     --border-inverted-muted: var(--clr-gray-800);
@@ -250,7 +250,7 @@
     margin-block-start: var(--flow-space, var(--spacing-md));
   }
   .container {
-    --container-max-width: 1200px;
+    --container-max-width: 1300px;
     --container-padding: 1rem;
 
     max-width: var(--container-max-width);
@@ -260,20 +260,21 @@
     box-sizing: content-box;
 
     &[data-width="narrow"] {
-      --container-max-width: 1000px;
+      --container-max-width: 1100px;
     }
 
     &[data-width="wide"] {
-      --container-max-width: 1400px;
+      --container-max-width: 1600px;
     }
   }
   .duplex {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--spacing-md);
+    gap: var(--spacing-xl);
 
     @media (width > 800px) {
       grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-2xl);
     }
   }
 
@@ -292,7 +293,7 @@
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
 
-    @media (width > 950px) {
+    @media (width > 600px) {
       grid-template-columns: repeat(2, 1fr);
     }
 

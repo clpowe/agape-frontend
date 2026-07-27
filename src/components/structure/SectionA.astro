@@ -34,7 +34,7 @@ const headingId = `${sectionId}-heading`;
     background-color: var(--clr-white);
     color: var(--text-strong);
     padding-inline: var(--spacing-md);
-    padding-block: clamp(var(--spacing-4xl), 5vh + 1rem, var(--spacing-6xl));
+    padding-block: clamp(var(--spacing-4xl), 10vh + 1rem, var(--spacing-6xl));
 
     &[data-background="off-white"] {
       background-color: var(--clr-off-white);
@@ -48,11 +48,11 @@ const headingId = `${sectionId}-heading`;
   .section-a {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--spacing-xl);
+    gap: var(--spacing-4xl);
 
     @media (width > 800px) {
       grid-template-columns: 1fr 1fr;
-      gap: var(--spacing-2xl);
+      gap: var(--spacing-4xl);
     }
   }
 </style>

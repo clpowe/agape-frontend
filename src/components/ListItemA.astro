@@ -23,17 +23,23 @@ const { number, title, description } = Astro.props;
 <style>
   .item {
     display: grid;
-    grid-template-columns: 4ch auto;
+    grid-template-columns: auto auto;
+    gap: var(--spacing-xl);
   }
   .number {
     text-align: center;
     color: var(--text-accent);
+    line-height: 0.5;
+    font-family: var(--ff-heading);
+    font-weight: 600;
+    font-size: var(--font-size-6xl);
   }
   h3 {
     font-family: var(--ff-heading);
-    font-size: var(--spacing-lg);
+    font-size: var(--font-size-xl);
+    line-height: 1;
   }
   .content {
-    --flow-space: var(--spacing-2xs);
+    --flow-space: var(--spacing-md);
   }
 </style>
