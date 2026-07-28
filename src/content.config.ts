@@ -12,13 +12,10 @@ const strapi = {
 };
 
 const teachers = defineCollection({
-  loader: strapiLoader("teachers", strapi, {
-    populate: {
-      portrait: true,
-      practice_areas: true,
-      credentials: true,
-    },
-  }),
+  // `populate: "*"` covers every first-level relation, component and media
+  // field. Naming keys explicitly makes Strapi 400 when an environment's schema
+  // does not have one of them, which breaks the build on schema skew.
+  loader: strapiLoader("teachers", strapi, { populate: "*" }),
   schema: teachersSchema,
 });
 
