@@ -11,6 +11,12 @@ const strapi = {
   token: import.meta.env.STRAPI_TOKEN,
 };
 
+console.log(
+  "[env-probe] url=%s tokenLen=%s",
+  strapi.url,
+  strapi.token ? String(strapi.token).length : "NONE",
+);
+
 const teachers = defineCollection({
   // `populate: "*"` covers every first-level relation, component and media
   // field. Naming keys explicitly makes Strapi 400 when an environment's schema

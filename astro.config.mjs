@@ -5,7 +5,9 @@ import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
-  adapter: cloudflare(),
+  // Every route is prerendered, so the deployed Worker is static assets only and
+  // has no `/_image` endpoint. "compile" processes images at build time instead.
+  adapter: cloudflare({ imageService: "compile" }),
 
   fonts: [
     {
