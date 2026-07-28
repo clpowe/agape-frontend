@@ -14,6 +14,8 @@ import CardD from "@components/Card-D.astro";
 import Button from "@components/ui/Button.astro";
 import CTA from "@/components/CTA.astro";
 import ListA from "@/components/ui/ListA.astro";
+import { teacherSlug } from "@/data/teachers";
+import { getCollection } from "astro:content";
 
 // data
 const promises = [
@@ -56,42 +58,6 @@ const steps = [
   },
 ];
 
-const team = [
-  {
-    name: "Tishia Dunham",
-    href: "#team",
-    expertise: [
-      "Civil Procedure",
-      "Constitutional Law",
-      "Evidence",
-      "Torts",
-      "Legal Writing",
-    ],
-  },
-  {
-    name: "Marcus Ellery",
-    href: "#team",
-    expertise: [
-      "Contracts",
-      "Criminal Law",
-      "Criminal Procedure",
-      "Real Property",
-      "Essay Strategy",
-    ],
-  },
-  {
-    name: "Naomi Prescott",
-    href: "#team",
-    expertise: [
-      "Business Associations",
-      "Family Law",
-      "Wills & Trusts",
-      "Performance Test",
-      "MBE Drills",
-    ],
-  },
-];
-
 const tutorStats = [
   {
     value: "5",
@@ -109,6 +75,22 @@ const tutorStats = [
       "Direct access — students work with tutors, not video courses or assistants.",
   },
 ];
+
+const team = (await getCollection("teachers")).map(({ data }) => {
+  // Strapi serves pre-generated sizes; the cards never need the full upload.
+  // Astro can't optimize these itself — the /_image endpoint 404s on Cloudflare.
+  const portrait = data.portrait?.formats?.large ?? data.portrait;
+
+  return {
+    name: data.name,
+    title: data.title,
+    image: portrait
+      ? { src: portrait.url, width: portrait.width, height: portrait.height }
+      : undefined,
+    imageAlt: data.portrait?.alternativeText ?? undefined,
+    href: `/teachers/${teacherSlug(data.name)}`,
+  };
+});
 ---
 
 <BaseLayout title="About">
@@ -258,7 +240,9 @@ beyond."
         team.map((member) => (
           <CardD
             name={member.name}
-            expertise={member.expertise}
+            image={member.image}
+            imageAlt={member.imageAlt}
+            title={member.title}
             href={member.href}
           />
         ))

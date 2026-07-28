@@ -1,0 +1,165 @@
+---
+import { Image } from "astro:assets";
+import Typography from "@ui/Typography.astro";
+
+interface RemoteImage {
+  src: string;
+  width: number;
+  height: number;
+}
+
+interface Highlight {
+  eyebrow?: string;
+  text: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  name: string;
+  quote?: string;
+  image?: ImageMetadata | RemoteImage;
+  imageAlt?: string;
+  highlight?: Highlight;
+}
+
+const { eyebrow, name, quote, image, imageAlt = "", highlight } = Astro.props;
+---
+
+<section class="teacher-hero">
+  <div class="container inner">
+    <div class="content flow">
+      <div class="heading-wrapper flow">
+        <Typography variant="eyebrow">{eyebrow}</Typography>
+        <h1 class="name">{name}</h1>
+      </div>
+
+      {quote && <p class="quote">{quote}</p>}
+
+      <div class="actions">
+        <slot name="actions" />
+      </div>
+
+      <slot />
+    </div>
+
+    <div class="portrait">
+      {
+        image && (
+          <Image
+            class="photo"
+            src={"format" in image ? image : image.src}
+            width={image.width}
+            height={image.height}
+            alt={imageAlt}
+          />
+        )
+      }
+
+      {
+        highlight && (
+          <div class="highlight">
+            {highlight.eyebrow && (
+              <p class="highlight-eyebrow">{highlight.eyebrow}</p>
+            )}
+            <p class="highlight-text">{highlight.text}</p>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .teacher-hero {
+    background-color: var(--clr-off-white);
+    padding-inline: var(--spacing-md);
+    padding-block: clamp(var(--spacing-4xl), 8vh + 1rem, var(--spacing-6xl));
+  }
+
+  .inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    gap: var(--spacing-4xl);
+
+    @media (width > 800px) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 400px);
+      gap: var(--spacing-6xl);
+    }
+  }
+
+  .content {
+    max-width: 600px;
+  }
+
+  .heading-wrapper {
+    --flow-space: var(--spacing-2xs);
+  }
+
+  .name {
+    font-size: var(--font-size-4xl);
+    font-weight: 500;
+    line-height: 1.05;
+
+    @media (width > 800px) {
+      font-size: var(--font-size-6xl);
+    }
+  }
+
+  .quote {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-lg);
+    font-style: italic;
+    color: var(--clr-gray-700);
+    text-wrap: pretty;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+
+  /* Portrait keeps the designed 412:500 box even before the image loads —
+     the panel doubles as the placeholder. */
+  .portrait {
+    position: relative;
+    aspect-ratio: 412 / 500;
+    background-color: var(--clr-blue-600);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .photo {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  .highlight {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-end: var(--spacing-lg);
+    max-inline-size: 240px;
+    background-color: var(--clr-yellow-500);
+    border-radius: 2px;
+    padding: var(--spacing-lg) var(--spacing-xl);
+  }
+
+  .highlight-eyebrow {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--clr-gray-950) 60%, transparent);
+  }
+
+  .highlight-text {
+    margin-block-start: var(--spacing-2xs);
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--clr-gray-950);
+  }
+</style>

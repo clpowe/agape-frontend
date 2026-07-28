@@ -1,0 +1,599 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import CTA from "@components/CTA.astro";
+import TeacherHero from "@components/TeacherHero.astro";
+import SectionA from "@components/structure/SectionA.astro";
+import Button from "@ui/Button.astro";
+import ListA from "@ui/ListA.astro";
+import SectionHeading from "@ui/SectionHeading.astro";
+import Typography from "@ui/Typography.astro";
+import { teacherSlug } from "@/data/teachers";
+import { getCollection } from "astro:content";
+import type { InferGetStaticPropsType } from "astro";
+
+// icons
+import ArrowRightIcon from "~icons/lucide/arrow-right";
+import MailIcon from "~icons/lucide/mail";
+import MapPinIcon from "~icons/lucide/map-pin";
+import PhoneIcon from "~icons/lucide/phone";
+
+export async function getStaticPaths() {
+  const teachers = await getCollection("teachers");
+
+  // flatMap keeps `name` non-nullable in the props, so the page never needs a
+  // non-null assertion.
+  return teachers.flatMap((teacher) =>
+    teacher.data.name
+      ? [
+          {
+            params: { teachersname: teacherSlug(teacher.data.name) },
+            props: { teacher, name: teacher.data.name },
+          },
+        ]
+      : [],
+  );
+}
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { teacher, name } = Astro.props as Props;
+const { data } = teacher;
+
+const firstName = name.split(" ")[0];
+
+const bio = data.Bio ?? [];
+
+const blockText = (block: (typeof bio)[number]) =>
+  (block.children ?? []).map((child) => child.text ?? "").join("");
+const bioHeading = bio.find((block) => block.type === "heading");
+const bioBody = bio.filter((block) => block !== bioHeading);
+
+const expertise = (data.practice_areas ?? [])
+  .map((area) => area?.value)
+  .filter((value): value is string => Boolean(value));
+
+// Credentials land in two fixed cards: everything that isn't a bar admission
+// counts as education.
+const credentials = data.credentials ?? [];
+type Credential = (typeof credentials)[number];
+const isBarAdmission = (credential: Credential) =>
+  /bar admission/i.test(credential.label ?? "");
+
+const named = credentials.filter((credential) => credential?.primary);
+
+const credentialGroups = [
+  {
+    label: "Education",
+    items: named
+      .filter((credential) => !isBarAdmission(credential))
+      .map((credential) => ({
+        primary: credential.primary!,
+        // The per-item label ("Juris Doctor") is the only degree hint when
+        // Strapi leaves `secondary` empty.
+        secondary: credential.secondary ?? credential.label ?? null,
+      })),
+  },
+  {
+    label: "Bar Admission",
+    items: named.filter(isBarAdmission).map((credential) => ({
+      primary: credential.primary!,
+      secondary: credential.secondary ?? null,
+    })),
+  },
+].filter((group) => group.items.length > 0);
+
+// Strapi serves pre-generated sizes; the hero never needs the full upload.
+const portrait = data.portrait?.formats?.large ?? data.portrait;
+const heroImage = portrait
+  ? { src: portrait.url, width: portrait.width, height: portrait.height }
+  : undefined;
+
+const highlight = data.philosophy_quote
+  ? {
+      eyebrow: data.philosophy_attribution ?? undefined,
+      text: data.philosophy_quote,
+    }
+  : undefined;
+---
+
+<BaseLayout title={name}>
+  <TeacherHero
+    eyebrow={data.title ?? undefined}
+    name={name}
+    quote={data.quote ?? undefined}
+    image={heroImage}
+    imageAlt={data.portrait?.alternativeText ?? `Portrait of ${name}`}
+    highlight={highlight}
+  >
+    <Fragment slot="actions">
+      <Button href="/contact">Contact {firstName}</Button>
+      <Button variant="outline" href="/apply">
+        Apply to work with {firstName}
+        <ArrowRightIcon />
+      </Button>
+    </Fragment>
+  </TeacherHero>
+
+  {
+    expertise.length > 0 && (
+      <section class="expertise" aria-label={`Areas of expertise for ${name}`}>
+        <div class="container expertise-inner">
+          <p class="expertise-label">Expertise</p>
+          <ul class="tags">
+            {expertise.map((area) => (
+              <li class="tag">{area}</li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  <SectionA sectionId="teacher-bio" background="off-white">
+    <div class="flow">
+      <SectionHeading
+        sectionId="teacher-bio"
+        eyebrow="Teacher Bio"
+        heading={bioHeading ? blockText(bioHeading) : name}
+      />
+      <div class="bio flow">
+        {
+          bioBody.map((block) => {
+            const text = blockText(block);
+            if (!text) return null;
+
+            if (block.type === "quote") {
+              return (
+                <Typography tag="blockquote" variant="body">
+                  {text}
+                </Typography>
+              );
+            }
+
+            if (block.type === "heading") {
+              return <h3>{text}</h3>;
+            }
+
+            return (
+              <Typography tag="p" variant="body">
+                {text}
+              </Typography>
+            );
+          })
+        }
+      </div>
+    </div>
+    <div class="credential-cards flow">
+      {
+        credentialGroups.map((group) => (
+          <div class="credential-card flow">
+            <Typography variant="eyebrow">{group.label}</Typography>
+            <hr class="divider" />
+            <ListA space="tight">
+              {group.items.map((item) => (
+                <li class="credential-item">
+                  <p>{item.primary}</p>
+                  {item.secondary && (
+                    <p class="credential-secondary">{item.secondary}</p>
+                  )}
+                </li>
+              ))}
+            </ListA>
+          </div>
+        ))
+      }
+    </div>
+  </SectionA>
+
+  <SectionA sectionId="teacher-contact">
+    <div class="flow">
+      <SectionHeading
+        sectionId="teacher-contact"
+        eyebrow="Get in Touch"
+        heading={`Contact ${firstName}`}
+        body={`Have a question about your bar prep journey, your application, or how ${firstName} might support you? Send a message and you'll hear back within one business day.`}
+      />
+      <ListA space="tight" border>
+        <li class="contact-item">
+          <span class="contact-icon" aria-hidden="true"><MailIcon /></span>
+          <div>
+            <p class="contact-label">Email</p>
+            <a
+              class="contact-link"
+              href="mailto:agapechristianbarprep@gmail.com"
+            >
+              agapechristianbarprep@gmail.com
+            </a>
+            <p class="contact-note">
+              Best for application questions, scheduling, and document handoffs.
+            </p>
+          </div>
+        </li>
+        <li class="contact-item">
+          <span class="contact-icon" aria-hidden="true"><PhoneIcon /></span>
+          <div>
+            <p class="contact-label">Phone</p>
+            <a class="contact-link" href="tel:+19042342853">1-904-234-2853</a>
+            <p class="contact-note">
+              Best for time-sensitive questions and free consultations.
+              Voicemail is monitored.
+            </p>
+          </div>
+        </li>
+        <li class="contact-item">
+          <span class="contact-icon" aria-hidden="true"><MapPinIcon /></span>
+          <div>
+            <p class="contact-label">Mailing Address</p>
+            <address class="contact-link">
+              P.O. Box 26586<br />Jacksonville, FL 32226
+            </address>
+          </div>
+        </li>
+      </ListA>
+    </div>
+
+    <div>
+      <form class="contact-form flow" data-teacher-contact novalidate>
+        <div class="field">
+          <label for="contact-first-name">
+            First name <span class="required" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="contact-first-name"
+            name="firstName"
+            type="text"
+            autocomplete="given-name"
+            maxlength="80"
+            placeholder="Full name"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="contact-last-name">
+            Last name <span class="required" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="contact-last-name"
+            name="lastName"
+            type="text"
+            autocomplete="family-name"
+            maxlength="80"
+            placeholder="Last name"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="contact-email">
+            Email address <span class="required" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="contact-email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            inputmode="email"
+            maxlength="254"
+            placeholder="you@example.com"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="contact-subject">
+            Subject <span class="required" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="contact-subject"
+            name="subject"
+            type="text"
+            maxlength="120"
+            placeholder="How can I help?"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="contact-message">
+            Message <span class="required" aria-hidden="true">*</span>
+          </label>
+          <textarea
+            id="contact-message"
+            name="message"
+            rows="6"
+            maxlength="2000"
+            placeholder="Tell me about your goals and timeline..."
+            required></textarea>
+        </div>
+
+        {/* Spam trap — hidden from sight and from assistive tech. */}
+        <div class="honeypot" aria-hidden="true">
+          <label for="contact-company">Company</label>
+          <input
+            id="contact-company"
+            name="company"
+            type="text"
+            tabindex="-1"
+            autocomplete="off"
+          />
+        </div>
+
+        <Button as="button" type="submit" variant="accent">
+          Send Message
+          <ArrowRightIcon />
+        </Button>
+      </form>
+
+      <p
+        class="contact-success"
+        data-contact-success
+        hidden
+        tabindex="-1"
+        role="status"
+      >
+      </p>
+    </div>
+  </SectionA>
+
+  <CTA
+    sectionId="teacher-cta"
+    heading={`Ready to work with ${firstName}?`}
+    body="Apply now, or schedule a free consultation to talk through your bar prep plan."
+  />
+</BaseLayout>
+
+<style>
+  .expertise {
+    background-color: var(--clr-white);
+    border-block: 1px solid var(--border-muted);
+    padding-block: var(--spacing-2xl);
+    padding-inline: var(--spacing-md);
+  }
+
+  .expertise-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xl);
+  }
+
+  .expertise-label {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+
+    @media (width > 800px) {
+      padding-inline-end: var(--spacing-lg);
+      border-inline-end: 1px solid var(--border-muted);
+    }
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2xs);
+  }
+
+  .tag {
+    background-color: var(--clr-off-white);
+    border: 1px solid var(--border-bold);
+    border-radius: 100px;
+    padding: var(--spacing-3xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    color: var(--clr-gray-700);
+  }
+
+  .bio {
+    --flow-space: var(--spacing-sm);
+
+    h3 {
+      font-size: var(--font-size-xl);
+      font-weight: 400;
+    }
+  }
+
+  .credential-cards {
+    --flow-space: var(--spacing-md);
+  }
+
+  .credential-card {
+    --flow-space: var(--spacing-md);
+
+    background-color: var(--clr-white);
+    border: 1px solid var(--border-muted);
+    padding: var(--spacing-xl);
+  }
+
+  .divider {
+    border: none;
+    border-block-start: 1px solid var(--border-muted);
+  }
+
+  .credential-item p {
+    line-height: 1.2;
+  }
+
+  .credential-item .credential-secondary {
+    margin-block-start: var(--spacing-3xs);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  /* Contact details */
+  .contact-item {
+    display: grid;
+    grid-template-columns: min-content auto;
+    align-items: start;
+    gap: var(--spacing-md);
+  }
+
+  .contact-icon {
+    display: grid;
+    place-items: center;
+    inline-size: 44px;
+    block-size: 44px;
+    color: var(--text-strong);
+
+    & svg {
+      inline-size: 1.5rem;
+      block-size: 1.5rem;
+    }
+  }
+
+  .contact-label {
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    letter-spacing: 1.76px;
+    text-transform: uppercase;
+  }
+
+  .contact-link {
+    display: block;
+    margin-block-start: var(--spacing-3xs);
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-lg);
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text-strong);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+
+    &:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--clr-red-500);
+      outline-offset: 3px;
+    }
+  }
+
+  .contact-note {
+    margin-block-start: var(--spacing-3xs);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    text-wrap: pretty;
+  }
+
+  /* Contact form */
+  .contact-form {
+    --flow-space: var(--spacing-lg);
+  }
+
+  .field {
+    display: grid;
+    gap: var(--spacing-2xs);
+  }
+
+  .field label {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  .required {
+    color: var(--text-accent);
+  }
+
+  .field :is(input, textarea) {
+    inline-size: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--clr-white);
+    border: 1px solid var(--border-bold);
+    border-radius: 2px;
+    color: var(--text-strong);
+    font-size: var(--font-size-md);
+
+    &::placeholder {
+      color: var(--clr-gray-500);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--clr-red-500);
+      outline-offset: 2px;
+    }
+
+    /* Only flags fields the visitor has actually interacted with. */
+    &:user-invalid {
+      border-color: var(--clr-red-400);
+    }
+  }
+
+  .field textarea {
+    min-block-size: 160px;
+    resize: vertical;
+  }
+
+  .honeypot {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .contact-success {
+    background-color: var(--clr-white);
+    border-inline-start: 3px solid var(--text-accent);
+    padding: var(--spacing-xl);
+    color: var(--text-strong);
+    text-wrap: pretty;
+
+    &:focus-visible {
+      outline: 2px solid var(--clr-red-500);
+      outline-offset: 3px;
+    }
+  }
+</style>
+
+<script>
+  const forms = document.querySelectorAll<HTMLFormElement>(
+    "[data-teacher-contact]",
+  );
+
+  forms.forEach((form) => {
+    const success = form.parentElement?.querySelector<HTMLElement>(
+      "[data-contact-success]",
+    );
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      // The form carries `novalidate`, so the native messages are triggered here.
+      if (!form.reportValidity()) return;
+
+      const formData = new FormData(form);
+      const field = (name: string) => String(formData.get(name) ?? "").trim();
+
+      // Bots fill the hidden field; drop the submission without telling them.
+      if (field("company")) return;
+
+      const submission = {
+        firstName: field("firstName"),
+        lastName: field("lastName"),
+        email: field("email"),
+        subject: field("subject"),
+        message: field("message"),
+      };
+
+      console.log("Teacher contact submission", submission);
+
+      form.hidden = true;
+      form.reset();
+
+      if (!success) return;
+
+      // Unhide first so the live region is already exposed when the text lands,
+      // otherwise screen readers can miss the update.
+      success.hidden = false;
+
+      // textContent, never innerHTML — this string carries visitor input.
+      success.textContent = `Thanks, ${submission.firstName}! Your message is on its way, and you'll hear back within one business day.`;
+      success.focus();
+    });
+  });
+</script>

@@ -2,11 +2,17 @@
 import { Image } from "astro:assets";
 import ArrowRightIcon from "~icons/lucide/arrow-right";
 
+interface RemoteImage {
+  src: string;
+  width: number;
+  height: number;
+}
+
 interface Props {
   name: string;
-  expertise: string[];
+  title: string;
   href: string;
-  image?: ImageMetadata;
+  image?: ImageMetadata | RemoteImage;
   imageAlt?: string;
   label?: string;
   cta?: string;
@@ -14,11 +20,10 @@ interface Props {
 
 const {
   name,
-  expertise,
+  title,
   href,
   image,
   imageAlt = `Portrait of ${name}`,
-  label = "Expertise",
   cta = "Learn More",
 } = Astro.props;
 ---
@@ -27,7 +32,13 @@ const {
   <div class="media">
     {
       image ? (
-        <Image class="photo" src={image} alt={imageAlt} />
+        <Image
+          class="photo"
+          src={"format" in image ? image : image.src}
+          width={image.width}
+          height={image.height}
+          alt={imageAlt}
+        />
       ) : (
         <span class="placeholder" aria-hidden="true" />
       )
@@ -37,7 +48,7 @@ const {
   <div class="body">
     <h3 class="name">{name}</h3>
 
-    <p class="label">{label}</p>
+    <p class="label">{title}</p>
 
     <span class="cta" aria-hidden="true">
       {cta}

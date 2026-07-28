@@ -10,15 +10,22 @@ interface Badge {
   href: string;
 }
 
+interface RemoteImage {
+  src: string;
+  width: number;
+  height: number;
+}
+
 interface Props {
   eyebrow?: string;
   title: string;
   body?: string;
-  image: ImageMetadata;
+  image?: ImageMetadata | RemoteImage;
+  imageAlt?: string;
   badge?: Badge;
 }
 
-const { eyebrow, title, body, image, badge } = Astro.props;
+const { eyebrow, title, body, image, imageAlt = "", badge } = Astro.props;
 ---
 
 <section>
@@ -53,7 +60,17 @@ const { eyebrow, title, body, image, badge } = Astro.props;
         </a>
       )
     }
-    <Image class="main-image" src={image} alt="A description of my image." />
+    {
+      image && (
+        <Image
+          class="main-image"
+          src={"format" in image ? image : image.src}
+          width={image.width}
+          height={image.height}
+          alt={imageAlt}
+        />
+      )
+    }
   </div>
 </section>
 
