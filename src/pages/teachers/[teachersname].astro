@@ -101,7 +101,7 @@ const highlight = data.philosophy_quote
     eyebrow={data.title ?? undefined}
     name={name}
     quote={data.quote ?? undefined}
-    image={heroImage}
+    image={heroImage ?? un}
     imageAlt={data.portrait?.alternativeText ?? `Portrait of ${name}`}
     highlight={highlight}
   >

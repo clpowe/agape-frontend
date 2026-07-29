@@ -1,9 +1,12 @@
 ---
+import { Image } from "astro:assets";
+
 import HeroBanner from "@components/HeroBanner.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 // assets
 import myImage from "@assets/About.jpg";
+import TishaImage from "@assets/Agape_team.jpg";
 import SectionA from "@components/structure/SectionA.astro";
 import SectionHeading from "@components/ui/SectionHeading.astro";
 import Typography from "../components/ui/Typography.astro";
@@ -168,10 +171,18 @@ beyond."
         </Typography>
       </div>
       <div class="list flow">
-        <h3>His Promises For Your Life</h3>
+        <Image
+          alt="A picture of Agape Christian founder Tishia Dunham"
+          class="team-image"
+          src={TishaImage}
+        />
+
+        {
+          /* <h3>His Promises For Your Life</h3>
         <ListA border>
           {promises.map((step) => <ListItemA description={step.description} />)}
-        </ListA>
+        </ListA> */
+        }
       </div>
     </div>
   </SectionB>
@@ -279,5 +290,10 @@ beyond."
     }
     color: var(--text-muted);
     text-transform: uppercase;
+  }
+
+  .team-image {
+    width: 100%;
+    height: auto;
   }
 </style>
