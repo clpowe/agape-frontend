@@ -1,0 +1,177 @@
+---
+import Button from "@ui/Button.astro";
+import Typography from "@ui/Typography.astro";
+import ArrowRightIcon from "~icons/lucide/arrow-right";
+import CheckIcon from "~icons/lucide/check";
+
+interface Action {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  badge: string;
+  /** Badge tint. `red` is the primary track, `blue` the secondary one. */
+  tone?: "red" | "blue";
+  title: string;
+  description: string;
+  listTitle?: string;
+  items: readonly string[];
+  action: Action;
+  actionVariant?: "accent" | "primary";
+}
+
+const {
+  badge,
+  tone = "red",
+  title,
+  description,
+  listTitle = "What you'll provide",
+  items,
+  action,
+  actionVariant = "accent",
+} = Astro.props;
+---
+
+<article class="lockup">
+  <header class="lockup-header">
+    <span class="badge" data-tone={tone}>
+      <span class="badge-dot" aria-hidden="true"></span>
+      {badge}
+    </span>
+    <h3 class="lockup-title">{title}</h3>
+    <Typography variant="body">{description}</Typography>
+  </header>
+
+  <div class="lockup-list">
+    <p class="lockup-list-title">{listTitle}</p>
+    <ul class="lockup-items" role="list">
+      {
+        items.map((item) => (
+          <li class="lockup-item">
+            <CheckIcon aria-hidden="true" />
+            <span>{item}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="lockup-action">
+    <Button href={action.href} variant={actionVariant}>
+      {action.label}
+      <ArrowRightIcon />
+    </Button>
+  </div>
+</article>
+
+<style>
+  .lockup {
+    display: flex;
+    flex-direction: column;
+    background: var(--clr-white);
+  }
+
+  .lockup-header {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xl) var(--spacing-3xl);
+    border-block-end: 1px solid var(--border-bold);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2xs);
+    padding: 0.3125rem 0.6875rem;
+    border-radius: 100px;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    line-height: 1.65;
+    letter-spacing: 1.47px;
+    text-transform: uppercase;
+    background: color-mix(in oklab, var(--clr-red-500) 9%, var(--clr-white));
+    color: var(--clr-red-500);
+
+    &[data-tone="blue"] {
+      background: color-mix(in oklab, var(--clr-blue-500) 14%, var(--clr-white));
+      color: var(--clr-blue-500);
+    }
+  }
+
+  .badge-dot {
+    inline-size: 6px;
+    block-size: 6px;
+    border-radius: 3px;
+    background: currentColor;
+  }
+
+  .lockup-title {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .lockup-list {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-xl) var(--spacing-3xl);
+  }
+
+  .lockup-list-title {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    letter-spacing: 1.76px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .lockup-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .lockup-item {
+    display: grid;
+    grid-template-columns: 1.25rem 1fr;
+    gap: var(--spacing-2xs);
+    align-items: start;
+    font-size: var(--font-size-sm);
+    line-height: 1.2;
+    color: var(--text-strong);
+
+    &:not(:last-child) {
+      padding-block-end: var(--spacing-xs);
+      border-block-end: 1px solid var(--border-muted);
+    }
+
+    & svg {
+      inline-size: 1.25rem;
+      block-size: 1.25rem;
+      color: var(--clr-red-500);
+    }
+  }
+
+  .lockup-action {
+    padding: var(--spacing-lg) var(--spacing-3xl);
+    background: var(--clr-off-white);
+
+    /* The lockup's call to action fills the footer band, unlike the
+       fit-content default the Button ships with. */
+    & :global(.btn) {
+      max-width: none;
+      inline-size: 100%;
+    }
+
+    & :global(.btn svg) {
+      inline-size: 0.875rem;
+      block-size: 0.875rem;
+    }
+  }
+</style>

@@ -84,9 +84,10 @@ const credentialGroups = [
 
 // Strapi serves pre-generated sizes; the hero never needs the full upload.
 const portrait = data.portrait?.formats?.large ?? data.portrait;
-const heroImage = portrait
-  ? { src: portrait.url, width: portrait.width, height: portrait.height }
-  : undefined;
+const heroImage =
+  portrait?.url && portrait.width && portrait.height
+    ? { src: portrait.url, width: portrait.width, height: portrait.height }
+    : undefined;
 
 const highlight = data.philosophy_quote
   ? {
@@ -101,7 +102,7 @@ const highlight = data.philosophy_quote
     eyebrow={data.title ?? undefined}
     name={name}
     quote={data.quote ?? undefined}
-    image={heroImage ?? un}
+    image={heroImage}
     imageAlt={data.portrait?.alternativeText ?? `Portrait of ${name}`}
     highlight={highlight}
   >
@@ -234,6 +235,8 @@ const highlight = data.philosophy_quote
 
     <div>
       <form class="contact-form flow" data-teacher-contact novalidate>
+        <input type="hidden" name="teacher" value={name} />
+
         <div class="field">
           <label for="contact-first-name">
             First name <span class="required" aria-hidden="true">*</span>
@@ -245,8 +248,10 @@ const highlight = data.philosophy_quote
             autocomplete="given-name"
             maxlength="80"
             placeholder="Full name"
+            aria-describedby="contact-first-name-error"
             required
           />
+          <p class="field-error" id="contact-first-name-error" hidden></p>
         </div>
 
         <div class="field">
@@ -260,8 +265,10 @@ const highlight = data.philosophy_quote
             autocomplete="family-name"
             maxlength="80"
             placeholder="Last name"
+            aria-describedby="contact-last-name-error"
             required
           />
+          <p class="field-error" id="contact-last-name-error" hidden></p>
         </div>
 
         <div class="field">
@@ -276,8 +283,10 @@ const highlight = data.philosophy_quote
             inputmode="email"
             maxlength="254"
             placeholder="you@example.com"
+            aria-describedby="contact-email-error"
             required
           />
+          <p class="field-error" id="contact-email-error" hidden></p>
         </div>
 
         <div class="field">
@@ -290,8 +299,10 @@ const highlight = data.philosophy_quote
             type="text"
             maxlength="120"
             placeholder="How can I help?"
+            aria-describedby="contact-subject-error"
             required
           />
+          <p class="field-error" id="contact-subject-error" hidden></p>
         </div>
 
         <div class="field">
@@ -304,7 +315,9 @@ const highlight = data.philosophy_quote
             rows="6"
             maxlength="2000"
             placeholder="Tell me about your goals and timeline..."
+            aria-describedby="contact-message-error"
             required></textarea>
+          <p class="field-error" id="contact-message-error" hidden></p>
         </div>
 
         {/* Spam trap — hidden from sight and from assistive tech. */}
@@ -319,7 +332,10 @@ const highlight = data.philosophy_quote
           />
         </div>
 
-        <Button as="button" type="submit" variant="accent">
+        <p class="form-error" data-contact-error hidden tabindex="-1" role="alert">
+        </p>
+
+        <Button as="button" type="submit" variant="accent" data-contact-submit>
           Send Message
           <ArrowRightIcon />
         </Button>
@@ -517,8 +533,29 @@ const highlight = data.philosophy_quote
     }
 
     /* Only flags fields the visitor has actually interacted with. */
-    &:user-invalid {
+    &:user-invalid,
+    &[aria-invalid="true"] {
       border-color: var(--clr-red-400);
+    }
+  }
+
+  .field-error {
+    font-size: var(--font-size-sm);
+    color: var(--text-accent);
+    text-wrap: pretty;
+  }
+
+  .form-error {
+    background-color: var(--clr-white);
+    border-inline-start: 3px solid var(--clr-red-400);
+    padding: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    color: var(--text-strong);
+    text-wrap: pretty;
+
+    &:focus-visible {
+      outline: 2px solid var(--clr-red-500);
+      outline-offset: 3px;
     }
   }
 
@@ -551,6 +588,13 @@ const highlight = data.philosophy_quote
 </style>
 
 <script>
+  import {
+    contactSchema,
+    fieldErrors,
+    isSpam,
+    type FieldErrors,
+  } from "@/lib/contact-schema";
+
   const forms = document.querySelectorAll<HTMLFormElement>(
     "[data-teacher-contact]",
   );
@@ -559,18 +603,59 @@ const highlight = data.philosophy_quote
     const success = form.parentElement?.querySelector<HTMLElement>(
       "[data-contact-success]",
     );
+    const formError = form.querySelector<HTMLElement>("[data-contact-error]");
+    const submit = form.querySelector<HTMLButtonElement>(
+      "[data-contact-submit]",
+    );
 
-    form.addEventListener("submit", (event) => {
+    const control = (field: string) =>
+      form.querySelector<HTMLInputElement | HTMLTextAreaElement>(
+        `[name="${field}"]`,
+      );
+
+    const setMessage = (element: HTMLElement | null | undefined, text = "") => {
+      if (!element) return;
+      // textContent, never innerHTML — these strings can carry visitor input.
+      element.textContent = text;
+      element.hidden = !text;
+    };
+
+    const clearErrors = () => {
+      setMessage(formError);
+      form.querySelectorAll<HTMLElement>(".field-error").forEach((element) => {
+        setMessage(element);
+      });
+      form
+        .querySelectorAll<HTMLElement>("[aria-invalid]")
+        .forEach((element) => element.removeAttribute("aria-invalid"));
+    };
+
+    const showErrors = (errors: FieldErrors) => {
+      let first: HTMLElement | null = null;
+
+      for (const [field, message] of Object.entries(errors)) {
+        const input = control(field);
+        if (!input || !message) continue;
+
+        input.setAttribute("aria-invalid", "true");
+        setMessage(
+          document.getElementById(
+            input.getAttribute("aria-describedby") ?? "",
+          ) as HTMLElement | null,
+          message,
+        );
+        first ??= input;
+      }
+
+      first?.focus();
+    };
+
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
-
-      // The form carries `novalidate`, so the native messages are triggered here.
-      if (!form.reportValidity()) return;
+      clearErrors();
 
       const formData = new FormData(form);
       const field = (name: string) => String(formData.get(name) ?? "").trim();
-
-      // Bots fill the hidden field; drop the submission without telling them.
-      if (field("company")) return;
 
       const submission = {
         firstName: field("firstName"),
@@ -578,9 +663,54 @@ const highlight = data.philosophy_quote
         email: field("email"),
         subject: field("subject"),
         message: field("message"),
+        teacher: field("teacher"),
+        company: field("company"),
       };
 
-      console.log("Teacher contact submission", submission);
+      // Bots fill the hidden field; drop the submission without telling them.
+      if (isSpam(submission)) return;
+
+      const parsed = contactSchema.safeParse(submission);
+
+      if (!parsed.success) {
+        showErrors(fieldErrors(parsed.error));
+        return;
+      }
+
+      if (submit) submit.disabled = true;
+
+      try {
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(parsed.data),
+        });
+
+        const result = (await response.json().catch(() => null)) as {
+          ok?: boolean;
+          error?: string;
+          fields?: FieldErrors;
+        } | null;
+
+        if (!response.ok || !result?.ok) {
+          if (result?.fields) showErrors(result.fields);
+          setMessage(
+            formError,
+            result?.error ?? "Message could not be sent. Try again shortly.",
+          );
+          formError?.focus();
+          return;
+        }
+      } catch {
+        setMessage(
+          formError,
+          "Network error. Check your connection and try again.",
+        );
+        formError?.focus();
+        return;
+      } finally {
+        if (submit) submit.disabled = false;
+      }
 
       form.hidden = true;
       form.reset();
@@ -590,9 +720,7 @@ const highlight = data.philosophy_quote
       // Unhide first so the live region is already exposed when the text lands,
       // otherwise screen readers can miss the update.
       success.hidden = false;
-
-      // textContent, never innerHTML — this string carries visitor input.
-      success.textContent = `Thanks, ${submission.firstName}! Your message is on its way, and you'll hear back within one business day.`;
+      success.textContent = `Thanks, ${parsed.data.firstName}! Your message is on its way, and you'll hear back within one business day.`;
       success.focus();
     });
   });

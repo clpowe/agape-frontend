@@ -1,0 +1,326 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+import HeroBanner from "@components/HeroBanner.astro";
+
+import heroImage from "@assets/Exam_Prep.png";
+import SectionA from "@components/structure/SectionA.astro";
+import SectionB from "@components/structure/SectionB.astro";
+import SectionHeading from "@ui/SectionHeading.astro";
+import Typography from "@ui/Typography.astro";
+import Button from "@ui/Button.astro";
+import ListA from "@ui/ListA.astro";
+import ListItemA from "@ui/list-items/ListItemA.astro";
+import CTA from "@components/CTA.astro";
+import Course, { type Panel } from "@components/Course.astro";
+
+export const programs = [
+  {
+    slug: "bar-study-skills-crash-course",
+    eyebrow: "Five-Week Course",
+    title: "Bar Study Skills Crash Course",
+    description:
+      "A five-week course designed to equip students with the essential learning skills and strategies needed to prepare effectively for — and pass — the bar exam. It bridges the gap between law school, where students focus on theory, analysis, and case method, and the bar exam, which demands rapid recall of black-letter law and formulaic application under timed conditions.",
+    theme: "light",
+    price: {
+      label: "Cost",
+      amount: "$995",
+      unit: "Per student",
+      secondary: null,
+    },
+    panels: [
+      {
+        heading: "Throughout the course, students will learn",
+        type: "numbered",
+        items: [
+          {
+            title:
+              "How to develop a big-picture framework for each bar-tested subject.",
+          },
+          {
+            title:
+              "How to take effective notes during lectures to fill in and refine their frameworks.",
+          },
+          {
+            title:
+              "How to use practice questions to identify voids and gaps in their knowledge and understanding.",
+          },
+          {
+            title:
+              "How to fill in those gaps strategically to strengthen both comprehension and application.",
+          },
+        ],
+      },
+      {
+        heading: "Format & Schedule",
+        type: "specs",
+        items: [
+          { label: "Format", value: "90-minute classes, twice weekly" },
+          { label: "Class size", value: "Sections of 7–10 students" },
+          {
+            label: "Weekly time",
+            value: "3 hrs class · 10–15 hrs study & homework",
+          },
+          { label: "July takers", value: "Mid-March – Late April" },
+          { label: "February takers", value: "Mid-October – Late November" },
+          {
+            label: "Commitment",
+            value:
+              "Signed agreement to attend all classes and complete all assignments",
+          },
+        ],
+      },
+    ],
+    footnote:
+      "Once students demonstrate mastery of the learning cycle, they're placed on an early-start learning plan — a real head start on bar exam preparation.",
+    cta: { label: "Apply / Reserve a Seat", href: "/apply" },
+  },
+
+  {
+    slug: "mbe-101-plus",
+    eyebrow: "Flagship · Repeat-Taker MBE Program",
+    title: "MBE 101 Plus",
+    description:
+      "Designed specifically for repeat takers who need structure, strategy, accountability, and personalized feedback to succeed on the MBE portion of the bar exam. Small group tutoring, intensive practice, and live performance feedback bridge the gap between knowing the law and understanding it well enough to perform under exam conditions. Every student receives the full suite of resources below.",
+    theme: "light",
+    price: {
+      label: "Cost",
+      amount: "$2,595",
+      unit: "Full program",
+      secondary: { label: "Includes", amount: "1 hour private tutoring" },
+    },
+    panels: [
+      {
+        heading: "Program features",
+        type: "numbered",
+        items: [
+          {
+            title: "Personalized Learning Plan",
+            detail:
+              "A tailored day-by-day plan to help you master both the law and the skills tested on the bar exam.",
+          },
+          {
+            title: "Substantive Lectures",
+            detail:
+              "Bar-tested subjects explained in a clear, straightforward way to reinforce comprehension.",
+          },
+          {
+            title: "Small Group Tutoring · 15 Sessions",
+            detail:
+              "Weekly focused sessions with 5–7 students, led by a tutor, diving deep into heavily tested subtopics — Individual Rights in Constitutional Law, Jurisdiction & Venue in Civil Procedure, Mortgages in Property, and more.",
+          },
+          {
+            title: "Weekly IREAC Exercises",
+            detail:
+              "Practice identifying issues, reasoning through rules, and writing concise analysis to strengthen MBE performance.",
+          },
+        ],
+      },
+      {
+        heading: "Also included",
+        type: "numbered",
+        items: [
+          {
+            title: "Rule Drilling Sessions",
+            detail:
+              "High-intensity recall drills on the most frequently tested rules, sharpening memory and quick recall under pressure.",
+          },
+          {
+            title: "MBE Boot Camp",
+            detail:
+              "Timed question sets for every MBE-tested subject. Tutors provide written explanations and feedback to build analytical precision and improve multiple-choice performance.",
+          },
+          {
+            title: "Plus One Hour of Private Tutoring",
+            detail:
+              "Included — focused 1-on-1 support layered on top of the group program.",
+          },
+        ],
+      },
+    ],
+    footnote:
+      "MBE 101 Plus is a complete MBE-focused repeat-taker program — the full system, not a supplement. Pair it with private tutoring for jurisdiction-specific essay work.",
+    cta: { label: "Apply for MBE 101 Plus", href: "/apply" },
+  },
+
+  {
+    slug: "private-tutoring",
+    eyebrow: "1-on-1 Coaching",
+    title: "Private Tutoring",
+    description:
+      "Individualized sessions to strengthen knowledge, sharpen writing, and build confidence for exam day. Tutors work side-by-side with you to address weaknesses, reinforce key concepts, and develop proven strategies for success — with detailed feedback and hands-on guidance.",
+    theme: "dark",
+    price: {
+      label: "Cost",
+      amount: "$295",
+      unit: "Per hour",
+      secondary: { label: "5-hour package", amount: "$1,400" },
+    },
+    panels: [
+      {
+        heading: "What sessions look like",
+        type: "checks",
+        items: [
+          {
+            title:
+              "Side-by-side problem-solving with a coach who reads what you write",
+          },
+          {
+            title:
+              "Targeted reinforcement of the MBE subjects you're struggling with",
+          },
+          {
+            title:
+              "Strategy work — how to study, how to manage time, how to read the MBE call-of-the-question",
+          },
+          {
+            title:
+              "Detailed, written feedback you can carry into the next session",
+          },
+        ],
+      },
+      {
+        heading: "Booking & Pricing",
+        type: "specs",
+        items: [
+          { label: "Single hour", value: "$295" },
+          { label: "Five-hour package", value: "$1,400 (save $75)" },
+          { label: "Cadence", value: "Weekly, biweekly, or as-needed" },
+          { label: "Format", value: "Remote via video call" },
+          {
+            label: "Best for",
+            value:
+              "Targeted MBE weak areas — a single subject, question type, or strategy",
+          },
+        ],
+      },
+    ],
+    footnote:
+      "Most students book the 5-hour package and renew as needed. The package locks in the lower rate.",
+    cta: { label: "Book a Session", href: "/apply" },
+  },
+];
+
+const steps = [
+  {
+    title: "Reach Out",
+    detail:
+      "Call us or schedule a free consultation. Tell us your exam date, your jurisdiction, your last MBE score — and what feels broken in your studying.",
+  },
+  {
+    title: "Pick a Program (or Stack)",
+    detail:
+      "We'll recommend the right starting point — the Crash Course to rebuild study skills, MBE 101 Plus as your full multistate program, and Private Tutoring layered on top wherever it counts.",
+  },
+  {
+    title: "Show Up & Do the Work",
+    detail:
+      "We bring the structure, the feedback, and the accountability. You bring the effort. Together that's how MBE scores climb.",
+  },
+];
+---
+
+<BaseLayout title="Multistate Bar Exam (MBE) Prep | Agape Christian Bar Prep">
+  <HeroBanner
+    eyebrow="Multistate Bar Exam · Services"
+    title="Master the MBE."
+    body="The MBE decides more bar outcomes than any other section. Our programs are built to close the gap between knowing the law and applying it correctly — under timed, multiple-choice pressure — with structure, drilling, and personalized feedback."
+    image={heroImage}
+    imageAlt="A student working through timed MBE practice questions"
+    badge={{
+      eyebrow: "Now Enrolling",
+      text: "MBE 101 Plus is enrolling repeat takers now",
+      linkText: "See the Program",
+      href: "#thePrograms",
+    }}
+  >
+    <Fragment slot="actions">
+      <Button href="/apply" variant="accent">Apply Now</Button>
+      <Button href="tel:+19042342853" variant="outline">
+        Call 904-234-2853
+      </Button>
+    </Fragment>
+  </HeroBanner>
+
+  <SectionA sectionId="mbeOverview" width="default" background="white">
+    <div class="flow">
+      <SectionHeading
+        eyebrow="Overview"
+        sectionId="mbeOverview"
+        heading="200 questions. Six hours. One section that moves the needle."
+      />
+    </div>
+
+    <div class="flow contain">
+      <Typography tag="blockquote" variant="blockquote">
+        The MBE rewards two things: rapid recall of black-letter law and
+        disciplined application under timed conditions. Most takers know more
+        law than their scores suggest — the gap is performance, not knowledge.
+      </Typography>
+      <Typography tag="p" variant="body">
+        Our MBE programs build the system that closes that gap: a framework for
+        each tested subject, weekly drilling on the rules that actually appear,
+        and timed practice with feedback that tells you why you got a question
+        wrong, not just that you did.
+      </Typography>
+    </div>
+  </SectionA>
+
+  <SectionB sectionId="thePrograms" background="off-white">
+    <SectionHeading
+      eyebrow="The Programs"
+      sectionId="thePrograms"
+      heading="Three programs. Built around the MBE."
+      body="Rebuild your study skills in the Crash Course. Take MBE 101 Plus as your full repeat-taker program for the multistate. Layer Private Tutoring on top whenever a specific subject or question type needs focused, one-on-one work."
+    />
+    <div class="courses flow">
+      {
+        programs.map((program) => (
+          <Course
+            eyebrow={program.eyebrow}
+            title={program.title}
+            description={program.description}
+            theme={program.theme as "light" | "dark"}
+            price={program.price}
+            panels={program.panels as Panel[]}
+            footnote={program.footnote}
+            cta={program.cta}
+          />
+        ))
+      }
+    </div>
+  </SectionB>
+
+  <SectionA sectionId="howWeWork" width="default" background="off-white">
+    <SectionHeading
+      eyebrow="How We Work"
+      sectionId="howWeWork"
+      heading="From diagnosis to a higher MBE score."
+      body="MBE scores change when the system around them changes. Tell us what's happening in your studying — we'll diagnose where the points are leaking, and we'll walk through it with you."
+    />
+    <ListA border={true} space="tight">
+      {
+        steps.map((step, i) => (
+          <ListItemA
+            number={String(i + 1)}
+            numSize="2xl"
+            title={step.title}
+            description={step.detail}
+          />
+        ))
+      }
+    </ListA>
+  </SectionA>
+
+  <CTA
+    sectionId="cta"
+    heading="Apply Now"
+    body="Click here to join the Agape family. We'd love to talk through your goals and help you pick the right starting point."
+  />
+</BaseLayout>
+
+<style>
+  .courses {
+    --flow-space: var(--spacing-3xl);
+  }
+</style>

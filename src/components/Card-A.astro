@@ -3,36 +3,63 @@ import Typography from "@ui/Typography.astro";
 
 interface Props {
   value: string;
+  eyebrow?: string;
   title?: string;
   description: string;
-  background?: "white" | "off-white";
+  /** `dark` paints the near-black card and re-points the accent to gold. */
+  background?: "white" | "off-white" | "dark";
+  padding?: "compact" | "default";
 }
 
-const { value, title, description, background = "off-white" } = Astro.props;
+const {
+  value,
+  eyebrow,
+  title,
+  description,
+  background = "off-white",
+  padding,
+} = Astro.props;
+
+const isDark = background === "dark";
 ---
 
-<div class="card flow" data-background={background}>
+<div
+  class:list={["card flow", { dark: isDark }]}
+  data-background={background}
+  data-padding={padding}
+>
+  {eyebrow && <Typography variant="eyebrow">{eyebrow}</Typography>}
   <p class="big-number">{value}</p>
   {title && <h3>{title}</h3>}
   <Typography variant="body">
     {description}
   </Typography>
+  <slot name="footer" />
 </div>
 
 <style>
   .card {
     padding: var(--spacing-2xl);
     background: var(--clr-off-white);
+    color: var(--text-strong);
 
     &[data-background="white"] {
       background: var(--clr-white);
     }
+
+    &[data-background="dark"] {
+      background: var(--clr-gray-950);
+    }
+
+    &[data-padding="compact"] {
+      padding: var(--spacing-md);
+    }
   }
   .big-number {
     font-size: var(--font-size-6xl);
-    font-weight: 300;
     line-height: 1.1;
-    color: var(--clr-red-500);
+    font-family: var(--ff-heading);
+    color: var(--text-accent);
   }
   h3 {
     font-size: var(--font-size-xl);

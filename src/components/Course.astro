@@ -1,0 +1,211 @@
+---
+import SectionHeading from "@ui/SectionHeading.astro";
+import Typography from "@ui/Typography.astro";
+import Button from "@ui/Button.astro";
+import ListA from "@ui/ListA.astro";
+import ListItemA from "@ui/list-items/ListItemA.astro";
+import ListItemB from "@ui/list-items/ListItemB.astro";
+import ListItemC from "@ui/list-items/ListItemC.astro";
+
+export interface PanelItem {
+  /** `numbered` / `checks` */
+  title?: string;
+  /** `numbered` / `checks` — promotes `title` to a heading above it. */
+  detail?: string;
+  /** `specs` only */
+  label?: string;
+  value?: string;
+}
+
+export interface Panel {
+  heading: string;
+  type: "numbered" | "specs" | "checks";
+  items: PanelItem[];
+}
+
+export interface Price {
+  label: string;
+  amount: string;
+  unit?: string;
+  secondary?: { label: string; amount: string } | null;
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  theme?: "light" | "dark";
+  price?: Price | null;
+  panels?: Panel[];
+  footnote?: string;
+  cta?: { label: string; href: string } | null;
+}
+
+const {
+  eyebrow,
+  title,
+  description,
+  theme = "light",
+  price,
+  panels = [],
+  footnote,
+  cta,
+} = Astro.props;
+
+const isDark = theme === "dark";
+---
+
+<article class:list={["course", { dark: isDark }]}>
+  <div class="repel padding-8">
+    <SectionHeading
+      tag="h3"
+      eyebrow={eyebrow}
+      heading={title}
+      body={description}
+    />
+    {
+      price && (
+        <div class="price">
+          <Typography tag="p" variant="innerTitle">
+            {price.label}
+          </Typography>
+          <p class="number">{price.amount}</p>
+          {price.unit && (
+            <Typography tag="p" variant="innerTitle">
+              {price.unit}
+            </Typography>
+          )}
+          {price.secondary && (
+            <p class="secondary">
+              {price.secondary.label} · {price.secondary.amount}
+            </p>
+          )}
+        </div>
+      )
+    }
+  </div>
+
+  <div class="s uneven-split-end panels">
+    {
+      panels.map((panel, panelIndex) => (
+        <div
+          class:list={[
+            " region flow",
+            panelIndex === 0 ? "padding-inline-8" : "padding-inline-9",
+          ]}
+        >
+          <Typography tag="h4" variant="innerTitle">
+            {panel.heading}
+          </Typography>
+
+          {panel.type === "numbered" && (
+            <ListA border={true} space="tight">
+              {panel.items.map((item, i) => (
+                <ListItemA
+                  number={String(i + 1).padStart(2, "0")}
+                  numSize="lg"
+                  title={item.detail ? item.title : undefined}
+                  description={item.detail ?? item.title ?? ""}
+                />
+              ))}
+            </ListA>
+          )}
+
+          {panel.type === "specs" && (
+            <ListA border={true} space="tight">
+              {panel.items.map((item) => (
+                <ListItemC label={item.label ?? ""} value={item.value} />
+              ))}
+            </ListA>
+          )}
+
+          {panel.type === "checks" && (
+            <ListA border={false} space="tight">
+              {panel.items.map((item) => (
+                <ListItemB
+                  title={item.title}
+                  description={item.detail}
+                  divider="dashed"
+                />
+              ))}
+            </ListA>
+          )}
+        </div>
+      ))
+    }
+  </div>
+
+  {
+    (footnote || cta) && (
+      <div class="repel padding-8 footer">
+        {footnote && (
+          <Typography tag="p" variant="body">
+            {footnote}
+          </Typography>
+        )}
+        {cta && (
+          <Button href={cta.href} variant={isDark ? "inverted" : "accent"}>
+            {cta.label}
+          </Button>
+        )}
+      </div>
+    )
+  }
+</article>
+
+<style>
+  article {
+    --uneven-split-fixed-width: 500px;
+    --uneven-split-min-main-width: 50%;
+    --uneven-split-gap: 0;
+
+    background-color: var(--clr-white);
+    color: var(--text-strong);
+  }
+
+  /* Panels sit side by side above ~1000px and stack below it, so the rule
+     between them has to turn with the layout. */
+  .panels > * + * {
+    border-top: 1px solid var(--border-muted);
+  }
+
+  @media (width > 1000px) {
+    .panels > * + * {
+      border-block-start: none;
+      border-inline-start: 1px solid var(--border-muted);
+    }
+  }
+
+  article.dark {
+    background-color: var(--clr-gray-950);
+  }
+
+  .s {
+    --region-space: var(--spacing-xl);
+    --flow-space: var(--spacing-3xl);
+    border-top: 1px solid var(--border-muted);
+  }
+
+  .price {
+    display: grid;
+    justify-items: end;
+  }
+
+  .number {
+    font-family: var(--ff-heading);
+    color: var(--text-accent);
+    font-size: var(--font-size-4xl);
+  }
+
+  .secondary {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  .footer {
+    --repel-vertical-alignment: center;
+
+    gap: var(--spacing-lg);
+    border-block-start: 1px solid var(--border-muted);
+  }
+</style>

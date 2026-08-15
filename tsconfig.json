@@ -7,7 +7,8 @@
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
       "@ui/*": ["./src/components/ui/*"],
-      "@assets/*": ["./src/assets/*"]
+      "@assets/*": ["./src/assets/*"],
+      "@layouts/*": ["./src/layouts/*"]
     },
     "types": ["unplugin-icons/types/astro"]
   }

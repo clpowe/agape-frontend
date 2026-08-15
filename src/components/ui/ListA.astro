@@ -2,12 +2,14 @@
 interface Props {
   space?: "default" | "tight" | "wide";
   border?: boolean;
+  /** Divider line style when `border` is on. */
+  divider?: "solid";
 }
 
-const { space = "default", border = false } = Astro.props;
+const { space = "default", border = false, divider = "solid" } = Astro.props;
 ---
 
-<ul class="flow" data-space={space} data-border={border}>
+<ul class="flow" data-space={space} data-border={border} data-divider={divider}>
   <slot />
 </ul>
 

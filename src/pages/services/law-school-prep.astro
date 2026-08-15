@@ -1,0 +1,247 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+import HeroBanner from "@components/HeroBanner.astro";
+
+import heroImage from "@assets/lawschoolstudent.png";
+import SectionA from "@components/structure/SectionA.astro";
+import SectionHeading from "@ui/SectionHeading.astro";
+import Typography from "@ui/Typography.astro";
+import Button from "@ui/Button.astro";
+import SectionB from "@components/structure/SectionB.astro";
+import Course, { type Panel } from "@components/Course.astro";
+
+export const services = [
+  {
+    slug: "study-skills-crash-course",
+    eyebrow: "Five-Week Course",
+    title: "Law School Study Skills Crash Course",
+    description:
+      "A five-week course to strengthen the foundational skills necessary to succeed on law school exams — before the intensive reading and study period begins. Students walk into finals more confident, with a real framework.",
+    theme: "light",
+    price: {
+      label: "Cost",
+      amount: "$995",
+      unit: "Per student",
+      secondary: null,
+    },
+    panels: [
+      {
+        heading: "Throughout the course, students will learn",
+        type: "numbered",
+        items: [
+          { title: "How to develop a big-picture framework for a subject." },
+          {
+            title:
+              "How to take effective notes to fill in and refine their frameworks.",
+          },
+          {
+            title:
+              "How to use practice questions to identify voids and gaps in their knowledge and understanding.",
+          },
+          {
+            title:
+              "How to fill in those gaps strategically to strengthen both comprehension and application.",
+          },
+        ],
+      },
+      {
+        heading: "Format & Schedule",
+        type: "specs",
+        items: [
+          { label: "Format", value: "90-minute classes, twice weekly" },
+          {
+            label: "Homework",
+            value:
+              "Short assignments graded by the instructor between sessions",
+          },
+          { label: "Class size", value: "Sections of 7–10 students" },
+          {
+            label: "Sessions",
+            value: "Mid-October – Late November · Mid-March – Late April",
+          },
+          {
+            label: "Commitment",
+            value:
+              "Students sign an agreement to attend all classes and complete all assignments",
+          },
+        ],
+      },
+    ],
+    footnote:
+      "Offered twice yearly. Limited seats per section to protect the interactive, supportive environment.",
+    cta: { label: "Apply / Reserve a Seat", href: "/apply" },
+  },
+
+  {
+    slug: "essay-writing-clinic",
+    eyebrow: "Writing Workshop",
+    title: "Essay Writing Clinic",
+    description:
+      "Develop the analytical and writing skills necessary to succeed on law school exams, the bar exam, and in the practice of law. Learn to outline and write essays that are clear, concise, and well-reasoned.",
+    theme: "light",
+    price: {
+      label: "Cost",
+      amount: "$1,095",
+      unit: "Full clinic",
+      secondary: null,
+    },
+    panels: [
+      {
+        heading: "Key skills taught",
+        type: "numbered",
+        items: [
+          { title: "Identifying and articulating legal issues in dispute." },
+          {
+            title:
+              "Applying relevant facts to the appropriate rules of law to reach logical conclusions.",
+          },
+        ],
+      },
+      {
+        heading: "What's included",
+        type: "checks",
+        items: [
+          {
+            title: "Eight-hour interactive writing workshop",
+            detail:
+              "Live, hands-on instruction on outlining and essay structure.",
+          },
+          {
+            title: "Two graded essays",
+            detail: "Personalized, constructive feedback on each one.",
+          },
+          {
+            title: "Two 1-hour private tutoring sessions",
+            detail:
+              "Focused on improving your specific analytical and writing gaps.",
+          },
+        ],
+      },
+    ],
+    footnote:
+      "Strong writing is the single highest-leverage skill in law school — and on the bar exam after.",
+    cta: { label: "Apply / Enroll", href: "/apply" },
+  },
+
+  {
+    slug: "private-tutoring",
+    eyebrow: "1-on-1 Coaching",
+    title: "Private Tutoring",
+    description:
+      "Individualized sessions to strengthen knowledge, sharpen writing, and build confidence for exam day. Tutors work side-by-side with you to address weaknesses, reinforce key concepts, and develop proven strategies for success — with detailed feedback and hands-on guidance.",
+    theme: "dark",
+    price: {
+      label: "Cost",
+      amount: "$295",
+      unit: "Per hour",
+      secondary: { label: "5-hour package", amount: "$1,400" },
+    },
+    panels: [
+      {
+        heading: "What sessions look like",
+        type: "checks",
+        items: [
+          {
+            title:
+              "Side-by-side problem-solving with a coach who reads what you write",
+          },
+          {
+            title:
+              "Targeted reinforcement of specific concepts you're struggling with",
+          },
+          {
+            title:
+              "Strategy work — how to study, how to manage time, how to take an exam",
+          },
+          {
+            title:
+              "Detailed, written feedback you can carry into the next session",
+          },
+        ],
+      },
+      {
+        heading: "Booking & Pricing",
+        type: "specs",
+        items: [
+          { label: "Single hour", value: "$295" },
+          { label: "Five-hour package", value: "$1,400 (save $75)" },
+          { label: "Cadence", value: "Weekly, biweekly, or as-needed" },
+          { label: "Format", value: "Remote via video call" },
+          {
+            label: "Best for",
+            value: "Students with a specific, identifiable weak area",
+          },
+        ],
+      },
+    ],
+    footnote:
+      "Most students book the 5-hour package and renew as needed. The package locks in the lower rate.",
+    cta: { label: "Book a Session", href: "/apply" },
+  },
+];
+---
+
+<BaseLayout title="Law School Preperation Services | Agape Christian">
+  <HeroBanner
+    eyebrow="Law School Preparation · Services"
+    title="Build the skills law school doesn't teach."
+    body="Foundational study skills, essay writing, and private tutoring — designed to help law students walk into final exams confident, prepared, and ready to perform."
+    image={heroImage}
+    imageAlt="The Agape Christian Bar Prep team"
+  />
+
+  <SectionA sectionId="prepOverview" width="default" background="white">
+    <div class="flow">
+      <SectionHeading
+        eyebrow="Overview"
+        sectionId="prepOverview"
+        heading="Programs that strengthen the foundation under your law school career."
+      />
+    </div>
+
+    <div class="flow contain">
+      <Typography tag="blockquote" variant="blockquote">
+        Law school can be daunting and overwhelming for students — especially
+        first-year students, because they have no idea what to expect or how to
+        begin preparing for exams.
+      </Typography>
+      <Typography tag="p" variant="body">
+        We offer three programs to help law school students overcome the anxiety
+        of law school exams and reach their full potential academically. Each
+        one targets a different layer of the skill set: how to study, how to
+        write, and how to fix what's specifically holding you back.
+      </Typography>
+    </div>
+  </SectionA>
+  <SectionB sectionId="thePrograms" background="off-white">
+    <SectionHeading
+      eyebrow="The Programs"
+      sectionId="thePrograms"
+      heading="Three programs. Pick the one that fits."
+      body="Each program is designed to strengthen a different layer of the skill set: how to study, how to write, and how to fix what's specifically holding you back."
+    />
+    <div class="courses flow">
+      {
+        services.map((service) => (
+          <Course
+            eyebrow={service.eyebrow}
+            title={service.title}
+            description={service.description}
+            theme={service.theme as "light" | "dark"}
+            price={service.price}
+            panels={service.panels as Panel[]}
+            footnote={service.footnote}
+            cta={service.cta}
+          />
+        ))
+      }
+    </div>
+  </SectionB>
+
+  <style>
+    .courses {
+      --flow-space: var(--spacing-3xl);
+    }
+  </style>
+</BaseLayout>

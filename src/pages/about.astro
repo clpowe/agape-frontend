@@ -11,7 +11,7 @@ import SectionA from "@components/structure/SectionA.astro";
 import SectionHeading from "@components/ui/SectionHeading.astro";
 import Typography from "../components/ui/Typography.astro";
 import SectionB from "../components/structure/SectionB.astro";
-import ListItemA from "../components/ListItemA.astro";
+import ListItemA from "@ui/list-items/ListItemA.astro";
 import CardA from "@components/Card-A.astro";
 import CardD from "@components/Card-D.astro";
 import Button from "@components/ui/Button.astro";
@@ -99,7 +99,7 @@ const team = (await getCollection("teachers")).map(({ data }) => {
 <BaseLayout title="About">
   <HeroBanner
     eyebrow="About Agape Christian"
-    title="More than bar prep — a calling to build success stories."
+    title="More than bar prep, a calling to build success stories."
     body="Agape Christian Bar Prep is a faith-centered tutoring practice
 equipping law students globally on their journey to esquire and
 beyond."
@@ -109,7 +109,7 @@ beyond."
     <SectionHeading
       sectionId="our-mission"
       eyebrow="Our Mission"
-      heading="To inspire, foster, and empower — through Christ."
+      heading="To inspire, and empower, through Christ."
     />
     <div class="flow">
       <Typography tag="p" variant="body">
@@ -195,7 +195,7 @@ beyond."
         body="Every Agape student follows the same proven three-step path — from application to enrollment to the bar exam itself."
       />
       <div class="cta">
-        <Button variant="outline" href="#apply">Start Your Application</Button>
+        <Button variant="outline" href="/apply">Start Your Application</Button>
       </div>
     </div>
     <div class="triplex">
@@ -260,27 +260,6 @@ beyond."
       }
     </div>
   </SectionB>
-
-  <form id="contact">
-    <input name="name" placeholder="Name" required />
-    <input name="email" type="email" placeholder="Email" required />
-    <textarea name="message" placeholder="Message" required></textarea>
-    <button type="submit">Send</button>
-  </form>
-
-  <script>
-    document.getElementById("contact").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const form = e.target;
-      const data = Object.fromEntries(new FormData(form));
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      alert(res.ok ? "Message sent!" : "Something went wrong");
-    });
-  </script>
   <CTA />
 </BaseLayout>
 

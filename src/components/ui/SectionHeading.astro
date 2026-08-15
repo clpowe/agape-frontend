@@ -5,7 +5,8 @@ interface Props {
   eyebrow?: string;
   heading: string;
   body?: string;
-  sectionId: string;
+  sectionId?: string;
+  tag?: "h2" | "h3" | "h4";
   /** Heading scale. `lg` is for the page's anchor sections. */
   size?: "md" | "lg";
   align?: "start" | "center";
@@ -18,18 +19,22 @@ const {
   heading,
   body,
   sectionId,
+  tag = "h2",
   size = "md",
   align = "start",
   rule = false,
 } = Astro.props;
 
+const HeadingTag = tag;
 const sectionIdHeading = `${sectionId}-heading`;
 ---
 
 <div class="flow heading-wrapper" data-size={size} data-align={align}>
   {rule && <span class="rule" aria-hidden="true" />}
   <Typography variant="eyebrow">{eyebrow}</Typography>
-  <h2 id={sectionIdHeading} class="heading">{heading}</h2>
+  <HeadingTag id={sectionIdHeading} class:list={["heading", tag]}
+    >{heading}</HeadingTag
+  >
   <Typography variant="body">{body}</Typography>
 </div>
 
@@ -42,6 +47,14 @@ const sectionIdHeading = `${sectionId}-heading`;
     font-size: var(--font-size-4xl);
     max-width: 30ch;
     font-weight: 400;
+
+    &.h3 {
+      font-size: var(--font-size-2xl);
+    }
+
+    &.h4 {
+      font-size: var(--font-size-xl);
+    }
   }
 
   [data-size="lg"] .heading {

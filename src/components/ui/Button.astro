@@ -10,14 +10,20 @@ type Props<Tag extends "a" | "button" = "a"> = Polymorphic<{ as: Tag }> & {
         | "outline-inverted"
         | "ghost"
         | "icon";
+    size?: "sm" | "md" | "lg" | "xl";
     popovertarget?: string;
     popovertargetaction?: "toggle" | "show" | "hide";
 };
 
-const { as: Tag = "a", variant = "primary", ...rest } = Astro.props;
+const {
+    as: Tag = "a",
+    variant = "primary",
+    size = "md",
+    ...rest
+} = Astro.props;
 ---
 
-<Tag data-custom="btn" class:list={["btn", variant]} {...rest}>
+<Tag data-custom="btn" class:list={["btn", variant, `size-${size}`]} {...rest}>
     <slot />
 </Tag>
 
@@ -26,11 +32,14 @@ const { as: Tag = "a", variant = "primary", ...rest } = Astro.props;
         --_btn-bg: var(--clr-gray-950);
         --_btn-text-clr: var(--clr-white);
         --_btn-ring: var(--clr-gray-950);
+        --_btn-pad-block: var(--spacing-xs);
+        --_btn-pad-inline: var(--spacing-sm);
+        --_btn-font-size: var(--font-size-sm);
         unset: all;
         text-decoration: none;
 
         display: flex;
-        padding: var(--spacing-xs) var(--spacing-sm);
+        padding: var(--_btn-pad-block) var(--_btn-pad-inline);
         justify-content: center;
         align-items: center;
         line-height: 1;
@@ -40,7 +49,7 @@ const { as: Tag = "a", variant = "primary", ...rest } = Astro.props;
         max-width: fit-content;
         cursor: pointer;
         white-space: nowrap;
-        font-size: var(--font-size-sm);
+        font-size: var(--_btn-font-size);
         background: var(--_btn-bg);
         color: var(--_btn-text-clr);
 
@@ -64,6 +73,33 @@ const { as: Tag = "a", variant = "primary", ...rest } = Astro.props;
         .btn {
             transition-duration: 0ms;
         }
+    }
+
+    .size-sm {
+        --_btn-pad-block: var(--spacing-2xs);
+        --_btn-pad-inline: var(--spacing-xs);
+        --_btn-font-size: var(--font-size-xs);
+        gap: var(--spacing-3xs);
+    }
+
+    .size-md {
+        --_btn-pad-block: var(--spacing-xs);
+        --_btn-pad-inline: var(--spacing-sm);
+        --_btn-font-size: var(--font-size-sm);
+    }
+
+    .size-lg {
+        --_btn-pad-block: var(--spacing-sm);
+        --_btn-pad-inline: var(--spacing-lg);
+        --_btn-font-size: var(--font-size-md);
+        gap: var(--spacing-2xs);
+    }
+
+    .size-xl {
+        --_btn-pad-block: var(--spacing-md);
+        --_btn-pad-inline: var(--spacing-2xl);
+        --_btn-font-size: var(--font-size-lg);
+        gap: var(--spacing-xs);
     }
 
     .primary {

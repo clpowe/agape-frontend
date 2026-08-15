@@ -11,7 +11,7 @@ import CardB from "@components/Card-B.astro";
 import CardC from "@components/Card-C.astro";
 import CardE from "@components/Card-E.astro";
 import HeroBanner from "@components/HeroBanner.astro";
-import ListItemA from "@components/ListItemA.astro";
+import ListItemA from "@ui/list-items/ListItemA.astro";
 import SectionA from "@components/structure/SectionA.astro";
 import SectionB from "@components/structure/SectionB.astro";
 import Accordian from "@ui/accordian/index.astro";
@@ -36,6 +36,8 @@ import communityImage from "@assets/community.jpg";
 import TishaImage from "@assets/Tishia_Dunham.jpeg";
 
 // data arrays
+const partners = ["University of Florida", "Stetson University"];
+
 const stats = [
   {
     value: "1-on-1",
@@ -59,28 +61,28 @@ const services = [
     title: "First-Time Bar Takers",
     description:
       "Pass the first time with a study plan built around your strengths and gaps — not a generic video course.",
-    href: "/services/first-time-bar-takers",
+    href: "/services/first-time-takers",
   },
   {
     icon: IconRotateCw,
     title: "Repeat Bar Takers",
     description:
       "A focused, diagnostic approach for graduates returning after a setback — find what failed and fix it.",
-    href: "/services/repeat-bar-takers",
+    href: "/services/repeat-takers",
   },
   {
     icon: IconGlobe,
     title: "MBE Prep",
     description:
       "Targeted Multistate Bar Exam tutoring across all seven subjects for any jurisdiction.",
-    href: "/services/mbe-prep",
+    href: "/services/multistate-bar-exam",
   },
   {
     icon: IconBook,
     title: "Law School & Early Bar Prep",
     description:
       "Build analytical skills during school and start bar prep before you graduate — through our Bar Prep Academy.",
-    href: "/services/law-school-early-bar-prep",
+    href: "/services/law-school-prep",
   },
 ] as const;
 const features = [
@@ -109,7 +111,7 @@ const features = [
     image: myImage,
   },
 ];
-const steps = [
+const steps_fake = [
   {
     title: "Apply or Schedule a Consultation",
     description:
@@ -126,6 +128,28 @@ const steps = [
       "1-on-1 sessions, practice essays, MBE drills, and team prayer — every week, all the way to exam day.",
   },
 ];
+
+const steps = [
+  {
+    value: "01",
+    title: "Apply & Assessment",
+    description:
+      "Students interested in enrolling complete an application and a 90-minute assessment. Our team reviews both and creates a personalized success plan tailored to each student.",
+  },
+  {
+    value: "02",
+    title: "Orientation",
+    description:
+      "Accepted students attend a week-long orientation designed to prepare them mentally and emotionally for the rigors of bar prep. We teach proven learning and study strategies, and students sign a commitment agreement.",
+  },
+  {
+    value: "03",
+    title: "Tutoring & Writing Clinics",
+    description:
+      "Students interested in enrolling complete an application and a 90-minute assessment. Our team reviews both and creates a personalized success plan tailored to each student.",
+  },
+];
+
 const testimonials = [
   {
     quote:
@@ -203,17 +227,21 @@ const faq = [
       eyebrow: "Now Enrolling",
       text: "Free consultation for July bar takers",
       linkText: "Schedule Now",
-      href: "/consultation",
+      href: "/contact#sendMessage",
     }}
   >
     <Fragment slot="actions" }>
-      <Button>Apply Now</Button>
-      <Button variant="outline">Free Consultation</Button>
+      <Button href="/apply">Apply Now</Button>
+      <Button variant="outline" size="lg" href="/contact#sendMessage"
+        >Free Consultation</Button
+      >
     </Fragment>
-    <p class="trust">
-      Trusted by graduates from Florida Coastal, Florida A&M, Barry, and Ave
-      Maria · Jacksonville, FL
-    </p>
+    <div class="partners">
+      <p class="partners-label" id="partners-label">Partnered with:</p>
+      <ul class="partners-list" role="list" aria-labelledby="partners-label">
+        {partners.map((partner) => <li>{partner}</li>)}
+      </ul>
+    </div>
   </HeroBanner>
   <SectionB sectionId="Services" width="wide">
     <SectionHeading
@@ -332,7 +360,34 @@ addresses the whole person."
       <Button href="/about">Meet the Team</Button>
     </div>
   </SectionA>
-  <SectionA sectionId="getting-started" width="narrow">
+
+  <SectionB sectionId="the-process">
+    <div class="duplex">
+      <SectionHeading
+        sectionId="the-process"
+        eyebrow="The Process"
+        heading="The Agape Path to Esquire"
+        body="Every Agape student follows the same proven three-step path — from application to enrollment to the bar exam itself."
+      />
+      <div class="cta">
+        <Button variant="outline" href="/apply">Start Your Application</Button>
+      </div>
+    </div>
+    <div class="triplex">
+      {
+        steps.map((step) => (
+          <CardA
+            value={step.value}
+            title={step.title}
+            description={step.description}
+            background="white"
+          />
+        ))
+      }
+    </div>
+  </SectionB>
+  {
+    /**   <SectionA sectionId="getting-started" width="narrow">
     <div class="flow" style="--flow-space: var(--spacing-lg);">
       <SectionHeading
         eyebrow="Getting Started"
@@ -353,7 +408,8 @@ addresses the whole person."
         ))
       }
     </ListA>
-  </SectionA>
+  </SectionA> **/
+  }
   <SectionA
     sectionId="frequently-asked-questions"
     background="off-white"
@@ -375,6 +431,42 @@ addresses the whole person."
     max-width: 60ch;
     text-wrap: balance;
     color: var(--text-muted);
+  }
+
+  /* Partner wordmarks sit under the trust line as a quiet, rule-topped row. */
+  .partners {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--spacing-xs) var(--spacing-md);
+    margin-block-start: var(--spacing-md);
+    padding-block-start: var(--spacing-md);
+    border-block-start: 1px solid var(--border-muted);
+  }
+
+  .partners-label {
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    letter-spacing: 1.76px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .partners-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs) var(--spacing-lg);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .partners-list li {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--text-strong);
   }
 
   .about-image {

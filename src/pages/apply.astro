@@ -1,0 +1,342 @@
+---
+// layout
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// components
+import AppyLockup from "@components/AppyLockup.astro";
+import HeroBanner from "@components/HeroBanner.astro";
+import SectionA from "@components/structure/SectionA.astro";
+import SectionB from "@components/structure/SectionB.astro";
+import ListA from "@ui/ListA.astro";
+import SectionHeading from "@ui/SectionHeading.astro";
+import Typography from "@ui/Typography.astro";
+
+// icons
+import IconCreditCard from "~icons/lucide/credit-card";
+import IconMail from "~icons/lucide/mail";
+
+// assets
+import applyImage from "@assets/Agape_team.jpg";
+
+const zelleAddress = "admin@agapechristianbarprep.com";
+
+const applicationChecklist = [
+  "Personal details and contact information",
+  "Law school, graduation year, and jurisdiction",
+  "Target exam (Feb 2026 or July 2026) and program of interest",
+  "Preferred date/time for your 90-minute timed assessment",
+  "Brief personal statement — what brought you to us",
+] as const;
+---
+
+<BaseLayout title="Application for Services · Agape Christian Bar Prep">
+  <HeroBanner
+    eyebrow="Get in Touch"
+    title="Application for Services."
+    body="We are now accepting applications for the 2026 Florida and Uniform Bar Exams. Complete the application below for your track, then schedule your 90-minute timed assessment from the available dates."
+    image={applyImage}
+    imageAlt="The Agape Christian Bar Prep team"
+  />
+
+  <SectionA sectionId="welcome" width="narrow">
+    <div class="flow">
+      <SectionHeading
+        eyebrow="Christian Bar Exam Prep"
+        sectionId="welcome"
+        heading="We look forward to walking the road with you."
+      />
+      <p class="lead">
+        Thank you for your interest in working with Agape Christian Bar Prep. We
+        look forward to supporting you on your journey to becoming an Esquire in
+        2026.
+      </p>
+    </div>
+
+    <div class="flow">
+      <Typography variant="body">
+        If you're interested in enrolling in one of our 2026 bar exam
+        preparation courses, please complete the application below and schedule
+        your 90-minute timed assessment. Available assessment dates and times
+        are listed in the application itself.
+      </Typography>
+
+      <Typography variant="body">
+        The application fee is a flat <strong>$25,</strong> payable via Zelle to
+        <a class="inline-link" href={`mailto:${zelleAddress}`}>
+          {zelleAddress}
+        </a> or by credit card through the "Pay Bill" button on our homepage.
+      </Typography>
+
+      <hr class="rule" />
+
+      <p class="signoff">
+        <span class="signoff-line">With faith and gratitude,</span>
+        Tishia Dunham, J.D. · Founder &amp; CEO, Agape Christian Bar Prep
+      </p>
+    </div>
+  </SectionA>
+
+  <SectionB sectionId="applications" background="off-white">
+    <SectionHeading
+      eyebrow="Christian Bar Exam Prep"
+      sectionId="applications"
+      heading="Christian Bar Exam Prep Built Around You"
+      body="One-on-one tutoring and a holistic study plan — spiritually, mentally, and academically — for first-time takers, repeat takers, and the MBE."
+    />
+
+    <div class="lockups duplex">
+      <AppyLockup
+        badge="First Time with Agape"
+        tone="red"
+        title="New Student"
+        description="For applicants who have not previously enrolled in an Agape Christian Bar Prep course. Tell us about your background, your exam target, and we'll get you to the assessment."
+        items={applicationChecklist}
+        action={{
+          label: "Start a New Student Application",
+          href: "https://app.smartsuite.com/form/skpl6z0a/SiafucKuJI",
+        }}
+        actionVariant="accent"
+      />
+      <AppyLockup
+        badge="Previously Enrolled"
+        tone="blue"
+        title="Returning Student"
+        description="For applicants who have already enrolled in an Agape Christian Bar Prep course. Tell us what has changed since your last administration, your new exam target, and we'll get you to the assessment."
+        items={applicationChecklist}
+        action={{
+          label: "Start a Returning Student Application",
+          href: "https://app.smartsuite.com/form/skpl6z0a/m7aUgJN496",
+        }}
+        actionVariant="primary"
+      />
+    </div>
+  </SectionB>
+
+  <SectionA sectionId="application-fee" background="dark" width="narrow">
+    <div class="fee-intro">
+      <SectionHeading
+        eyebrow="Payment · Required at Submission"
+        sectionId="application-fee"
+        heading="Application Fee"
+        body={`A flat $25 application fee is required when you submit. Pay it the way that's easiest for you — Zelle directly, or by credit card through the "Pay Bill" button on our homepage.`}
+      />
+    </div>
+
+    <div class="pay-card">
+      <p class="pay-card-title">How to pay</p>
+      <hr class="pay-rule" />
+      <ListA space="wide">
+        <li class="pay-item">
+          <span class="pay-icon" aria-hidden="true"><IconMail /></span>
+          <div class="pay-body">
+            <a class="pay-link" href={`mailto:${zelleAddress}`}>Zelle</a>
+            <p class="pay-detail">{zelleAddress}</p>
+          </div>
+          <button class="pay-action" type="button" data-copy={zelleAddress}>
+            Copy
+          </button>
+        </li>
+        <li class="pay-item">
+          <span class="pay-icon" aria-hidden="true"><IconCreditCard /></span>
+          <div class="pay-body">
+            <p class="pay-name">Credit Card</p>
+            <p class="pay-detail">Via the "Pay Bill" button on the homepage</p>
+          </div>
+          <a class="pay-action" href="/#pay-bill">Pay Bill</a>
+        </li>
+      </ListA>
+    </div>
+  </SectionA>
+</BaseLayout>
+
+<script>
+  const copyButtons =
+    document.querySelectorAll<HTMLButtonElement>("[data-copy]");
+
+  copyButtons.forEach((button) => {
+    const label = button.textContent?.trim() ?? "Copy";
+
+    button.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(button.dataset.copy ?? "");
+        button.textContent = "Copied";
+      } catch {
+        button.textContent = "Copy failed";
+      }
+      setTimeout(() => {
+        button.textContent = label;
+      }, 2000);
+    });
+  });
+</script>
+
+<style>
+  /* Hallmark · component: apply-page · genre: editorial · theme: project
+   * contrast: pass — gold eyebrow and white copy on --clr-gray-950
+   */
+
+  .lead {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-lg);
+    font-style: italic;
+    line-height: 1.8;
+    text-wrap: pretty;
+  }
+
+  .inline-link {
+    color: var(--text-accent);
+    text-underline-offset: 3px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .rule {
+    inline-size: 100%;
+    block-size: 0;
+    margin: 0;
+    border: 0;
+    border-block-start: 1px solid var(--border-bold);
+  }
+
+  .signoff {
+    color: var(--text-muted);
+    text-wrap: pretty;
+  }
+
+  .signoff-line {
+    display: block;
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-lg);
+    font-style: italic;
+    color: var(--text-strong);
+  }
+
+  .lockups {
+    max-width: 900px;
+    margin-inline: auto;
+    inline-size: 100%;
+    align-items: stretch;
+  }
+
+  .fee-intro {
+    align-self: center;
+  }
+
+  .pay-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-2xl);
+  }
+
+  .pay-card-title {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    letter-spacing: 1.76px;
+    text-transform: uppercase;
+    color: var(--clr-off-white);
+  }
+
+  .pay-rule {
+    inline-size: 100%;
+    block-size: 0;
+    margin: 0;
+    border: 0;
+    border-block-start: 1px solid var(--clr-gray-500);
+  }
+
+  .pay-item {
+    display: grid;
+    grid-template-columns: 2.75rem 1fr auto;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding-block: var(--spacing-xl);
+  }
+
+  .pay-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+    border-radius: 2px;
+    color: var(--text-accent);
+
+    & svg {
+      inline-size: 1.5rem;
+      block-size: 1.5rem;
+    }
+  }
+
+  .pay-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3xs);
+    min-inline-size: 0;
+  }
+
+  .pay-link,
+  .pay-name {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text-strong);
+  }
+
+  .pay-link {
+    align-self: start;
+    text-decoration: none;
+    border-block-end: 1px solid var(--text-strong);
+
+    &:focus-visible {
+      outline: 2px solid var(--text-accent);
+      outline-offset: 3px;
+    }
+  }
+
+  .pay-detail {
+    font-size: var(--font-size-sm);
+    line-height: 1.2;
+    color: var(--text-muted);
+    overflow-wrap: anywhere;
+  }
+
+  .pay-action {
+    all: unset;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 2rem;
+    padding-inline: var(--spacing-2xs);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-accent);
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--text-accent);
+      outline-offset: 3px;
+    }
+  }
+
+  @media (width <= 600px) {
+    .pay-item {
+      grid-template-columns: 2.75rem 1fr;
+    }
+
+    .pay-action {
+      grid-column: 2;
+      justify-content: start;
+      padding-inline: 0;
+    }
+  }
+</style>

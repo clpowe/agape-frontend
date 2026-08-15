@@ -1,0 +1,270 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+import HeroBanner from "@components/HeroBanner.astro";
+
+import heroImage from "@assets/studentsInthelibrary.jpg";
+import SectionA from "@components/structure/SectionA.astro";
+import SectionB from "@components/structure/SectionB.astro";
+import SectionHeading from "@ui/SectionHeading.astro";
+import Typography from "@ui/Typography.astro";
+import Button from "@ui/Button.astro";
+import ListA from "@ui/ListA.astro";
+import ListItemB from "@ui/list-items/ListItemB.astro";
+import ListItemC from "@ui/list-items/ListItemC.astro";
+import CardA from "@components/Card-A.astro";
+import CTA from "@components/CTA.astro";
+
+const heroFacts = [
+  { label: "Length", value: "3 calendar quarters" },
+  { label: "Format", value: "1-on-1 + small group" },
+  { label: "Jurisdictions", value: "Florida · UBE" },
+];
+
+const audiences = [
+  {
+    title: "Working Professionals",
+    detail:
+      "Studying around a job, family, and life. The Academy is built for the schedule you actually have.",
+  },
+  {
+    title: "Out of School 1+ Year",
+    detail:
+      "For graduates who've been away from the law and need time to rebuild before they can sprint.",
+  },
+  {
+    title: "Final-Year Law Students",
+    detail:
+      "Start preparing the year before graduation. Walk into bar prep with the foundation already in place.",
+  },
+];
+
+const quarters = [
+  {
+    eyebrow: "Quarter One",
+    value: "01",
+    title: "MBE + Written Foundations",
+    description:
+      "Our focus centers on the Multistate Bar Examination (MBE) and the written segments of the exam — building the substantive base and the analytical reps that everything else rests on.",
+    focus: "MBE + Essay form",
+    background: "white",
+  },
+  {
+    eyebrow: "Quarter Two",
+    value: "02",
+    title: "State-Specific + Writing",
+    description:
+      "We transition from the MBE to the state-specific portion of the bar exam, all while maintaining our commitment to enhancing writing skills through repeated practice and feedback.",
+    focus: "State law + Writing",
+    background: "white",
+  },
+  {
+    eyebrow: "Quarter Three",
+    value: "03",
+    title: "Bar Prep 101 Plus",
+    description:
+      "Students participate in our comprehensive Bar Prep 101 Plus program — full simulations, timed essays, and the final push that brings every previous quarter together for exam day.",
+    focus: "Full simulation",
+    background: "dark",
+  },
+];
+
+const syllabus = [
+  {
+    title: "Weekly Classes",
+    detail:
+      "Structured group instruction that paces the curriculum. Coverage you can rely on, week after week.",
+  },
+  {
+    title: "Small-Group & Private Tutoring",
+    detail:
+      "Live sessions that diagnose your specific gaps and rebuild the foundation — one student or a few at a time.",
+  },
+  {
+    title: "Writing Clinics",
+    detail:
+      "Graded essays with specific, actionable feedback — because writing the way the bar scores is a learned skill, not a guess.",
+  },
+];
+---
+
+<BaseLayout title="The Bar Prep Academy | Agape Christian Bar Prep">
+  <HeroBanner
+    eyebrow="Bar Prep Academy · Services"
+    title="The Academy"
+    body="A three-quarter bar exam preparation program for working professionals, late law graduates, and final-year law students — designed to give you time to master the law and refine the skills the bar actually tests."
+    image={heroImage}
+    imageAlt="Academy students preparing for the bar exam"
+    badge={{
+      eyebrow: "Now Enrolling",
+      text: "Next cohort begins next quarter",
+      linkText: "Schedule Now",
+      href: "#cta",
+    }}
+  >
+    <Fragment slot="actions">
+      <Button href="/apply" variant="accent">Apply Now</Button>
+      <Button href="tel:+19042342853" variant="outline">
+        Call 904-234-2853
+      </Button>
+    </Fragment>
+
+    <ListA border={true} space="tight">
+      {heroFacts.map((fact) => <ListItemC {...fact} />)}
+    </ListA>
+  </HeroBanner>
+
+  <SectionA sectionId="aboutAcademy" width="default" background="white">
+    <div class="duplex">
+      <div class="flow">
+        <SectionHeading
+          eyebrow="About the Academy"
+          sectionId="aboutAcademy"
+          heading="A program for the long-form path to the bar."
+        />
+        <Typography tag="blockquote" variant="blockquote">
+          At Agape Christian Bar Prep, we specialize in crafting personalized
+          learning plans for each student, accommodating their unique
+          lifestyles, and optimizing their learning experience and exam
+          readiness.
+        </Typography>
+        <Typography tag="p" variant="body">
+          We consistently assess the progress of each student's learning
+          journey, enabling us to identify and address any gaps or deficiencies
+          in their understanding of the law.
+        </Typography>
+        <Typography tag="p" variant="body">
+          The Agape Christian Bar Prep Academy — often referred to as "The
+          Academy" — is tailored to give you the time you need to develop a
+          comprehensive grasp of the law, all while enhancing and honing the
+          analytical and writing skills essential for bar exam success.
+        </Typography>
+      </div>
+
+      <div class="flow">
+        <Typography tag="h3" variant="innerTitle">Who the Academy is for</Typography>
+        <ListA border={false} space="tight">
+          {
+            audiences.map((audience) => (
+              <ListItemB
+                title={audience.title}
+                description={audience.detail}
+                divider="dashed"
+              />
+            ))
+          }
+        </ListA>
+      </div>
+    </div>
+  </SectionA>
+
+  <SectionB sectionId="theProgram" background="off-white">
+    <SectionHeading
+      eyebrow="The Program"
+      sectionId="theProgram"
+      heading="Three quarters. One plan."
+      body="Students enrolled in The Academy undertake bar exam preparation over the course of three calendar quarters — each with a distinct focus, building on the last."
+    />
+    <div class="triplex">
+      {
+        quarters.map((quarter) => (
+          <CardA
+            eyebrow={quarter.eyebrow}
+            value={quarter.value}
+            title={quarter.title}
+            description={quarter.description}
+            background={quarter.background as "white" | "dark"}
+          >
+            <ListA slot="footer" border={false} space="tight">
+              <ListItemC label="Focus" value={quarter.focus} />
+            </ListA>
+          </CardA>
+        ))
+      }
+    </div>
+  </SectionB>
+
+  <SectionA sectionId="theSyllabus" width="default" background="off-white">
+    <div class="duplex">
+      <div class="flow">
+        <SectionHeading
+          eyebrow="The Syllabus"
+          sectionId="theSyllabus"
+          heading="A personalized plan, structured around three pillars."
+        />
+        <Typography tag="blockquote" variant="blockquote">
+          Our all-encompassing syllabus includes a personalized learning plan,
+          designed around your strengths, gaps, and life.
+        </Typography>
+        <Typography tag="p" variant="body">
+          The cadence is consistent — every week, every quarter — so
+          accountability never has to be invented. You show up, the work is
+          waiting, and a coach is there to walk you through it.
+        </Typography>
+      </div>
+
+      <div class="flow">
+        <Typography tag="h3" variant="innerTitle">What's included</Typography>
+        <ListA border={false} space="tight">
+          {
+            syllabus.map((item) => (
+              <ListItemB
+                title={item.title}
+                description={item.detail}
+                divider="dashed"
+              />
+            ))
+          }
+        </ListA>
+      </div>
+    </div>
+  </SectionA>
+
+  <SectionA sectionId="rightFit" width="default" background="white">
+    <div class="call-card repel padding-8">
+      <div class="flow">
+        <Typography tag="h2" variant="innerTitle">Think the Academy is the right fit?</Typography>
+        <Typography tag="p" variant="body">
+          If you believe our Bar Prep Academy can help you conquer the bar exam,
+          we encourage you to contact us to explore this unique opportunity
+          further.
+        </Typography>
+      </div>
+      <div class="flow call-actions">
+        <a class="phone" href="tel:+19042342853">904-234-2853</a>
+        <Button href="/apply" variant="accent">Apply to The Academy</Button>
+      </div>
+    </div>
+  </SectionA>
+
+  <CTA
+    sectionId="cta"
+    heading="Ready to commit to the long-form path?"
+    body="Apply now, or call us to talk through whether The Academy is the right structure for your bar exam goal."
+  />
+</BaseLayout>
+
+<style>
+  .call-card {
+    --repel-vertical-alignment: center;
+    --flow-space: var(--spacing-sm);
+
+    background-color: var(--clr-off-white);
+    border: 1px solid var(--border-muted);
+  }
+
+  .call-actions {
+    align-items: start;
+  }
+
+  .phone {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-2xl);
+    color: var(--text-accent);
+    text-decoration: none;
+  }
+
+  .phone:hover {
+    text-decoration: underline;
+  }
+</style>

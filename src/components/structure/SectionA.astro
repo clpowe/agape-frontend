@@ -1,7 +1,8 @@
 ---
 interface Props {
   sectionId?: string;
-  background?: "white" | "off-white";
+  /** `dark` paints the near-black band and re-points the accent to gold. */
+  background?: "white" | "off-white" | "dark";
   dark?: boolean;
   width?: "default" | "narrow" | "wide";
   class?: string;
@@ -16,13 +17,14 @@ const {
 } = Astro.props;
 
 const headingId = `${sectionId}-heading`;
+const isDark = dark || background === "dark";
 ---
 
 <section
   id={sectionId}
   aria-labelledby={headingId}
   data-background={background}
-  class:list={[{ dark }, className]}
+  class:list={[{ dark: isDark }, className]}
 >
   <div class="container section-a" data-width={width}>
     <slot />
@@ -40,6 +42,7 @@ const headingId = `${sectionId}-heading`;
       background-color: var(--clr-off-white);
     }
 
+    &[data-background="dark"],
     &.dark {
       background-color: var(--clr-gray-950);
     }

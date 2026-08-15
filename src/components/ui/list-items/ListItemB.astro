@@ -1,0 +1,73 @@
+---
+import Typography from "@ui/Typography.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Rule style for the item's own top/bottom borders. */
+  divider?: "solid" | "dashed";
+}
+
+const { title, description, divider = "solid" } = Astro.props;
+---
+
+<li data-divider={divider}>
+  <div class="item">
+    <span class="marker" aria-hidden="true"></span>
+    <div class="content">
+      {title && <h3>{title}</h3>}
+      {description && <Typography variant="body">{description}</Typography>}
+    </div>
+  </div>
+</li>
+
+<style>
+  /* The item owns its own rules, so stack these inside a ListA with
+     `border={false}` — otherwise the two borders double up. */
+  li {
+    border-block: 1px solid var(--border-muted);
+  }
+
+  /* Consecutive items share one rule, and the list closes without a trailing one. */
+  li + li {
+    border-block-start: none;
+  }
+
+  li:last-of-type {
+    border-block-end: none;
+  }
+
+  .item {
+    display: grid;
+    grid-template-columns: min-content auto;
+    gap: var(--spacing-xs);
+    padding-block: var(--spacing-xl);
+  }
+
+  .marker {
+    inline-size: var(--spacing-xs);
+    block-size: var(--spacing-xs);
+    border-radius: 999999rem;
+    background-color: var(--clr-red-500);
+    margin-block-start: var(--spacing-3xs);
+  }
+
+  h3 {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3xs);
+  }
+
+  /* Design calls for the near-black body colour here, not the muted default. */
+  .content .body {
+    color: var(--text-strong);
+    line-height: 1.2;
+  }
+</style>

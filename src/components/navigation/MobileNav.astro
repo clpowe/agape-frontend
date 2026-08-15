@@ -2,151 +2,150 @@
 import Button from "@ui/Button.astro";
 import MenuIcon from "~icons/lucide/menu";
 import ChevronRightIcon from "~icons/lucide/chevron-right";
+import { headerNavigation } from "@/data/navigation";
 ---
 
 <Button
-    id="mobile-nav-button"
-    as="button"
-    variant="icon"
-    popovertarget="mobile-nav"
-    popovertargetaction="show"
+  id="mobile-nav-button"
+  as="button"
+  variant="icon"
+  popovertarget="mobile-nav"
+  popovertargetaction="show"
 >
-    <MenuIcon />
+  <MenuIcon />
 </Button>
 
 <div id="mobile-nav" popover>
-    <Button
-        id="mobile-menu-btn-close"
-        as="button"
-        popovertarget="mobile-nav"
-        aria-label="Close Site Menu"
-    >
-        Close Menu
-    </Button>
-    <nav class="mobile-navigation">
-        <ul>
-            <li>
-                <a class="nav-link" href="/about">About <ChevronRightIcon /></a>
-            </li>
-            <li>
-                <a class="nav-link" href="">Services <ChevronRightIcon /></a>
-            </li>
-            <li>
-                <a class="nav-link" href="">Contact <ChevronRightIcon /></a>
-            </li>
-            <li>
-                <a class="nav-link" href="">How it works <ChevronRightIcon /></a
-                >
-            </li>
-            <li><a class="nav-link" href="">FAQ <ChevronRightIcon /></a></li>
-            <li>
-                <a class="phone" href="tel:9042342853">904-234-2853</a>
-            </li>
-            <li>
-                <Button as="a" variant="primary" href="/apply">Apply Now</Button
-                >
-            </li>
-        </ul>
-    </nav>
+  <Button
+    id="mobile-menu-btn-close"
+    as="button"
+    popovertarget="mobile-nav"
+    aria-label="Close Site Menu"
+  >
+    Close Menu
+  </Button>
+  <nav class="mobile-navigation">
+    <ul>
+      {
+        headerNavigation.map(({ label, href, kind }) => (
+          <li>
+            {kind === "button" ? (
+              <Button as="a" variant="primary" href={href}>
+                {label}
+              </Button>
+            ) : kind === "phone" ? (
+              <a class="phone" href={href}>
+                {label}
+              </a>
+            ) : (
+              <a class="nav-link" href={href}>
+                {label} <ChevronRightIcon />
+              </a>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
 </div>
 
 <style>
-    #mobile-nav-button {
-        display: block;
+  #mobile-nav-button {
+    display: block;
 
-        @media (width > 880px) {
-            display: none;
-        }
+    @media (width > 880px) {
+      display: none;
+    }
+  }
+
+  #mobile-nav {
+    --timing: 0.66s;
+
+    inset: unset;
+    border: none;
+    padding: 0;
+
+    top: 0%;
+    right: 0%;
+    margin: 0;
+    width: 100%;
+    background-color: var(--clr-white);
+    border-bottom: 1px solid var(--border-bold);
+
+    transition:
+      var(--timing) transform,
+      var(--timing) display allow-discrete;
+
+    &:not(:popover-open) {
+      transform: translateY(-100%);
     }
 
-    #mobile-nav {
-        --timing: 0.66s;
-
-        inset: unset;
-        border: none;
-        padding: 0;
-
-        top: 0%;
-        right: 0%;
-        margin: 0;
-        width: 100%;
-        background-color: var(--clr-white);
-        border-bottom: 1px solid var(--border-bold);
-
-        transition:
-            var(--timing) transform,
-            var(--timing) display allow-discrete;
-
-        &:not(:popover-open) {
-            transform: translateY(-100%);
-        }
-
-        &:popover-open {
-            transform: translateY(0);
-        }
-
-        @starting-style {
-            &:popover-open {
-                transform: translateY(-100%);
-            }
-        }
+    &:popover-open {
+      transform: translateY(0);
     }
 
-    ul {
-        display: grid;
-        list-style: none;
-        padding: 0;
-        align-items: center;
+    @starting-style {
+      &:popover-open {
+        transform: translateY(-100%);
+      }
+    }
+  }
 
-        li {
-            display: flex;
-            align-items: center;
-            position: relative;
+  ul {
+    display: grid;
+    list-style: none;
+    padding: 0;
+    align-items: center;
 
-            &:not(:last-of-type) {
-                border-bottom: 1px solid var(--border-muted);
-            }
-        }
-        .nav-link {
-            all: unset;
-            height: 100%;
-            width: 100%;
-            padding-block: var(--spacing-sm);
-            padding-inline: var(--spacing-sm);
-            cursor: pointer;
+    li {
+      display: flex;
+      align-items: center;
+      position: relative;
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+      &:not(:last-of-type) {
+        border-bottom: 1px solid var(--border-muted);
+      }
+    }
+    .nav-link {
+      all: unset;
+      height: 100%;
+      width: 100%;
+      padding-block: var(--spacing-sm);
+      padding-inline: var(--spacing-sm);
+      cursor: pointer;
 
-            &::after {
-                content: "";
-                transform-origin: bottom;
-                background-color: var(--clr-gray-100);
-                position: absolute;
-                z-index: -1;
-                transform: scaleY(0);
-                inset: 0;
-                opacity: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-                transition: transform 0.35s ease-in-out;
-            }
+      &::after {
+        content: "";
+        transform-origin: bottom;
+        background-color: var(--clr-gray-100);
+        position: absolute;
+        z-index: -1;
+        transform: scaleY(0);
+        inset: 0;
+        opacity: 0;
 
-            &:hover::after,
-            &:focus-visible::after {
-                transform: scaleY(1);
-                opacity: 1;
-            }
-        }
+        transition: transform 0.35s ease-in-out;
+      }
 
-        .phone {
-            padding-block: var(--spacing-sm);
-            padding-inline: var(--spacing-sm);
-            color: var(--clr-red-500);
-        }
+      &:hover::after,
+      &:focus-visible::after {
+        transform: scaleY(1);
+        opacity: 1;
+      }
     }
 
-    #mobile-menu-btn-close {
-        margin-left: auto;
+    .phone {
+      padding-block: var(--spacing-sm);
+      padding-inline: var(--spacing-sm);
+      color: var(--clr-red-500);
     }
+  }
+
+  #mobile-menu-btn-close {
+    margin-left: auto;
+  }
 </style>

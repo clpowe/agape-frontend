@@ -1,0 +1,97 @@
+---
+import Typography from "@ui/Typography.astro";
+
+type NumSize =
+  "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl";
+
+interface Props {
+  number?: string;
+  title?: string;
+  description: string;
+  numSize?: NumSize;
+}
+
+const { number, title, description, numSize = "6xl" } = Astro.props;
+---
+
+<li>
+  <div class="item">
+    {
+      number ? (
+        <p class="number" data-num={numSize}>
+          {number}
+        </p>
+      ) : (
+        <div class="dot" />
+      )
+    }
+    <div class="content flow">
+      {title && <h3>{title}</h3>}
+      <Typography variant="body">{description}</Typography>
+    </div>
+  </div>
+</li>
+
+<style>
+  .item {
+    display: grid;
+    grid-template-columns: min-content auto;
+    gap: var(--spacing-xl);
+    align-items: baseline;
+  }
+  .number {
+    text-align: center;
+    color: var(--text-accent);
+    line-height: 0.5;
+    font-family: var(--ff-heading);
+    font-weight: 600;
+    font-size: var(--font-size-6xl);
+  }
+
+  .number[data-num="xs"] {
+    font-size: var(--font-size-xs);
+  }
+  .number[data-num="sm"] {
+    font-size: var(--font-size-sm);
+  }
+  .number[data-num="md"] {
+    font-size: var(--font-size-md);
+  }
+  .number[data-num="lg"] {
+    font-size: var(--font-size-lg);
+  }
+  .number[data-num="xl"] {
+    font-size: var(--font-size-xl);
+  }
+  .number[data-num="2xl"] {
+    font-size: var(--font-size-2xl);
+  }
+  .number[data-num="3xl"] {
+    font-size: var(--font-size-3xl);
+  }
+  .number[data-num="4xl"] {
+    font-size: var(--font-size-4xl);
+  }
+  .number[data-num="5xl"] {
+    font-size: var(--font-size-5xl);
+  }
+  .number[data-num="6xl"] {
+    font-size: var(--font-size-6xl);
+  }
+
+  .dot {
+    height: 0.75rem;
+    width: 0.75rem;
+    border-radius: 999999rem;
+    background-color: var(--clr-red-500);
+    margin-top: var(--spacing-2xs);
+  }
+  h3 {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-xl);
+    line-height: 1;
+  }
+  .content {
+    --flow-space: var(--spacing-md);
+  }
+</style>

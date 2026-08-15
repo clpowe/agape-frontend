@@ -1,0 +1,678 @@
+---
+// layout
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+// components
+import HeroBanner from "@components/HeroBanner.astro";
+import SectionA from "@components/structure/SectionA.astro";
+import SectionB from "@components/structure/SectionB.astro";
+import SectionHeading from "@ui/SectionHeading.astro";
+import Button from "@ui/Button.astro";
+
+// icons
+import IconMail from "~icons/lucide/mail";
+import IconPhone from "~icons/lucide/phone";
+import IconMapPin from "~icons/lucide/map-pin";
+import IconArrowRight from "~icons/lucide/arrow-right";
+
+// assets
+import heroImage from "@assets/contact.png";
+
+const email = "agapechristianbarprep@gmail.com";
+const phone = "1-904-234-2853";
+const telHref = `tel:+${phone.replace(/\D/g, "")}`;
+
+const channels = [
+  {
+    icon: IconMail,
+    label: "Email",
+    value: email,
+    href: `mailto:${email}`,
+    detail:
+      "Best for application questions, scheduling, and document handoffs.",
+    action: "Email us",
+  },
+  {
+    icon: IconPhone,
+    label: "Phone",
+    value: phone,
+    href: telHref,
+    detail:
+      "Best for time-sensitive questions and free consultations. Voicemail is monitored.",
+    action: "Call",
+  },
+  {
+    icon: IconMapPin,
+    label: "Mailing Address",
+    value: "P.O. Box 26586\nJacksonville, FL 32226",
+    href: null,
+    detail: null,
+    action: null,
+  },
+];
+
+const topics = [
+  "Law school preparation",
+  "First-time bar takers",
+  "Repeat bar takers",
+  "Multistate Bar Exam (MBE)",
+  "The Bar Prep Academy",
+  "Law school partnerships",
+  "Billing or payments",
+  "Something else",
+];
+
+const schedule = [
+  {
+    season: "Bar Prep Season",
+    days: "Monday, Wednesday, Friday",
+    time: "7:00 AM",
+    duration: "30 minutes · EST",
+  },
+  {
+    season: "Off Season",
+    days: "Every Wednesday",
+    time: "7:00 AM",
+    duration: "30 minutes · EST",
+  },
+];
+---
+
+<BaseLayout title="Contact Us · Agape Christian Bar Prep">
+  <HeroBanner
+    eyebrow="Get in Touch"
+    title="Contact Us."
+    body="If you are interested in learning more about our services or the application process, we'd love to hear from you. Reach out by phone, email, or the form below — you'll typically hear back within one business day."
+    image={heroImage}
+    imageAlt="The Agape Christian Bar Prep community"
+  />
+
+  <SectionB sectionId="reachOut" width="default" background="white">
+    <div class="duplex panels">
+      <div class="flow">
+        <SectionHeading
+          eyebrow="Reach Out Directly"
+          sectionId="reachOut"
+          heading="Talk to a human."
+          body="Whether you're applying, asking about a program, or just curious — pick the channel that's easiest. Every message reaches Tishia and her team."
+        />
+
+        <ul class="channels" role="list">
+          {
+            channels.map((channel) => {
+              const Icon = channel.icon;
+              return (
+                <li class="channel">
+                  <span class="channel-icon" aria-hidden="true">
+                    <Icon />
+                  </span>
+                  <div class="channel-body">
+                    <p class="channel-label">{channel.label}</p>
+                    {channel.href ? (
+                      <a class="channel-value" href={channel.href}>
+                        {channel.value}
+                      </a>
+                    ) : (
+                      <p class="channel-value">{channel.value}</p>
+                    )}
+                    {channel.detail && (
+                      <p class="channel-detail">{channel.detail}</p>
+                    )}
+                  </div>
+                  {channel.href && channel.action && (
+                    <a class="channel-action" href={channel.href}>
+                      {channel.action}
+                      <IconArrowRight aria-hidden="true" />
+                    </a>
+                  )}
+                </li>
+              );
+            })
+          }
+        </ul>
+      </div>
+
+      <div class="form-card flow">
+        <div class="flow form-intro">
+          <SectionHeading
+            eyebrow="Send a message"
+            sectionId="sendMessage"
+            heading="Tell us how we can help"
+            body="Fill out the form and we'll route your message to the right person on our team."
+          />
+        </div>
+
+        <form class="form" id="contact-form" method="POST">
+          <div class="field">
+            <label class="field-label" for="firstName">
+              First name <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input
+              class="control"
+              id="firstName"
+              name="firstName"
+              type="text"
+              autocomplete="given-name"
+              placeholder="First name"
+              maxlength="80"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="lastName">
+              Last name <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input
+              class="control"
+              id="lastName"
+              name="lastName"
+              type="text"
+              autocomplete="family-name"
+              placeholder="Last name"
+              maxlength="80"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="email">
+              Email address <span class="required" aria-hidden="true">*</span>
+            </label>
+            <input
+              class="control"
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+              maxlength="254"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="phone">Phone (optional)</label>
+            <input
+              class="control"
+              id="phone"
+              name="phone"
+              type="tel"
+              autocomplete="tel"
+              placeholder="(555) 555-5555"
+            />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="subject">
+              I'm reaching out about
+              <span class="required" aria-hidden="true">*</span>
+            </label>
+            <select class="control" id="subject" name="subject" required>
+              <option value="" disabled selected>Choose a topic</option>
+              {topics.map((topic) => <option value={topic}>{topic}</option>)}
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="message">
+              Message <span class="required" aria-hidden="true">*</span>
+            </label>
+            <textarea
+              class="control control-area"
+              id="message"
+              name="message"
+              rows="6"
+              minlength="10"
+              maxlength="2000"
+              placeholder="Tell us your bar exam date, jurisdiction, and what you're hoping for — the more context, the better we can respond."
+              required></textarea>
+          </div>
+
+          <div class="consent">
+            <input id="consent" name="consent" type="checkbox" required />
+            <label for="consent">
+              I agree to be contacted by Agape Christian Bar Prep regarding my
+              inquiry. We'll never share your information.
+            </label>
+          </div>
+
+          {/* Honeypot — hidden from people, irresistible to bots. */}
+          <div class="honeypot" aria-hidden="true">
+            <label for="company">Company</label>
+            <input
+              id="company"
+              name="company"
+              type="text"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </div>
+
+          <Button as="button" type="submit" variant="accent">
+            Send Message
+            <IconArrowRight aria-hidden="true" />
+          </Button>
+        </form>
+      </div>
+    </div>
+  </SectionB>
+
+  <SectionB sectionId="teamPrayer" width="default" background="dark">
+    <div class="duplex panels">
+      <div class="flow">
+        <SectionHeading
+          eyebrow="Team Prayer · Open to All"
+          sectionId="teamPrayer"
+          heading="Pray with us before the day begins."
+          body="Please join us for Team Prayer every Monday, Wednesday, and Friday from 7:00 AM to 7:30 AM EST during bar prep season, or every Wednesday during the off-season — even if you're not an Agape student. All are welcome."
+        />
+        <Button href="/contact#teamPrayer" variant="accent">Join Live</Button>
+      </div>
+
+      <div class="schedule-card">
+        <p class="schedule-title">Weekly Schedule</p>
+        <hr class="schedule-rule" />
+        <ul class="schedule" role="list">
+          {
+            schedule.map((slot) => (
+              <li class="slot">
+                <div class="slot-event">
+                  <p class="slot-season">{slot.season}</p>
+                  <p class="slot-days">{slot.days}</p>
+                </div>
+                <div class="slot-time">
+                  <p class="slot-hour">{slot.time}</p>
+                  <p class="slot-duration">{slot.duration}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+        <hr class="schedule-rule" />
+        <p class="schedule-quote">
+          "Where two or three gather in my name, there am I with them." —
+          Matthew 18:20
+        </p>
+      </div>
+    </div>
+  </SectionB>
+
+  <SectionB sectionId="nextSteps" width="default" background="off-white">
+    <div class="triplex">
+      <div class="action-link">
+        <span class="action-rule" aria-hidden="true"></span>
+        <h3 class="action-title">Apply to a Program</h3>
+        <p class="action-body">
+          Ready to enroll? Start your <a class="inline-link" href="/apply"
+            >application here</a
+          > — we'll follow up to confirm your fit and exam timing.
+        </p>
+      </div>
+
+      <div class="action-link">
+        <span class="action-rule" aria-hidden="true"></span>
+        <h3 class="action-title">Join the Agape Family</h3>
+        <p class="action-body">
+          Practicing attorney called to mentor? <a
+            class="inline-link"
+            href="/careers">View open roles</a
+          > and tell us about yourself.
+        </p>
+      </div>
+
+      <div class="action-link">
+        <span class="action-rule" aria-hidden="true"></span>
+        <h3 class="action-title">Pay a Bill</h3>
+        <p class="action-body">
+          Existing students can <a class="inline-link" href="/#pay-bill"
+            >pay invoices online</a
+          > securely through our portal.
+        </p>
+      </div>
+    </div>
+  </SectionB>
+</BaseLayout>
+
+<style>
+  /* Hallmark · component: contact-page · genre: editorial · theme: project
+   * states: default · hover · focus · invalid
+   * contrast: pass — muted labels on --clr-white and --clr-off-white; gold
+   * accent and off-white copy on --clr-gray-950
+   */
+
+  .panels {
+    align-items: start;
+  }
+
+  /* ── Direct channels ───────────────────────────────────────────────── */
+
+  .channels {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .channel {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr) auto;
+    align-items: start;
+    gap: var(--spacing-md);
+    padding-block: var(--spacing-xl);
+    border-block-start: 1px solid var(--border-muted);
+  }
+
+  .channel-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+    border-radius: 2px;
+    color: var(--text-accent);
+
+    & svg {
+      inline-size: 1.5rem;
+      block-size: 1.5rem;
+    }
+  }
+
+  .channel-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3xs);
+    min-inline-size: 0;
+  }
+
+  .channel-label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    letter-spacing: 1.76px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .channel-value {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text-strong);
+    text-decoration: none;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+  }
+
+  a.channel-value {
+    border-block-end: 1px solid transparent;
+
+    &:hover {
+      border-block-end-color: var(--text-strong);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--text-accent);
+      outline-offset: 3px;
+    }
+  }
+
+  .channel-detail {
+    font-size: var(--font-size-sm);
+    line-height: 1.2;
+    color: var(--text-muted);
+    text-wrap: pretty;
+  }
+
+  .channel-action {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-3xs);
+    align-self: center;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-strong);
+    text-decoration: none;
+    white-space: nowrap;
+
+    &:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--text-accent);
+      outline-offset: 3px;
+    }
+  }
+
+  /* ── Form ──────────────────────────────────────────────────────────── */
+
+  .form-card {
+    --flow-space: var(--spacing-2xl);
+
+    padding: var(--spacing-2xl);
+    background-color: var(--clr-off-white);
+  }
+
+  .form-intro {
+    --flow-space: var(--spacing-sm);
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2xs);
+  }
+
+  .field-label {
+    font-size: var(--font-size-sm);
+    line-height: 1.2;
+    color: var(--text-muted);
+  }
+
+  .required {
+    color: var(--text-accent);
+  }
+
+  .control {
+    inline-size: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-family: var(--ff-body);
+    font-size: var(--font-size-md);
+    line-height: 1.2;
+    color: var(--text-strong);
+    background-color: var(--clr-white);
+    border: 1px solid var(--border-muted);
+    border-radius: 2px;
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--text-accent);
+      outline-offset: 2px;
+    }
+
+    &:user-invalid {
+      border-color: var(--text-accent);
+    }
+  }
+
+  .control-area {
+    min-block-size: 10rem;
+    resize: vertical;
+  }
+
+  .consent {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--spacing-2xs);
+    align-items: start;
+    font-size: var(--font-size-sm);
+    line-height: 1.2;
+  }
+
+  .consent input {
+    inline-size: 1.125rem;
+    block-size: 1.125rem;
+    margin-block-start: 0.05rem;
+    accent-color: var(--clr-red-500);
+  }
+
+  .honeypot {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* ── Team prayer ───────────────────────────────────────────────────── */
+
+  .schedule-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-2xl);
+  }
+
+  .schedule-title {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    letter-spacing: 1.76px;
+    text-transform: uppercase;
+    color: var(--text-strong);
+  }
+
+  .schedule-rule {
+    inline-size: 100%;
+    block-size: 0;
+    margin: 0;
+    border: 0;
+    border-block-start: 1px solid var(--clr-gray-500);
+  }
+
+  .schedule {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  .slot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    padding-block: var(--spacing-sm);
+  }
+
+  .slot-event {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2xs);
+  }
+
+  .slot-season {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--text-strong);
+  }
+
+  .slot-days {
+    font-size: var(--font-size-sm);
+    line-height: 1.2;
+    color: var(--text-strong);
+  }
+
+  .slot-time {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-inline-size: 6.5rem;
+  }
+
+  .slot-hour {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text-accent);
+  }
+
+  .slot-duration {
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    letter-spacing: 1.76px;
+    text-transform: uppercase;
+    color: var(--text-strong);
+  }
+
+  .schedule-quote {
+    font-style: italic;
+    line-height: 1.2;
+    color: var(--text-strong);
+    text-wrap: pretty;
+  }
+
+  /* ── Next steps ────────────────────────────────────────────────────── */
+
+  .action-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    padding-inline: var(--spacing-lg);
+  }
+
+  .action-rule {
+    inline-size: 2rem;
+    block-size: 2px;
+    margin-block-end: var(--spacing-2xs);
+    background-color: var(--text-accent);
+  }
+
+  .action-title {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .action-body {
+    font-size: var(--font-size-sm);
+    line-height: 1.4;
+    text-wrap: pretty;
+  }
+
+  .inline-link {
+    color: var(--text-accent);
+    text-underline-offset: 3px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  @media (width <= 600px) {
+    .channel {
+      grid-template-columns: 2.75rem minmax(0, 1fr);
+    }
+
+    .channel-action {
+      grid-column: 2;
+      align-self: start;
+    }
+
+    .action-link {
+      padding-inline: 0;
+    }
+  }
+</style>

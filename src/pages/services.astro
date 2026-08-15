@@ -1,7 +1,247 @@
 ---
+import { Image } from "astro:assets";
+
+import HeroBanner from "@components/HeroBanner.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+import applyImage from "@assets/services.jpeg";
+import prepImage from "@assets/Exam_Prep.png";
+import schoolImage from "@assets/studentsInthelibrary.jpg";
+//studentsInthelibrary.jpg
+import SectionA from "@/components/structure/SectionA.astro";
+import SectionHeading from "@/components/ui/SectionHeading.astro";
+import Typography from "@/components/ui/Typography.astro";
+import Button from "@/components/ui/Button.astro";
+import CardA from "@/components/Card-A.astro";
+import SectionB from "@/components/structure/SectionB.astro";
+
+import IconGlobe from "~icons/lucide/globe";
+import IconPencil from "~icons/lucide/pencil";
+import IconRotateCw from "~icons/lucide/rotate-cw";
+import IconGraduationCap from "~icons/lucide/graduation-cap";
+import CardB from "@/components/Card-B.astro";
+
+const steps = [
+  {
+    value: "01",
+    title: "Foundations",
+    description:
+      "Students interested in enrolling complete an application and a 90-minute assessment. Our team reviews both and creates a personalized success plan tailored to each student.",
+  },
+  {
+    value: "02",
+    title: "Exam Strategy",
+    description:
+      "Issue-spotting, fact triage, and written form drills built for the answers your professors are actually scoring for.",
+  },
+  {
+    value: "03",
+    title: "1-on-1 Coaching",
+    description:
+      "Personalized study plans, weekly check-ins, and accountability that holds across a long semester.",
+  },
+  {
+    value: "04",
+    title: "Mindset Support",
+    description:
+      "Anxiety management woven into the schedule. Confidence is a study skill — we treat it like one.",
+  },
+];
+
+const services = [
+  {
+    icon: IconPencil,
+    title: "First-Time Bar Takers",
+    description:
+      "Pass the first time with a study plan built around your strengths and gaps — not a generic video course.",
+    href: "/services/first-time-takers",
+  },
+  {
+    icon: IconRotateCw,
+    title: "Repeat Bar Takers",
+    description:
+      "A focused, diagnostic approach for graduates returning after a setback — find what failed and fix it.",
+    href: "/services/repeat-takers",
+  },
+  {
+    icon: IconGlobe,
+    title: "MBE Prep",
+    description:
+      "Targeted Multistate Bar Exam tutoring across all seven subjects for any jurisdiction.",
+    href: "/services/multistate-bar-exam",
+  },
+  {
+    icon: IconGraduationCap,
+    title: "The Bar Prep Academy",
+    description:
+      "A three-quarter program for working professionals, late graduates, and final-year students who need the long-form path.",
+    href: "/services/bar-prep-academy",
+  },
+] as const;
 ---
 
-<BaseLayout title="Services">
-    <h1>Services</h1>
+<BaseLayout title="Agape Christian Bar Prep | Services">
+  <HeroBanner
+    eyebrow="Our Services"
+    title="Equipping students from law school to the bar exam."
+    body="Personalized, faith-centered preparation built around your timeline, your gaps, and your goals. Choose the path that fits where you are."
+    image={applyImage}
+    imageAlt="The Agape Christian Bar Prep team"
+  />
+
+  <SectionA sectionId="welcome" width="default" background="white">
+    <div class="flow">
+      <SectionHeading
+        eyebrow="01 · Law School"
+        sectionId="welcome"
+        heading="Law School Preparation Services"
+      />
+      <Typography tag="p" variant="body">
+        Tutoring and exam-strategy coaching for current law students —
+        especially first-year students who don't yet know what to expect.
+      </Typography>
+
+      <Typography tag="blockquote" variant="blockquote">
+        Law school can be daunting and overwhelming for students — especially
+        first-year students, because they have no idea what to expect or how to
+        begin preparing for exams.
+      </Typography>
+      <Typography tag="p" variant="body">
+        We offer several services to help law school students overcome the
+        anxiety of law school and law school exams and reach their full
+        potential academically. Our coaches translate the hidden curriculum: how
+        to read for class, how to outline, how to write the kind of exam answer
+        professors are actually scoring for.
+      </Typography>
+      <Button href="/services/law-school-prep" variant="primary">
+        Learn More
+      </Button>
+    </div>
+
+    <div class="flow contain">
+      <div class="cube">
+        {
+          steps.map((step) => (
+            <CardA
+              value={step.value}
+              title={step.title}
+              description={step.description}
+              background="white"
+              padding="compact"
+            />
+          ))
+        }
+      </div>
+      <CardA
+        value="Q&A"
+        title="Why students choose Agape early"
+        description="The students who start working with us as 1Ls don't just do better in school — they walk into bar prep with the analytical foundation already in place. The bar exam isn't a separate skill set; it's an extension of how you read, write, and think in school."
+      />
+    </div>
+  </SectionA>
+  <SectionB sectionId="BarExam" width="narrow" background="off-white">
+    <div class="duplex flow">
+      <div class="flow">
+        <SectionHeading
+          eyebrow="02 · Bar Exam"
+          sectionId="BarExam"
+          heading="Bar Exam Preparation Services"
+        />
+        <Typography tag="p" variant="body">
+          A range of services designed to equip you for success on both the
+          Florida and Uniform bar exams. especially first-year students who
+          don't yet know what to expect.
+        </Typography>
+
+        <Typography tag="blockquote" variant="blockquote">
+          Preparing for the bar exam can often be overwhelming and seem
+          insurmountable. With a supportive learning environment and a well-
+          structured preparation plan, you can manage those intense emotions and
+          set yourself up for success.
+        </Typography>
+
+        <Typography tag="p" variant="body">
+          We offer several services to help law school students overcome the
+          anxiety of law school and law school exams and reach their full
+          potential academically. Our coaches translate the hidden curriculum:
+          how to read for class, how to outline, how to write the kind of exam
+          answer professors are actually scoring for.
+        </Typography>
+      </div>
+      <div class="flow">
+        <Image
+          src={prepImage}
+          class="exam-image"
+          alt="The Agape Christian Bar Prep team"
+        />
+      </div>
+    </div>
+    <div class="flow">
+      <SectionHeading heading="Bar exam programs" />
+      <div class="quad">
+        {
+          services.map((service) => {
+            const Icon = service.icon;
+            return (
+              <CardB
+                title={service.title}
+                description={service.description}
+                href={service.href}
+              >
+                <Icon slot="icon" />
+              </CardB>
+            );
+          })
+        }
+      </div>
+    </div>
+  </SectionB>
+
+  <SectionA sectionId="law-school" width="default">
+    <div class="flow">
+      <SectionHeading
+        eyebrow="03 · Institutional"
+        sectionId="law-school"
+        heading="Law School Partnerships"
+      />
+      <Typography tag="p" variant="body">
+        Customized bar exam prep solutions for law schools, tailored to their
+        students' needs.
+      </Typography>
+
+      <Typography tag="blockquote" variant="blockquote">
+        Agape Christian Bar Prep partners with law schools to create customized
+        bar exam prep solutions tailored to their students' needs.
+      </Typography>
+      <Typography tag="p" variant="body">
+        Our collaborations have consistently improved bar passage rates for
+        at-risk first-time and repeat takers, with students outperforming state
+        and national benchmarks. Agape Christian Bar Prep offers the
+        personalized support needed to unlock your students' full potential.
+      </Typography>
+
+      <Typography tag="p" variant="body">
+        Contact us to discuss how we can work together to elevate your students'
+        bar exam success.
+      </Typography>
+      <Button href="/services/law-school-prep" variant="primary">
+        Start a partnership
+      </Button>
+    </div>
+
+    <div class="flow contain">
+      <Image
+        src={schoolImage}
+        class="exam-image"
+        alt="The Agape Christian Bar Prep team"
+      />
+    </div>
+  </SectionA>
 </BaseLayout>
+
+<style>
+  .exam-image {
+    width: 100%;
+    height: auto;
+  }
+</style>

@@ -1,0 +1,43 @@
+---
+import Typography from "@ui/Typography.astro";
+
+interface Props {
+  label: string;
+  value?: string;
+}
+
+const { label, value } = Astro.props;
+---
+
+<li>
+  <div class="item">
+    <span class="label">{label}</span>
+    <div class="value">
+      {value ? <Typography variant="body">{value}</Typography> : <slot />}
+    </div>
+  </div>
+</li>
+
+<style>
+  .item {
+    display: grid;
+    grid-template-columns: minmax(0, 100px) minmax(0, 1fr);
+    gap: var(--spacing-md);
+    align-items: baseline;
+  }
+
+  .label {
+    text-transform: uppercase;
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    letter-spacing: 0.176em;
+    line-height: 1.2;
+    color: var(--text-muted);
+  }
+
+  /* Design calls for the near-black body colour here, not the muted default. */
+  .value .body {
+    color: var(--text-strong);
+    line-height: 1.2;
+  }
+</style>

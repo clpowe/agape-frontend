@@ -1,134 +1,100 @@
 ---
-import Facebook from "~icons/ic/round-facebook";
-import LinkedinIcon from "~icons/mdi/linkedin";
-import InstagramIcon from "~icons/mdi/instagram";
-
 import Logo from "@assets/agapelogoInverted.svg";
+import { footerNavigation, serviceNavigation } from "@/data/navigation";
 
-const navigationLinks = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
-  { label: "Contact", href: "/contact" },
-  { label: "Apply", href: "/apply" },
-  { label: "Pay Bill", href: "/" },
-  { label: "Team Prayer", href: "/" },
-];
-
-const serviceLinks = [
-  { label: "First-Time Takers", href: "/services" },
-  { label: "Repeat Takers", href: "/services" },
-  { label: "MBE Prep", href: "/services" },
-  { label: "Law School Prep", href: "/services" },
-  { label: "Bar Prep Academy", href: "/services" },
+const socialNavigation = [
+  { label: "Facebook", href: "https://facebook.com/envisioncs" },
+  { label: "LinkedIn", href: "https://linkedin.com/company/envisioncs" },
+  { label: "Instagram", href: "https://instagram.com/envisioncs" },
 ];
 ---
 
 <footer>
   <div class="container footer-wrapper">
-    <div class="footer-contents">
-      <div class="col">
-        <a href="/" class="logo-box">
-          <Logo class="logo" />
-          <div>
-            <p class="agape">Agape Christian</p>
-            <p class="bar">Bar Prep & Training</p>
-          </div>
-        </a>
+    <a href="/" class="logo-box">
+      <Logo class="logo" />
+      <div>
+        <p class="agape">Agape Christian</p>
+        <p class="bar">Bar Prep & Training</p>
+      </div>
+    </a>
+
+    <div class="footer-columns">
+      <section class="col">
+        <h4 class="heading">Contact</h4>
+        <div class="seperator"></div>
         <address>
           <div>
             P.O. Box 26586<br />
-            Jacksonville, FL 32226<br />
+            Jacksonville, FL 32226
           </div>
           <a class="footer-link" href="tel:+19042342853">1-904-234-2853</a>
           <a class="footer-link" href="mailto:agapechristianbarprep@gmail.com"
             >agapechristianbarprep@gmail.com</a
           >
         </address>
-      </div>
-      <div class="nav-section">
-        <nav aria-label="footer" class="col">
-          <h4 class="heading">Navigate</h4>
-          <div class="seperator"></div>
-          <ul>
-            {
-              navigationLinks.map(({ label, href }) => (
-                <li>
-                  <a class="footer-link" href={href}>
-                    {label}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </nav>
+      </section>
 
-        <nav aria-label="services" class="col">
-          <h4 class="heading">Services</h4>
-          <div class="seperator"></div>
-          <ul>
-            {
-              serviceLinks.map(({ label, href }) => (
-                <li>
-                  <a class="footer-link" href={href}>
-                    {label}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </nav>
-      </div>
+      <nav aria-label="footer" class="col">
+        <h4 class="heading">Navigate</h4>
+        <div class="seperator"></div>
+        <ul>
+          {
+            footerNavigation.map(({ label, href }) => (
+              <li>
+                <a class="footer-link" href={href}>
+                  {label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <nav aria-label="services" class="col">
+        <h4 class="heading">Services</h4>
+        <div class="seperator"></div>
+        <ul>
+          {
+            serviceNavigation.map(({ label, href }) => (
+              <li>
+                <a class="footer-link" href={href}>
+                  {label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <nav aria-label="social" class="col">
+        <h4 class="heading">Follow Us</h4>
+        <div class="seperator"></div>
+        <ul>
+          {
+            socialNavigation.map(({ label, href }) => (
+              <li>
+                <a
+                  class="footer-link"
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {label}
+                  <span class="visually-hidden">(opens in a new tab)</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
     </div>
-    <div class="seperator"></div>
+
     <div class="footer-bottom">
-      <ul class="social-links">
-        <li>
-          <a
-            href="https://facebook.com/envisioncs"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Facebook
-              class="footer-link icon"
-              aria-hidden="true"
-              focusable="false"
-            />
-            <span class="visually-hidden">Facebook (opens in a new tab)</span>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://linkedin.com/company/envisioncs"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <LinkedinIcon
-              class="footer-link icon"
-              aria-hidden="true"
-              focusable="false"
-            />
-            <span class="visually-hidden">LinkedIn (opens in a new tab)</span>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://instagram.com/envisioncs"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <InstagramIcon
-              class="footer-link icon"
-              aria-hidden="true"
-              focusable="false"
-            />
-            <span class="visually-hidden">Instagram (opens in a new tab)</span>
-          </a>
-        </li>
-      </ul>
       <p class="copyright">
         &copy; {new Date().getFullYear()} Agape Christian Bar Prep. All rights reserved.
       </p>
+      <a class="footer-link" href="/contact">Contact Us</a>
     </div>
   </div>
 </footer>
@@ -143,63 +109,50 @@ const serviceLinks = [
   }
   .footer-wrapper {
     display: grid;
-    gap: var(--spacing-xl);
+    gap: var(--spacing-3xl);
   }
   .seperator {
     height: 1px;
     background-color: var(--border-inverted-muted);
   }
-  .footer-contents {
+
+  .footer-columns {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--spacing-xl);
 
-    .nav-section {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: var(--spacing-xl);
-    }
-
-    @media (width > 400px) {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: var(--spacing-3xl);
-
-      .nav-section {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: var(--spacing-3xl);
-      }
-    }
-
-    @media (width > 700px) {
-      display: grid;
+    @media (width > 500px) {
       grid-template-columns: 1fr 1fr;
-      gap: var(--spacing-3xl);
+      gap: var(--spacing-3xl) var(--spacing-2xl);
+    }
 
-      .nav-section {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: var(--spacing-3xl);
-      }
+    @media (width > 900px) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--spacing-2xl);
     }
   }
 
   .col {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
 
     ul {
       all: unset;
       list-style: none;
+      display: flex;
+      flex-direction: column;
+      margin-top: var(--spacing-xs);
     }
   }
 
   .footer-bottom {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-xl);
   }
 
   .heading {
@@ -218,10 +171,13 @@ const serviceLinks = [
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
   }
 
   li {
     min-height: 32px;
+    display: flex;
+    align-items: center;
   }
   .footer-link {
     unset: all;
@@ -239,7 +195,6 @@ const serviceLinks = [
     all: unset;
     cursor: pointer;
     display: flex;
-    grid-template-columns: auto auto;
     gap: var(--spacing-xs);
     text-decoration: none;
 
@@ -264,21 +219,5 @@ const serviceLinks = [
   .copyright {
     font-size: var(--font-size-sm);
     color: var(--text-inverted-muted);
-  }
-
-  .social-links {
-    all: unset;
-    list-style: none;
-    display: flex;
-    gap: var(--spacing-sm);
-
-    a {
-      min-width: 44px;
-      min-height: 44px;
-    }
-
-    .icon {
-      font-size: 1.5rem;
-    }
   }
 </style>
