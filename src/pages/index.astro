@@ -111,23 +111,6 @@ const features = [
     image: myImage,
   },
 ];
-const steps_fake = [
-  {
-    title: "Apply or Schedule a Consultation",
-    description:
-      "Tell us about your goals and exam timeline. No pressure — it's a conversation about how we can help.",
-  },
-  {
-    title: "Get Matched and Get Your Plan",
-    description:
-      "We diagnose your gaps and build a study plan around your specific weaknesses, learning style, and exam date.",
-  },
-  {
-    title: "Begin Tutoring and Weekly Check-ins",
-    description:
-      "1-on-1 sessions, practice essays, MBE drills, and team prayer — every week, all the way to exam day.",
-  },
-];
 
 const steps = [
   {
@@ -218,30 +201,16 @@ const faq = [
 <BaseLayout title="Agape Christian Bar Prep">
   <HeroBanner
     eyebrow="Christian Bar Exam Prep"
-    title="Christian Bar Exam Prep Built Around You"
-    body="One-on-one tutoring and a holistic study plan — spiritually,
-    mentally, and academically — for first-time takers, repeat
-    takers, and the MBE."
+    title="The bar tests more than what you know."
+    body="One-on-one tutoring and a holistic study plan — spiritually, mentally, and academically — for first-time takers, repeat takers, and the MBE."
     image={myImage}
-    badge={{
-      eyebrow: "Now Enrolling",
-      text: "Free consultation for July bar takers",
-      linkText: "Schedule Now",
-      href: "/contact#sendMessage",
-    }}
   >
     <Fragment slot="actions" }>
-      <Button href="/apply">Apply Now</Button>
+      <Button href="/apply" size="lg" variant="accent">Apply Now</Button>
       <Button variant="outline" size="lg" href="/contact#sendMessage"
         >Free Consultation</Button
       >
     </Fragment>
-    <div class="partners">
-      <p class="partners-label" id="partners-label">Partnered with:</p>
-      <ul class="partners-list" role="list" aria-labelledby="partners-label">
-        {partners.map((partner) => <li>{partner}</li>)}
-      </ul>
-    </div>
   </HeroBanner>
   <SectionB sectionId="Services" width="wide">
     <SectionHeading
@@ -432,43 +401,7 @@ addresses the whole person."
     text-wrap: balance;
     color: var(--text-muted);
   }
-
   /* Partner wordmarks sit under the trust line as a quiet, rule-topped row. */
-  .partners {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: var(--spacing-xs) var(--spacing-md);
-    margin-block-start: var(--spacing-md);
-    padding-block-start: var(--spacing-md);
-    border-block-start: 1px solid var(--border-muted);
-  }
-
-  .partners-label {
-    font-size: var(--font-size-xs);
-    font-weight: 500;
-    letter-spacing: 1.76px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-  }
-
-  .partners-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-xs) var(--spacing-lg);
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .partners-list li {
-    font-family: var(--ff-heading);
-    font-size: var(--font-size-md);
-    font-weight: 500;
-    line-height: 1.2;
-    color: var(--text-strong);
-  }
-
   .about-image {
     aspect-ratio: 1 / 1;
     height: 100%;

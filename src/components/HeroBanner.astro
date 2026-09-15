@@ -25,6 +25,9 @@ interface Props {
   badge?: Badge;
 }
 
+// data arrays
+const partners = ["University of Florida", "Stetson University"];
+
 const { eyebrow, title, body, image, imageAlt = "", badge } = Astro.props;
 ---
 
@@ -41,25 +44,9 @@ const { eyebrow, title, body, image, imageAlt = "", badge } = Astro.props;
       <div class="actions">
         <slot name="actions" />
       </div>
-      <div>
-        <slot />
-      </div>
     </div>
   </div>
   <div class="hero-right">
-    {
-      badge && (
-        <a class="badge flow" href={badge.href}>
-          {badge.eyebrow && (
-            <Typography variant="eyebrow">{badge.eyebrow}</Typography>
-          )}
-          <p class="main">{badge.text}</p>
-          <p class="cta">
-            {badge.linkText ?? "Schedule Now"} <ArrowRightIcon />
-          </p>
-        </a>
-      )
-    }
     {
       image && (
         <Image
@@ -72,31 +59,43 @@ const { eyebrow, title, body, image, imageAlt = "", badge } = Astro.props;
       )
     }
   </div>
+
+  <div class="partners">
+    <span>
+      <p class="partners-label" id="partners-label">Partnered with:</p>
+      <ul class="partners-list" role="list" aria-labelledby="partners-label">
+        {partners.map((partner) => <li>{partner}</li>)}
+      </ul>
+    </span>
+  </div>
 </section>
 
 <style>
   section {
     display: grid;
     grid-template-columns: 1fr;
+    grid-template-rows: auto;
     background-color: var(--clr-off-white);
+    height: 85dvh;
 
     .hero-left {
       display: flex;
       max-width: calc(800px + calc(2 * var(--spacing-sm)));
       place-self: start;
+      height: stretch;
       padding: var(--spacing-md);
       padding-block: var(--spacing-4xl);
     }
 
     .hero-right {
       position: relative;
+      max-width: calc(800px + calc(2 * var(--spacing-sm)));
       height: 100%;
-      min-height: 500px;
     }
 
     @media (width > 800px) {
       grid-template-columns: 1fr 1fr;
-      min-height: 800px;
+      grid-template-rows: 1fr auto;
 
       .hero-left {
         align-self: center;
@@ -107,8 +106,16 @@ const { eyebrow, title, body, image, imageAlt = "", badge } = Astro.props;
   }
 
   .content {
+    margin-top: auto;
+    padding-bottom: unset;
+
     .heading-wrapper {
       --flow-space: var(--spacing-2xs);
+    }
+
+    @media (width > 800px) {
+      margin-top: auto;
+      padding-bottom: var(--spacing-6xl);
     }
   }
 
@@ -117,7 +124,7 @@ const { eyebrow, title, body, image, imageAlt = "", badge } = Astro.props;
     font-weight: 400;
 
     @media (width > 800px) {
-      font-size: var(--font-size-6xl);
+      font-size: var(--font-size-5xl);
     }
   }
 
@@ -154,5 +161,48 @@ const { eyebrow, title, body, image, imageAlt = "", badge } = Astro.props;
       align-items: center;
       gap: var(--spacing-2xs);
     }
+  }
+
+  .partners {
+    grid-column: 1/-1;
+    padding-block: var(--spacing-md);
+    border-block: 1px solid var(--border-muted);
+    background: var(--clr-white);
+    align-content: center;
+
+    span {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      margin-inline: auto;
+      padding-inline: var(--spacing-sm);
+      max-width: calc(1600px + calc(2 * var(--spacing-sm)));
+      gap: var(--spacing-xs) var(--spacing-md);
+    }
+  }
+
+  .partners-label {
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    letter-spacing: 1.76px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .partners-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs) var(--spacing-lg);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .partners-list li {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--text-strong);
   }
 </style>

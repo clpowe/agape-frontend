@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
-    "@astrojs/cloudflare": "^14.1.7",
+    "@astrojs/cloudflare": "^14.3.1",
     "@sensinum/astro-strapi-loader": "^1.4.0",
-    "astro": "^7.0.9",
+    "astro": "^7.3.2",
     "astro-iconset": "^0.0.6",
     "qs": "^6.15.3",
     "wrangler": "^4.115.0"
@@ -27,6 +27,7 @@
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
     "unplugin-icons": "^23.0.1",
+    "vite": "catalog:",
     "vite-plus": "catalog:"
   },
   "engines": {
